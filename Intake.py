@@ -9,7 +9,7 @@ class Intake:
     
     def add_nutrient(self, nutrient_id, nutrient_info):
 
-        self.meals_intake[nutrient_id] = nutrient_info
+        self.nutrients_info[nutrient_id] = nutrient_info
 
     def add_nutrient_heifa_list(self, heifa_list):
 
