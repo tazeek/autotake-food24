@@ -2,9 +2,8 @@
 
 class Survey:
 
-    def __init__(self, id):
+    def __init__(self):
 
-        self._id = id
         self.meals_intake = {}
     
     def add_meal(self, meal_id, meals):
