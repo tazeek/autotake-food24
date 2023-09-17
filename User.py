@@ -11,18 +11,7 @@ class User:
 
         self._surveys[survey_id] = survey
 
-    def _print_meals(self, survey_obj):
-
-        for id, meal_obj in survey_obj.meals_intake.items():
-
-
-            heifa_codes = meal_obj.heifa_list
-
-            print(f"HEIFA code for Meal {id}: {heifa_codes}\n")
-
-        return None
-
-    def print_nutrition(self):
+    def print_information(self):
 
         for id, survey_obj in self._surveys.items():
             
@@ -30,6 +19,6 @@ class User:
             print(f"Printing for Survey ID {id}\n")
 
             # Print out one meal per survey
-            self._print_meals(survey_obj)
+            survey_obj.print_meals()
             
         return None
