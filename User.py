@@ -20,5 +20,6 @@ class User:
 
             # Print out one meal per survey
             survey_obj.print_meals()
+            print("\n\n")
             
         return None
