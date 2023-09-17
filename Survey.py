@@ -10,10 +10,7 @@ class Survey:
 
         for id, meal_obj in self.meals_intake.items():
 
-
-            heifa_codes = meal_obj.heifa_list
-
-            print(f"HEIFA code for Meal {id}: {heifa_codes}\n")
+            meal_obj.print_nutrition()
 
         return None
     
