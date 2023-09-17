@@ -13,9 +13,10 @@ class User:
 
     def print_user_nutrition(self):
 
-        # Extract the surveys
-
-        # Go meal by meal in surveys
+        for survey_obj in self._surveys.values():
+            
+            # Go meal by meal in surveys
+            meals_obj_list = survey_obj.meals_intake.values()
 
         # Print out
         ...
