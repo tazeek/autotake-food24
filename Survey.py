@@ -6,7 +6,7 @@ class Survey:
 
         self.meals_intake = {}
 
-    def _print_meals(self):
+    def print_meals(self):
 
         for id, meal_obj in self.meals_intake.items():
 
