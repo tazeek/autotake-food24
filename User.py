@@ -13,7 +13,7 @@ class User:
 
     def _print_meals(self, survey_obj):
 
-        for id, meal_obj in survey_obj.items():
+        for id, meal_obj in survey_obj.meals_intake.items():
 
 
             heifa_codes = meal_obj.heifa_list
