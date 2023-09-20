@@ -26,10 +26,10 @@ class FoodComposition:
     def print_full_details(self):
 
         print(
-            f"Heifa Code: {self._heifa_code}\n",
-            f"8 Digit Code: {self._8_digit_code}\n",
+            f"Heifa Code: {self._heifa_code}\n"
+            f"8 Digit Code: {self._8_digit_code}\n"
             f"Is a recipe: {self._is_recipe}\n"
-            f"Serving Size: {self._serving_size}\n",
+            f"Serving Size: {self._serving_size}\n"
             f"Serving measure: {self._serving_measure}\n"
         )
 
