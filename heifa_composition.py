@@ -40,6 +40,21 @@ class RecipeComposition:
 
     def __init__(self):
 
-        ...
+        self._breakdown = {}
+        return None
+        
+    def add_piece(self, heifa_code, ingredient_obj):
+
+        self._breakdown[heifa_code] = ingredient_obj
+        
+        return None
+
+class Ingredient:
+
+    def __init__(self, info_dict):
+        
+        self._proportion_recipe = info_dict['proportion_recipe']
+
+        return None
 
 
