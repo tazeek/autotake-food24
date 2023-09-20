@@ -6,42 +6,42 @@ class Intake:
 
     def __init__(self):
 
-        self.nutrients_info = {}
-        self.heifa_list = []
+        self._nutrients_info = {}
+        self._heifa_list = []
 
-    def _print_nutritent_info(self, id):
+    def _print_food_info(self, heifa_id: str):
         
-        nutrient = self.nutrients_info[id]
+        nutrient = self._nutrients_info[heifa_id]
 
         print(
-            f"Printing for {id}: Code {nutrient['food_code']}",
-            f" with {nutrient['portion_size']}g/ml portion size.\n"
+            f"Printing for {id}: For {nutrient._meal_name}",
+            f" with {nutrient._portion_size}g/ml portion size.\n"
         )
         
         return None
 
     def print_nutrition(self, id):
 
-        heifa_codes = self.heifa_list
+        print(f"HEIFA code for {id}: {self.heifa_list}\n")
 
-        print(f"HEIFA code for {id}: {heifa_codes}\n")
+        for code in self.heifa_list:
 
-        for code in heifa_codes:
-
-            self._print_nutritent_info(code)
+            self._print_food_info(code)
         
         return None
     
     def add_food_information(self, intake_df: pd.DataFrame) -> None:
 
         # Fetch HEIFA codes
-        self.heifa_list = intake_df['heifa_nutrient_id'].values.tolist()
+        self._heifa_list = intake_df['heifa_nutrient_id'].values.tolist()
 
         # Fetch the respective columns
+        # - The meal name: Breakfast, snack, etc
+        # - Portion size consumed
         meal_name = intake_df['meal_name'].values.tolist()
         portion_size_list = intake_df['portion_size_consumed'].values.tolist()
 
-        zipped_ingredients = zip(self.heifa_list, meal_name, portion_size_list)
+        zipped_ingredients = zip(self._heifa_list, meal_name, portion_size_list)
 
         for heifa_id, meal_name, portion_size in zipped_ingredients:
 
@@ -51,11 +51,9 @@ class Intake:
                 'portion_size': portion_size
             }
 
-            food_obj = Food(nutrient_info)
-
             # Add the food object to the list
-            self.nutrients_info[heifa_id] = nutrient_info
+            self._nutrients_info[heifa_id] = Food(nutrient_info)
 
 
-        ...
+        return None
 

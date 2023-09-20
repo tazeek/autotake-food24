@@ -1,5 +1,3 @@
-import pandas as pd
-
 class Food:
 
     def __init__(self, heifa_id: str, food_info_dict: dict):
@@ -8,7 +6,4 @@ class Food:
 
         self._portion_size = food_info_dict['portion_size']
         self._meal_name = food_info_dict['meal_name']
-    
-    def add_components():
 
-        ...
