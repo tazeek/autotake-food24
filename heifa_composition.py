@@ -36,3 +36,10 @@ class FoodComposition:
         return None
 
 
+class RecipeComposition:
+
+    def __init__(self):
+
+        ...
+
+
