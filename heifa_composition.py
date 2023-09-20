@@ -38,9 +38,11 @@ class FoodComposition:
 
 class RecipeComposition:
 
-    def __init__(self):
+    def __init__(self, info_dict):
 
         self._breakdown = {}
+
+        self._recipe_name = info_dict['recipe_name']
         return None
         
     def add_piece(self, heifa_code, ingredient_obj):
@@ -54,7 +56,8 @@ class Ingredient:
     def __init__(self, info_dict):
         
         self._proportion_recipe = info_dict['proportion_recipe']
-
+        self._ingredient_name = info_dict['ingredient_name']
+        
         return None
 
 
