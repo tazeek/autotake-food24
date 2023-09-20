@@ -1,3 +1,5 @@
+from Food import Food
+
 import pandas as pd
 
 class Intake:
@@ -30,19 +32,30 @@ class Intake:
         
         return None
     
-    def add_nutrient(self, nutrient_id, nutrient_info):
+    def add_food_information(self, intake_df: pd.DataFrame) -> None:
 
-        self.nutrients_info[nutrient_id] = nutrient_info
+        # Fetch HEIFA codes
+        self.heifa_list = intake_df['heifa_nutrient_id'].values.tolist()
 
-        return None
+        # Fetch the respective columns
+        meal_name = intake_df['meal_name'].values.tolist()
+        portion_size_list = intake_df['portion_size_consumed'].values.tolist()
 
-    def add_nutrient_heifa_list(self, heifa_list: list) -> None:
+        zipped_ingredients = zip(self.heifa_list, meal_name, portion_size_list)
 
-        self.heifa_list = heifa_list
+        for heifa_id, meal_name, portion_size in zipped_ingredients:
 
-        return None
-    
-    def add_food_information(self, food_data) -> None:
+            # Create dictionary and add to food object
+            nutrient_info = {
+                'food_code': meal_name,
+                'portion_size': portion_size
+            }
+
+            food_obj = Food(nutrient_info)
+
+            # Add the food object to the list
+            self.nutrients_info[heifa_id] = nutrient_info
+
 
         ...
 
