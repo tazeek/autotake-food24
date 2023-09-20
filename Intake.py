@@ -1,4 +1,4 @@
-
+import pandas as pd
 
 class Intake:
 
@@ -36,9 +36,13 @@ class Intake:
 
         return None
 
-    def add_nutrient_heifa_list(self, heifa_list):
+    def add_nutrient_heifa_list(self, heifa_list: list) -> None:
 
         self.heifa_list = heifa_list
 
         return None
+    
+    def add_food_information(self, food_data) -> None:
+
+        ...
 
