@@ -14,9 +14,9 @@ class Intake:
         nutrient = self._nutrients_info[heifa_id]
 
         print(
-            f"Printing for {heifa_id}:\n",
+            f"Details for {heifa_id}:\n",
             f"Portion size of {nutrient._portion_size}g/ml\n"
-            f" Energy (Dietary Fibre included): {nutrient._energy_with_fibre}\n"
+            f" Energy (Dietary Fibre included): {nutrient._energy_with_fibre} kJ\n"
         )
         
         return None
