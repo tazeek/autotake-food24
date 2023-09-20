@@ -47,7 +47,7 @@ class Intake:
 
             # Create dictionary and add to food object
             nutrient_info = {
-                'food_code': meal_name,
+                'meal_name': meal_name,
                 'portion_size': portion_size
             }
 
