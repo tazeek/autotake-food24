@@ -22,7 +22,7 @@ class Intake:
 
     def print_nutrition(self):
 
-        print(f"HEIFA code for {self._meal_intake_type}: {self._heifa_list}\n")
+        print(f"HEIFA code(s) for {self._meal_intake_type}: {self._heifa_list}\n")
 
         for code in self._heifa_list:
 
