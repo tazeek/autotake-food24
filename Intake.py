@@ -14,9 +14,9 @@ class Intake:
         nutrient = self._nutrients_info[heifa_id]
 
         print(
-            f"Printing for {heifa_id}: Portion size of",
-            f" {nutrient._portion_size}g/ml portion size,"
-            f" with energy of {nutrient._energy_with_fibre}\n"
+            f"Printing for {heifa_id}:\n",
+            f"Portion size of {nutrient._portion_size}g/ml\n"
+            f" Energy (Dietary Fibre included): {nutrient._energy_with_fibre}\n"
         )
         
         return None
@@ -41,15 +41,18 @@ class Intake:
 
         # Fetch the respective columns
         # - Portion size consumed
+        # - Energy (with dietary fibre)
         portion_size_list = intake_df['portion_size_consumed'].values.tolist()
+        energy_fibre_list = intake_df['energy_with_fibre'].values.tolist()
 
-        zipped_ingredients = zip(self._heifa_list, portion_size_list)
+        zipped_ingredients = zip(self._heifa_list, portion_size_list, energy_fibre_list)
 
-        for heifa_id, portion_size in zipped_ingredients:
+        for heifa_id, portion_size, energy_with_fibre in zipped_ingredients:
 
             # Create dictionary and add to food object
             nutrient_info = {
-                'portion_size': portion_size
+                'portion_size': portion_size,
+                'energy_with_fibre': energy_with_fibre
             }
 
             # Add the food object to the list
