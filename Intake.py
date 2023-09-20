@@ -14,17 +14,17 @@ class Intake:
         nutrient = self._nutrients_info[heifa_id]
 
         print(
-            f"Printing for {id}: For {nutrient._meal_name}",
+            f"Printing for {heifa_id}: For {nutrient._meal_name}",
             f" with {nutrient._portion_size}g/ml portion size.\n"
         )
         
         return None
 
-    def print_nutrition(self, id):
+    def print_nutrition(self):
 
-        print(f"HEIFA code for {id}: {self.heifa_list}\n")
+        print(f"HEIFA code for {self._meal_intake_type}: {self._heifa_list}\n")
 
-        for code in self.heifa_list:
+        for code in self._heifa_list:
 
             self._print_food_info(code)
         
@@ -35,10 +35,11 @@ class Intake:
         # Fetch HEIFA codes
         self._heifa_list = intake_df['heifa_nutrient_id'].values.tolist()
 
+        # Determine the type of intake
+        self._meal_intake_type = intake_df['meal_name'][0]
+
         # Fetch the respective columns
-        # - The meal name: Breakfast, snack, etc
         # - Portion size consumed
-        meal_name = intake_df['meal_name'].values.tolist()
         portion_size_list = intake_df['portion_size_consumed'].values.tolist()
 
         zipped_ingredients = zip(self._heifa_list, meal_name, portion_size_list)
@@ -47,7 +48,6 @@ class Intake:
 
             # Create dictionary and add to food object
             nutrient_info = {
-                'meal_name': meal_name,
                 'portion_size': portion_size
             }
 
