@@ -8,10 +8,9 @@ class Survey:
 
     def print_meals(self):
 
-        for id, meal_obj in self.meals_intake.items():
+        for meal_obj in self.meals_intake.values():
 
-            meal_obj.print_nutrition(id)
-            print("\n")
+            meal_obj.print_nutrition()
 
         return None
     
