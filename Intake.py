@@ -15,7 +15,8 @@ class Intake:
 
         print(
             f"Printing for {heifa_id}: Portion size of",
-            f" {nutrient._portion_size}g/ml portion size.\n"
+            f" {nutrient._portion_size}g/ml portion size,"
+            f" with energy of {nutrient._energy_with_fibre}\n"
         )
         
         return None
