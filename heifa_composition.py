@@ -8,5 +8,14 @@ class FoodComposition:
         self._8_digit_code = info_dict['8_digit_code']
         
         return None
+    
+    def print_full_details(self):
+
+        print(
+            f"Heifa Code: {self._heifa_code}\n",
+            f"8 Digit Code: {self._8_digit_code}\n"
+        )
+        
+        return None
 
 
