@@ -53,6 +53,22 @@ class RecipeComposition:
         
         return None
 
+    def print_information(self):
+
+        print(
+            f"Printing for ID {self._recipe_id}"
+            f"Recipe name: {self._recipe_name}"
+        )
+
+        for ingred_in_rec_obj in self._breakdown.values():
+
+            print(
+                f"Print for {ingred_in_rec_obj._ingredient_name}\n"
+                f"Portion size of {ingred_in_rec_obj._proportion_recipe}\n\n"
+            )
+
+        return None
+
 class IngredientInRecipe:
 
     def __init__(self, info_dict):
