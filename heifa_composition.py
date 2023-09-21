@@ -42,12 +42,14 @@ class RecipeComposition:
 
         self._breakdown = {}
 
+        self._recipe_id = info_dict['recipe_id']
         self._recipe_name = info_dict['recipe_name']
+
         return None
         
-    def add_piece(self, heifa_code, ingredient_obj):
+    def add_pieces(self, ingredients_dict):
 
-        self._breakdown[heifa_code] = ingredient_obj
+        self._breakdown = ingredients_dict
         
         return None
 
