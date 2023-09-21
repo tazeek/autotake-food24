@@ -51,13 +51,13 @@ class RecipeComposition:
         
         return None
 
-class Ingredient:
+class IngredientInRecipe:
 
     def __init__(self, info_dict):
         
-        self._proportion_recipe = info_dict['proportion_recipe']
+        self._proportion_recipe = info_dict['proportion']
         self._ingredient_name = info_dict['ingredient_name']
-        
+
         return None
 
 
