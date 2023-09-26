@@ -25,10 +25,9 @@ class User:
         return None
 
 
-    def meals_information(self):
+    def get_meals_information(self):
 
         all_food_information = []
-
 
         # Go by surveys
         for survey_obj in self._surveys.values():
@@ -37,6 +36,6 @@ class User:
             meals_obj = survey_obj.get_meals()
 
             # Store in array
-            all_food_information += [meal.get_food_information for meal in meals_obj]
+            all_food_information += [meal.get_food_information() for meal in meals_obj]
 
         return all_food_information

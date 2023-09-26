@@ -8,6 +8,11 @@ class Intake:
 
         self._nutrients_info = {}
         self._heifa_list = []
+        self._meal_intake = ''
+
+    @property
+    def nutrition_info(self):
+        return self._nutrients_info
 
     def _print_food_info(self, heifa_id: str):
         
@@ -15,8 +20,8 @@ class Intake:
 
         print(
             f"Details for {heifa_id}:\n",
-            f"Portion size of {nutrient._portion_size}g/ml\n"
-            f" Energy (Dietary Fibre included): {nutrient._energy_with_fibre} kJ\n"
+            f"Portion size of {nutrient.portion_size}g/ml\n"
+            f" Energy (Dietary Fibre included): {nutrient.energy_with_fibre} kJ\n"
         )
         
         return None
@@ -60,8 +65,4 @@ class Intake:
 
 
         return None
-    
-    def get_food_information(self):
-
-        return self._nutrients_info
 
