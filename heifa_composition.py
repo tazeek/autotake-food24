@@ -15,6 +15,18 @@ class FoodComposition:
         
         return None
     
+    @property
+    def serving_size(self):
+        return self._serving_size
+    
+    @property
+    def serving_measure(self):
+        return self._serving_measure
+    
+    @property
+    def is_recipe(self):
+        return self._is_recipe
+    
     def _is_recipe(self, food_group):
 
         if "Recipe" in food_group:
