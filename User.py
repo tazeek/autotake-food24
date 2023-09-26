@@ -23,3 +23,14 @@ class User:
             print("\n\n")
             
         return None
+
+
+    def meals_information(self):
+
+
+        # Go by surveys
+        for survey_obj in self._surveys.values():
+
+            # Get the meal objects
+            meals_obj = survey_obj.get_meals()
+        ...

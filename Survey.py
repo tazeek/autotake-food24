@@ -17,3 +17,9 @@ class Survey:
     def add_meal(self, meal_id, meals):
 
         self.meals_intake[meal_id] = meals
+
+        return None
+
+    def get_meals(self):
+
+        return self.meals_intake.values()
