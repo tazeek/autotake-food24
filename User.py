@@ -33,9 +33,9 @@ class User:
         for survey_obj in self._surveys.values():
 
             # Get the meal objects
-            meals_obj = survey_obj.get_meals()
+            meals_obj = survey_obj.get_meals
 
             # Store in array
-            all_food_information += [meal.get_food_information() for meal in meals_obj]
+            all_food_information += [meal.nutrition_info for meal in meals_obj]
 
         return all_food_information
