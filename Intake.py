@@ -60,4 +60,8 @@ class Intake:
 
 
         return None
+    
+    def get_food_information(self):
+
+        return self._nutrients_info
 

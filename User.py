@@ -27,10 +27,16 @@ class User:
 
     def meals_information(self):
 
+        all_food_information = []
+
 
         # Go by surveys
         for survey_obj in self._surveys.values():
 
             # Get the meal objects
             meals_obj = survey_obj.get_meals()
-        ...
+
+            # Store in array
+            all_food_information += [meal.get_food_information for meal in meals_obj]
+
+        return all_food_information
