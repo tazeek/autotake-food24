@@ -109,7 +109,7 @@ class RecipeComposition:
 
     def print_ingredients_information(self):
 
-        for ingred_in_rec_obj in self._breakdown.values():
+        for ingred_in_rec_obj in self._recipe_pieces.values():
 
             print(
                 f"Print for {ingred_in_rec_obj._ingredient_name}\n"
