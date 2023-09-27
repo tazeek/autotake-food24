@@ -7,12 +7,14 @@ class FoodComposition:
         self._heifa_code = info_dict['heifa_code']
         self._8_digit_code = info_dict['eight_digit_code']
 
-        self._is_recipe = self._is_recipe(info_dict['food_group'])
-
         # We will add them in regardless
         self._serving_size = info_dict['serving_size']
         self._serving_measure = info_dict['serving_measure']
         self._food_group = info_dict['food_group']
+
+
+        self._is_recipe = self._check_if_recipe(info_dict['food_group'])
+        self._required_portion_calculation = self._is_required_portion_calculation(info_dict['food_group'])
         
         return None
     
@@ -29,18 +31,30 @@ class FoodComposition:
         return self._is_recipe
     
     @property
+    def required_portion_calculation(self):
+        return self._required_portion_calculation
+    
+    @property
     def food_group(self):
         return self._food_group
     
-    def skip_portion_size_calculation(self):
+    def _is_required_portion_calculation(self, food_group):
 
-
-        if self._food_group == 'No food group':
+        # As per Dr. Heidi: Skip for those with no food groups
+        if food_group != 'No food group':
             return True
         
         return False
     
-    def _is_recipe(self, food_group):
+    def skip_portion_size_calculation(self):
+
+
+        if 'No food group' in self._food_group:
+            return True
+        
+        return False
+    
+    def _check_if_recipe(self, food_group):
 
         if "Recipe" in food_group:
 
