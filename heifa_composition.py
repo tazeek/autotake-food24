@@ -12,6 +12,7 @@ class FoodComposition:
         # We will add them in regardless
         self._serving_size = info_dict['serving_size']
         self._serving_measure = info_dict['serving_measure']
+        self._food_group = info_dict['food_group']
         
         return None
     
@@ -26,6 +27,18 @@ class FoodComposition:
     @property
     def is_recipe(self):
         return self._is_recipe
+    
+    @property
+    def food_group(self):
+        return self._food_group
+    
+    def skip_portion_size_calculation(self):
+
+
+        if self._food_group == 'No food group':
+            return True
+        
+        return False
     
     def _is_recipe(self, food_group):
 
