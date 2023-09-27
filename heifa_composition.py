@@ -46,14 +46,6 @@ class FoodComposition:
         
         return False
     
-    def skip_portion_size_calculation(self):
-
-
-        if 'No food group' in self._food_group:
-            return True
-        
-        return False
-    
     def _check_if_recipe(self, food_group):
 
         if "Recipe" in food_group:
@@ -61,6 +53,15 @@ class FoodComposition:
             return True
         
         return False
+    
+    def calculation_serving_size(self, energy_with_fibre, weight):
+
+        # Check the serving measure
+        # - kJ: Use energy_with_fibre
+        # - g: Use weight
+
+        serving_size = 0
+        ...
     
     def print_full_details(self):
 
