@@ -116,7 +116,20 @@ class IngredientInRecipe:
         
         self._proportion_recipe = info_dict['proportion']
         self._ingredient_name = info_dict['ingredient_name']
+        self._energy_fibre_100g = info_dict['energy_fibre_100g']
 
         return None
+    
+    @property
+    def proroption(self):
+        return self._proportion_recipe
+    
+    @property
+    def ingredient_name(self):
+        return self._ingredient_name
+    
+    @property
+    def energy_with_fibre(self):
+        return self._energy_fibre_100g
 
 
