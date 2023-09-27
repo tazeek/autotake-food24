@@ -90,16 +90,20 @@ class RecipeComposition:
 
     def __init__(self, info_dict):
 
-        self._breakdown = {}
+        self._recipe_pieces = {}
 
         self._recipe_id = info_dict['recipe_id']
         self._recipe_name = info_dict['recipe_name']
 
         return None
+    
+    @property
+    def recipe_pieces(self):
+        return self._recipe_pieces
         
     def add_pieces(self, ingredients_dict):
 
-        self._breakdown = ingredients_dict
+        self._recipe_pieces = ingredients_dict
         
         return None
 
