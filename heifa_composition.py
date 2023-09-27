@@ -19,6 +19,10 @@ class FoodComposition:
         return None
     
     @property
+    def eight_digit_code(self):
+        return self._8_digit_code
+    
+    @property
     def serving_size(self):
         return self._serving_size
     
