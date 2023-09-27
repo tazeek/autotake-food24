@@ -54,7 +54,7 @@ class FoodComposition:
         
         return False
     
-    def calculation_serving_size(self, energy_with_fibre, weight):
+    def calculate_serving_size(self, energy_with_fibre, weight):
 
         # Check the serving measure and round to 1 decimal place
         # - kJ: Use energy_with_fibre
