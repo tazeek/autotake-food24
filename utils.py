@@ -10,17 +10,36 @@ def load_intake24() -> pd.DataFrame:
 
     # Replace column names
     column_replacer_dict = {
-    'Energy, with dietary fibre': 'energy_with_fibre',
-    'Meal name': 'meal_name',
-    'Survey ID': 'survey_id',
-    'Intake24 food code': 'food_code',
-    'User ID': 'user_id',
-    'Meal ID': 'meal_id',
-    'Nutrient table code': 'heifa_nutrient_id',
-    'Portion size (g/ml)': 'portion_size_consumed'
+        'Energy, with dietary fibre': 'energy_with_fibre',
+        'Meal name': 'meal_name',
+        'Survey ID': 'survey_id',
+        'Intake24 food code': 'food_code',
+        'User ID': 'user_id',
+        'Meal ID': 'meal_id',
+        'Nutrient table code': 'heifa_nutrient_id',
+        'Portion size (g/ml)': 'portion_size_consumed'
     }
 
     intake24_df = rename_columns(column_replacer_dict, intake24_df)
 
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
+
+def load_heifa_recipes() -> pd.DataFrame:
+
+    heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
+
+    # Replace column names
+    column_replacer_dict = {
+        'Recipe AUSNUT 8-digit code': 'eight_digit_code',
+        'Ingredient Nutrient table code': 'heifa_code',
+        'Recipe Food Name': 'recipe_name',
+        'Proportion of ingredients in the recipe': 'proportion_recipe',
+        'Ingredient Food Name': 'ingredient_name',
+        'Energy, with dietary fibre (kJ) per 100g': 'energy_with_fibre_100g',
+    }
+
+    heifa_food_df = rename_columns(column_replacer_dict, heifa_food_df)
+
+    # Filter the columns we only need
+    return heifa_food_df[column_replacer_dict.values()]
