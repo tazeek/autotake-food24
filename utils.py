@@ -27,7 +27,7 @@ def load_intake24() -> pd.DataFrame:
 
 def load_heifa_recipes() -> pd.DataFrame:
 
-    heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
+    heifa_recipes_df = pd.read_csv('files/heifa_recipes.csv')
 
     # Replace column names
     column_replacer_dict = {
@@ -39,7 +39,7 @@ def load_heifa_recipes() -> pd.DataFrame:
         'Energy, with dietary fibre (kJ) per 100g': 'energy_with_fibre_100g',
     }
 
-    heifa_food_df = rename_columns(column_replacer_dict, heifa_food_df)
+    heifa_recipes_df = rename_columns(column_replacer_dict, heifa_recipes_df)
 
     # Filter the columns we only need
-    return heifa_food_df[column_replacer_dict.values()]
+    return heifa_recipes_df[column_replacer_dict.values()]
