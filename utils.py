@@ -43,3 +43,21 @@ def load_heifa_recipes() -> pd.DataFrame:
 
     # Filter the columns we only need
     return heifa_recipes_df[column_replacer_dict.values()]
+
+def load_heifa_ingredients() -> pd.DataFrame:
+
+    heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
+
+    # Replace column names
+    column_replacer_dict = {
+        'Nutrient table code': 'heifa_code',
+        '8 digit code': 'eight_digit_code',
+        'HEIFA Food Groups': 'food_group',
+        'Energy or grams per Serve \n(HEIFA food groups)': 'serving_size',
+        'Serving size unit of measure': 'serving_measure',
+    }
+
+    heifa_food_df = rename_columns(column_replacer_dict, heifa_food_df)
+
+    # Filter the columns we only need
+    return heifa_food_df[column_replacer_dict.values()]
