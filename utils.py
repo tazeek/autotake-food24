@@ -1,3 +1,5 @@
+from heifa_composition import FoodComposition
+
 import pandas as pd
 
 def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
@@ -75,3 +77,27 @@ def load_heifa_ingredients() -> pd.DataFrame:
 
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
+
+def create_food_objects(heifa_food_df) -> dict:
+
+    # Store the objects in a dictionary
+    # Faster mapping and lookup
+    heifa_food_dict = {}
+
+    def populate_food_composition(food_row):
+
+        heifa_code = food_row['heifa_code']
+        
+        info_dict = {
+            'heifa_code': heifa_code,
+            'eight_digit_code': food_row['eight_digit_code'],
+            'food_group': food_row['food_group'],
+            'serving_size': food_row['serving_size'],
+            'serving_measure': food_row['serving_measure']
+        }
+
+        heifa_food_dict[heifa_code] = FoodComposition(info_dict)
+
+    heifa_food_df.apply(populate_food_composition, axis = 1)
+
+    return heifa_food_dict
