@@ -1,6 +1,17 @@
 import pandas as pd
 
-def rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
+def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
+
+    # For ingredients without size or measure
+    filled_values = {
+        'serving_size' : 'N/A',
+        'serving_measure': 'N/A'
+    }
+
+    return ingredients_df.fillna(value = filled_values)
+
+def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
+    
     return df.rename(columns = name_replacer_dict)
 
 
@@ -20,7 +31,7 @@ def load_intake24() -> pd.DataFrame:
         'Portion size (g/ml)': 'portion_size_consumed'
     }
 
-    intake24_df = rename_columns(column_replacer_dict, intake24_df)
+    intake24_df = _rename_columns(column_replacer_dict, intake24_df)
 
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
@@ -39,7 +50,7 @@ def load_heifa_recipes() -> pd.DataFrame:
         'Energy, with dietary fibre (kJ) per 100g': 'energy_with_fibre_100g',
     }
 
-    heifa_recipes_df = rename_columns(column_replacer_dict, heifa_recipes_df)
+    heifa_recipes_df = _rename_columns(column_replacer_dict, heifa_recipes_df)
 
     # Filter the columns we only need
     return heifa_recipes_df[column_replacer_dict.values()]
@@ -57,7 +68,10 @@ def load_heifa_ingredients() -> pd.DataFrame:
         'Serving size unit of measure': 'serving_measure',
     }
 
-    heifa_food_df = rename_columns(column_replacer_dict, heifa_food_df)
+    heifa_food_df = _rename_columns(column_replacer_dict, heifa_food_df)
+
+    # Data cleaning
+    heifa_food_df = _clean_ingredients_file(heifa_food_df)
 
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
