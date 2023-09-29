@@ -108,6 +108,13 @@ def create_recipe_objects(heifa_recipe_df) -> dict:
     # Faster mapping and lookup
     heifa_recipe_dict = {}
 
+    # Turn the ingredient row into an object
+
+    # Check if the recipe is in the dictionary
+    # Default: Create new recipe
+    
+    # Store the ingredient inside the recipe object
+
 
     return heifa_recipe_dict
     ...
