@@ -1,4 +1,4 @@
-from heifa_composition import FoodComposition
+from heifa_composition import FoodComposition, IngredientInRecipe
 
 import pandas as pd
 
@@ -109,10 +109,19 @@ def create_recipe_objects(heifa_recipe_df) -> dict:
     heifa_recipe_dict = {}
 
     # Turn the ingredient row into an object
+    def populate_ingredients_composition(ingredient_row):
+
+        info_dict = {
+            'proportion': ingredient_row['proportion_recipe'],
+            'ingredient_name': ingredient_row['ingredient_name'],
+            'energy_fibre_100g': ingredient_row['energy_with_fibre_100g']
+        }
+
+        ingredient_obj = IngredientInRecipe(info_dict)
 
     # Check if the recipe is in the dictionary
     # Default: Create new recipe
-    
+
     # Store the ingredient inside the recipe object
 
 
