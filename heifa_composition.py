@@ -104,12 +104,6 @@ class RecipeComposition:
     @recipe_pieces.setter
     def recipe_pieces(self, ingredient_dict):
         self._recipe_pieces.update(ingredient_dict)
-        
-    def add_pieces(self, ingredients_dict):
-
-        self._recipe_pieces = ingredients_dict
-        
-        return None
 
     def print_ingredients_information(self):
 
