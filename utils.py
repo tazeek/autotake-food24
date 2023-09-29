@@ -101,3 +101,13 @@ def create_food_objects(heifa_food_df) -> dict:
     heifa_food_df.apply(populate_food_composition, axis = 1)
 
     return heifa_food_dict
+
+def create_recipe_objects(heifa_recipe_df) -> dict:
+
+    # Store the objects in a dictionary
+    # Faster mapping and lookup
+    heifa_recipe_dict = {}
+
+
+    return heifa_recipe_dict
+    ...
