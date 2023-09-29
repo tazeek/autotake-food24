@@ -122,13 +122,7 @@ def create_recipe_objects(heifa_recipe_df) -> dict:
         # Check if the recipe is in the dictionary
         # Default: Create new recipe if not in dictionary
         recipe_id = ingredient_row['eight_digit_code']
-
-        new_recipe_info = {
-            'recipe_id': recipe_id,
-            'recipe_name': ingredient_row['recipe_name']
-        }
-
-        recipe_obj = heifa_recipe_dict.get(recipe_id, RecipeComposition(new_recipe_info))
+        recipe_obj = heifa_recipe_dict.get(recipe_id, RecipeComposition(ingredient_row))
 
         # Store the ingredient inside the recipe object
         recipe_obj.recipe_pieces = { ingredient_row['heifa_code']: ingredient_obj }

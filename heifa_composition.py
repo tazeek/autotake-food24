@@ -92,7 +92,7 @@ class RecipeComposition:
 
         self._recipe_pieces = {}
 
-        self._recipe_id = info_dict['recipe_id']
+        self._recipe_id = info_dict['eight_digit_code']
         self._recipe_name = info_dict['recipe_name']
 
         return None
