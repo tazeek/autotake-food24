@@ -17,7 +17,7 @@ def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
     return df.rename(columns = name_replacer_dict)
 
 
-def load_intake24() -> pd.DataFrame:
+async def load_intake24() -> pd.DataFrame:
 
     intake24_df = pd.read_csv('files/intake24_survey_file.csv')
 
@@ -38,7 +38,7 @@ def load_intake24() -> pd.DataFrame:
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
 
-def load_heifa_recipes() -> pd.DataFrame:
+async def load_heifa_recipes() -> pd.DataFrame:
 
     heifa_recipes_df = pd.read_csv('files/heifa_recipes.csv')
 
@@ -57,7 +57,7 @@ def load_heifa_recipes() -> pd.DataFrame:
     # Filter the columns we only need
     return heifa_recipes_df[column_replacer_dict.values()]
 
-def load_heifa_ingredients() -> pd.DataFrame:
+async def load_heifa_ingredients() -> pd.DataFrame:
 
     heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
 
@@ -78,7 +78,20 @@ def load_heifa_ingredients() -> pd.DataFrame:
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
 
-def create_food_objects(heifa_food_df) -> dict:
+def populate_user_information(intake24_df: pd.DataFrame) -> dict:
+
+    # Go row by row
+
+    # Create the food object
+
+    # Check if it belongs to the same meal and add to it
+
+    # Add the meal to the survey, regardless
+
+    # Add the survey to the user
+    ...
+
+def create_food_objects(heifa_food_df: pd.DataFrame) -> dict:
 
     # Store the objects in a dictionary
     # Faster mapping and lookup
@@ -102,7 +115,7 @@ def create_food_objects(heifa_food_df) -> dict:
 
     return heifa_food_dict
 
-def create_recipe_objects(heifa_recipe_df) -> dict:
+def create_recipe_objects(heifa_recipe_df: pd.DataFrame) -> dict:
 
     # Store the objects in a dictionary
     # Faster mapping and lookup
