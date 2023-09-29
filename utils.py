@@ -131,12 +131,11 @@ def create_recipe_objects(heifa_recipe_df) -> dict:
         recipe_obj = heifa_recipe_dict.get(recipe_id, RecipeComposition(new_recipe_info))
 
         # Store the ingredient inside the recipe object
-        recipe_obj.recipe_pieces = ingredient_obj
+        recipe_obj.recipe_pieces = { ingredient_row['heifa_code']: ingredient_obj }
 
         # Just in case: for new recipe objects
         heifa_recipe_dict[recipe_id] = recipe_obj
 
     heifa_recipe_df.apply(populate_ingredients_composition, axis = 1)
-
 
     return heifa_recipe_dict
