@@ -1,4 +1,4 @@
-from heifa_composition import FoodComposition, IngredientInRecipe
+from heifa_composition import FoodComposition, IngredientInRecipe, RecipeComposition
 
 import pandas as pd
 
@@ -119,10 +119,22 @@ def create_recipe_objects(heifa_recipe_df) -> dict:
 
         ingredient_obj = IngredientInRecipe(info_dict)
 
-    # Check if the recipe is in the dictionary
-    # Default: Create new recipe
+        # Check if the recipe is in the dictionary
+        # Default: Create new recipe if not in dictionary
+        recipe_id = info_dict['eight_digit_code']
 
-    # Store the ingredient inside the recipe object
+        new_recipe_info = {
+            'recipe_id': recipe_id,
+            'recipe_name': info_dict['recipe_name']
+        }
+
+        recipe_obj = heifa_recipe_dict.get(recipe_id, RecipeComposition(new_recipe_info))
+
+        # Store the ingredient inside the recipe object
+        recipe_obj.recipe_pieces = ingredient_obj
+
+        # Just in case: for new recipe objects
+        heifa_recipe_dict[recipe_id] = recipe_obj
 
 
     return heifa_recipe_dict

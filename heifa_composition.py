@@ -100,6 +100,10 @@ class RecipeComposition:
     @property
     def recipe_pieces(self):
         return self._recipe_pieces
+    
+    @property.setter
+    def recipe_pieces(self, ingredient_dict):
+        self._recipe_pieces.update(ingredient_dict)
         
     def add_pieces(self, ingredients_dict):
 
