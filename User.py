@@ -6,6 +6,13 @@ class User:
 
         self._id = id
         self._surveys = {}
+
+    @property
+    def surveys(self):
+        return self._surveys
+
+    def get_survey(self, survey_id):
+        return self.surveys.get(survey_id, {})
     
     def add_survey(self, survey_id, survey):
 
