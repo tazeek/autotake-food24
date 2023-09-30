@@ -8,13 +8,13 @@ class Survey:
 
     @property
     def meals(self):
-        return self.meals_intake.values()
+        return self.meals_intake
     
     @meals.setter
     def meals(self, meal_id):
         # Check if ID exists
         # If it does, no need to do anything
-        if meal_id in self.meals_intake:
+        if meal_id not in self.meals_intake:
             self.meals_intake[meal_id] = Intake()
         
         return None
@@ -29,8 +29,9 @@ class Survey:
 
     def print_meals(self):
 
-        for meal_obj in self.meals_intake.values():
+        for index, meal_obj in enumerate(self.meals.values()):
 
+            print(f"Printing for Meal ID {index + 1}")
             meal_obj.print_nutrition()
 
         return None

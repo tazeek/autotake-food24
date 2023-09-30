@@ -24,24 +24,24 @@ class Intake:
     
     @meal_type.setter
     def meal_type(self, type) -> None:
-        
-        if self.meal_type is None:
-            self.meal_type = type
+        self.meal_type = type
         
         return None
     
     @heifa_list.setter
-    def heifa_list(self, heifa_id):
+    def heifa_list(self, heifa_id) -> None:
         self.heifa_list.append(heifa_id)
 
         return None
     
     @nutrition.setter
-    def nutrition(self, intake24_row): 
+    def nutrition(self, intake24_row) -> None: 
         
         # Create food object and add to the list
         heifa_code = intake24_row['heifa_nutrient_id']
         self.nutrition[heifa_code] = Food(intake24_row)
+
+        return None
 
 
     def _print_food_info(self, heifa_id: str):
@@ -49,16 +49,16 @@ class Intake:
         nutrient = self._nutrients_info[heifa_id]
 
         print(
-            f"Details for {heifa_id}:\n",
+            f"Details for {heifa_id}:\n"
             f"Portion size of {nutrient.portion_size}g/ml\n"
-            f" Energy (Dietary Fibre included): {nutrient.energy_with_fibre} kJ\n"
+            f"Energy (Dietary Fibre included): {nutrient.energy_with_fibre} kJ\n"
         )
         
         return None
 
     def print_nutrition(self):
 
-        print(f"HEIFA code(s) for {self._meal_intake_type}: {self._heifa_list}\n")
+        print(f"HEIFA code(s) for {self.meal_type}: {self.heifa_list}\n")
 
         for code in self._heifa_list:
 

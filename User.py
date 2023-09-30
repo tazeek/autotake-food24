@@ -16,7 +16,7 @@ class User:
 
         # Add if it does not exist
         if survey_id not in self.surveys:
-            self._surveys[survey_id] = Survey()
+            self.surveys[survey_id] = Survey()
 
         return None
 
@@ -30,7 +30,7 @@ class User:
 
     def print_information(self):
 
-        for id, survey_obj in self._surveys.items():
+        for id, survey_obj in self.surveys.items():
             
             # Go by surveys
             print(f"Printing for Survey ID {id}\n")
