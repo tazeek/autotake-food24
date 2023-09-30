@@ -88,25 +88,24 @@ def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
     # Go row by row
     def populate_user_information(intake24_row):
-        ...
-        # Create the food object
-        food = Food(intake24_row)
-
-        # Add to the meal
-
-        # Add the meal to the survey, regardless
-
-        # Add the survey to the user
 
         # Fetch the User
         user_id = intake24_row['user_id']
         user_obj = user_dict.get(user_id, User(user_id))
 
+        # Fetch the survey, regardless if it is same or not
+        survey_obj = user_obj.get_survey(intake24_row['survey_id'])
+
+        # Fetch the meal, regardless if it is the same or not
+        meal_dict = survey_obj.get_meal(intake24_row['meal_id'])
+
+        # Create the food object and add to the meal
+        food = Food(intake24_row)
+
         # Just in case: for new user objects
         user_dict[user_id] = user_obj
 
     return user_dict
-    ...
 
 def create_food_objects(heifa_food_df: pd.DataFrame) -> dict:
 
