@@ -8,11 +8,45 @@ class Intake:
 
         self._nutrients_info = {}
         self._heifa_list = []
-        self._meal_intake = ''
+        self._meal_type = None
 
     @property
-    def nutrition_info(self):
+    def nutrition(self):
         return self._nutrients_info
+    
+    @property
+    def heifa_list(self):
+        return self._heifa_list
+    
+    @property
+    def meal_type(self):
+        return self._meal_type
+    
+    @meal_type.setter
+    def meal_type(self, type) -> None:
+        
+        if self.meal_type is None:
+            self.meal_type = type
+        
+        return None
+    
+    @heifa_list.setter
+    def heifa_list(self, heifa_id):
+        self.heifa_list.append(heifa_id)
+    
+    @nutrition.setter
+    def nutrition(self, intake24_row):
+
+        # Create the food object
+        food = Food(intake24_row)
+
+        # Add the HEIFA code
+        self.heifa_list = intake24_row['heifa_nutrient_id']
+
+        # Update the meal type, if haven't
+        self.meal_type = intake24_row['meal_name']
+        ...
+
 
     def _print_food_info(self, heifa_id: str):
         
