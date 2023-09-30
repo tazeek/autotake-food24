@@ -48,11 +48,16 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
             print("SKIPPED!")
             continue
 
-        # Calculate for non-recipes directly
-
         # Hold for recipes
+        if heifa_obj.is_recipe:
+            print("RECIPE! Skip for now")
+            continue
 
-    ...
+        # Calculate for non-recipes directly
+        recommended_serving_size = heifa_obj.calculate_serving_size(ingredient_obj.energy_with_fibre, ingredient_obj.portion_size)
+        print(f"Recommended serving size: {recommended_serving_size}\n")
+
+    return None
 
 
 async def load_intake24() -> pd.DataFrame:
