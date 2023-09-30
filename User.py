@@ -12,14 +12,11 @@ class User:
         return self._surveys
     
     @surveys.setter
-    def add_survey(self, survey_id):
+    def surveys(self, survey_id):
 
-        # Check if ID exists
-        # If it does, no need to do anything
-        if survey_id in self.surveys:
-            return None
-        
-        self._surveys[survey_id] = Survey()
+        # Add if it does not exist
+        if survey_id not in self.surveys:
+            self._surveys[survey_id] = Survey()
 
         return None
 

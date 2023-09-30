@@ -15,10 +15,8 @@ class Survey:
         # Check if ID exists
         # If it does, no need to do anything
         if meal_id in self.meals_intake:
-            return None
+            self.meals_intake[meal_id] = Intake()
         
-        self.meals_intake[meal_id] = Intake()
-
         return None
     
     def get_meal(self, meal_id) -> Intake:
