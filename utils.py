@@ -20,6 +20,36 @@ def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
     
     return df.rename(columns = name_replacer_dict)
 
+def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
+
+    print(nutrition_list)
+
+    # One ingredient at a time
+    for heifa_id, ingredient_obj in nutrition_list.items():
+
+        print("\n")
+        print(f"HEIFA ID: {heifa_id}\n")
+
+        heifa_obj = heifa_ing[heifa_id]
+
+        print(f"Portion size (gram): {ingredient_obj.portion_size}")
+        print(f"Portion size (energy with fibre): {ingredient_obj.energy_with_fibre}")
+        print(f"Is it a recipe: {heifa_obj.is_recipe}\n")
+        
+        print(f"HEIFA Serving size: {heifa_obj.serving_size}")
+        print(f"HEIFA Serving measure: {heifa_obj.serving_measure}\n")
+
+        # Check if calculation is required or not
+        if not heifa_obj.required_portion_calculation:
+            print("SKIPPED!")
+            continue
+
+        # Calculate for non-recipes directly
+
+        # Hold for recipes
+
+    ...
+
 
 async def load_intake24() -> pd.DataFrame:
 
@@ -38,6 +68,9 @@ async def load_intake24() -> pd.DataFrame:
     }
 
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
+
+    # Some of the IDs are not present, so we drop them
+    intake24_df = intake24_df[intake24_df['heifa_nutrient_id'].notna()]
 
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
@@ -179,15 +212,11 @@ def fetch_user_food_list(user_dict):
 
     return user_meals
 
-def calculate_portion_serving_heifa(food_list, heifa_ing_dict, heifa_recipe_dict):
+def calculate_portion_serving_heifa(foods_list, heifa_ing_dict, heifa_recipe_dict):
 
     # Go one by one
-
-    # Check if calculation is required or not
-
-    # Calculate for non-recipes directly
-
-    # Hold for recipes
+    for nutrition_list in foods_list:
+        _find_portion_serving(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
 
     # Hold for the return type until everything is done properly
     # Discuss with Tracy, Heidi, Samara
