@@ -49,10 +49,10 @@ class User:
         # Go by surveys
         for survey_obj in self.surveys.values():
 
-            # Get the meal objects
+            # Get the meal objects dictionary
             meals_obj = survey_obj.meals
 
             # Store in array
-            all_food_information += [meal.nutrition for meal in meals_obj]
+            all_food_information += [meal.nutrition for meal in meals_obj.values()]
 
         return all_food_information

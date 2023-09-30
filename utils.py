@@ -167,3 +167,14 @@ def create_recipe_objects(heifa_recipe_df: pd.DataFrame) -> dict:
     heifa_recipe_df.apply(populate_ingredients_composition, axis = 1)
 
     return heifa_recipe_dict
+
+
+def fetch_user_food_list(user_dict):
+
+    user_meals = {}
+
+    for id, user_obj in user_dict.items():
+
+        user_meals[id] = user_obj.get_meals_information()
+
+    return user_meals
