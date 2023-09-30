@@ -97,10 +97,10 @@ def create_user_objects(intake24_df: pd.DataFrame) -> dict:
         survey_obj = user_obj.get_survey(intake24_row['survey_id'])
 
         # Fetch the meal, regardless if it is the same or not
-        meal_dict = survey_obj.get_meal(intake24_row['meal_id'])
+        meal_obj = survey_obj.get_meal(intake24_row['meal_id'])
 
-        # Create the food object and add to the meal
-        food = Food(intake24_row)
+        # Update the meal object with the new row
+        meal_obj.nutrition = intake24_row
 
         # Just in case: for new user objects
         user_dict[user_id] = user_obj
