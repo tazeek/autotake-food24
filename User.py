@@ -47,12 +47,12 @@ class User:
         all_food_information = []
 
         # Go by surveys
-        for survey_obj in self._surveys.values():
+        for survey_obj in self.surveys.values():
 
             # Get the meal objects
             meals_obj = survey_obj.meals
 
             # Store in array
-            all_food_information += [meal.nutrition_info for meal in meals_obj]
+            all_food_information += [meal.nutrition for meal in meals_obj]
 
         return all_food_information
