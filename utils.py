@@ -178,3 +178,18 @@ def fetch_user_food_list(user_dict):
         user_meals[id] = user_obj.get_meals_information()
 
     return user_meals
+
+def calculate_portion_serving_heifa(food_list, heifa_ing_dict, heifa_recipe_dict):
+
+    # Go one by one
+
+    # Check if calculation is required or not
+
+    # Calculate for non-recipes directly
+
+    # Hold for recipes
+
+    # Hold for the return type until everything is done properly
+    # Discuss with Tracy, Heidi, Samara
+
+    ...
