@@ -45,7 +45,10 @@ class FoodComposition:
     def _is_required_portion_calculation(self, food_group):
 
         # As per Dr. Heidi: Skip for those with no food groups
-        if food_group != 'No food group':
+        # Trial-error checks: Skip for Water
+        skip_group_list = ['No food group', 'Water']
+
+        if food_group not in skip_group_list:
             return True
         
         return False
