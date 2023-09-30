@@ -20,9 +20,10 @@ def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
     
     return df.rename(columns = name_replacer_dict)
 
-def _breakdown_recipe_calculation():
+def _breakdown_recipe_calculation(nutrition_obj, heifa_ing, heifa_dict):
 
     # Get all the ingredients
+    recipe_obj = heifa_dict[nutrition_obj.eight_digit_code]
 
     # Check which ones are recipes
 
