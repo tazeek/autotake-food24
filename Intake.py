@@ -33,6 +33,14 @@ class Intake:
     @heifa_list.setter
     def heifa_list(self, heifa_id):
         self.heifa_list.append(heifa_id)
+
+        return None
+
+    @nutrition.setter
+    def nutrition(self, heifa_id, food_obj):
+        
+        
+        return None
     
     @nutrition.setter
     def nutrition(self, intake24_row):
@@ -41,11 +49,14 @@ class Intake:
         food = Food(intake24_row)
 
         # Add the HEIFA code
-        self.heifa_list = intake24_row['heifa_nutrient_id']
+        heifa_code = intake24_row['heifa_nutrient_id']
+        self.heifa_list = heifa_code
 
         # Update the meal type, if haven't
         self.meal_type = intake24_row['meal_name']
-        ...
+        
+        # Add to the list
+        self.nutrition[heifa_code] = food
 
 
     def _print_food_info(self, heifa_id: str):
