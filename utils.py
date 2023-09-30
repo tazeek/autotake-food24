@@ -20,6 +20,19 @@ def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
     
     return df.rename(columns = name_replacer_dict)
 
+def _breakdown_recipe_calculation():
+
+    # Get all the ingredients
+
+    # Check which ones are recipes
+
+    # Break them down further
+
+    # Repeat until no more
+
+    # Calculate the whole recipe individually
+    ...
+
 def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
     print(nutrition_list)
