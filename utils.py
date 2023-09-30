@@ -78,10 +78,13 @@ async def load_heifa_ingredients() -> pd.DataFrame:
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
 
-def populate_user_information(intake24_df: pd.DataFrame) -> dict:
+def create_user_objects(intake24_df: pd.DataFrame) -> dict:
+
+    user_dict = {}
 
     # Go row by row
-
+    def populate_user_information(intake24_row):
+        ...
     # Create the food object
 
     # Check if it belongs to the same meal and add to it
@@ -89,6 +92,8 @@ def populate_user_information(intake24_df: pd.DataFrame) -> dict:
     # Add the meal to the survey, regardless
 
     # Add the survey to the user
+
+    return user_dict
     ...
 
 def create_food_objects(heifa_food_df: pd.DataFrame) -> dict:
