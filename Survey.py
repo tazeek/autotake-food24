@@ -36,8 +36,3 @@ class Survey:
 
         return None
     
-    def add_meal(self, meal_id, meals):
-
-        self.meals_intake[meal_id] = meals
-
-        return None
