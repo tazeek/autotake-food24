@@ -27,9 +27,13 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
     # One ingredient at a time
     for heifa_id, ingredient_obj in nutrition_list.items():
 
+        # Just in case....
+        if heifa_id not in heifa_ing:
+            print(f"HEIFA ID {heifa_id} not found")
+            continue
+        
         print("\n")
         print(f"HEIFA ID: {heifa_id}\n")
-
         heifa_obj = heifa_ing[heifa_id]
 
         print(f"Portion size (gram): {ingredient_obj.portion_size}")
@@ -70,7 +74,9 @@ async def load_intake24() -> pd.DataFrame:
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
 
     # Some of the IDs are not present, so we drop them
+    print(f"Before dropping function: {len(intake24_df)} rows")
     intake24_df = intake24_df[intake24_df['heifa_nutrient_id'].notna()]
+    print(f"After dropping function: {len(intake24_df)} rows")
 
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
