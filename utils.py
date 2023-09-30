@@ -1,5 +1,9 @@
 from heifa_composition import FoodComposition, IngredientInRecipe, RecipeComposition
 
+from Intake import Intake
+from Food import Food
+from User import User
+
 import pandas as pd
 
 def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
@@ -85,13 +89,21 @@ def create_user_objects(intake24_df: pd.DataFrame) -> dict:
     # Go row by row
     def populate_user_information(intake24_row):
         ...
-    # Create the food object
+        # Create the food object
+        food = Food(intake24_row)
 
-    # Check if it belongs to the same meal and add to it
+        # Add to the meal
 
-    # Add the meal to the survey, regardless
+        # Add the meal to the survey, regardless
 
-    # Add the survey to the user
+        # Add the survey to the user
+
+        # Fetch the User
+        user_id = intake24_row['user_id']
+        user_obj = user_dict.get(user_id, User(user_id))
+
+        # Just in case: for new user objects
+        user_dict[user_id] = user_obj
 
     return user_dict
     ...
