@@ -1,4 +1,4 @@
-
+from Survey import Survey
 
 class User:
 
@@ -10,13 +10,26 @@ class User:
     @property
     def surveys(self):
         return self._surveys
-
-    def get_survey(self, survey_id):
-        return self.surveys.get(survey_id, {})
     
-    def add_survey(self, survey_id, survey):
+    @surveys.setter
+    def add_survey(self, survey_id):
 
-        self._surveys[survey_id] = survey
+        # Check if ID exists
+        # If it does, no need to do anything
+        if survey_id in self.surveys:
+            return None
+        
+        self._surveys[survey_id] = Survey()
+
+        return None
+
+    def get_survey(self, survey_id) -> Survey:
+
+        # Use the setter, regardless
+        # The setter will handle it
+        self.surveys = survey_id
+
+        return self.surveys[survey_id]
 
     def print_information(self):
 
