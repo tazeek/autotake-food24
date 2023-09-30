@@ -102,11 +102,13 @@ def create_user_objects(intake24_df: pd.DataFrame) -> dict:
         # Update the meal object with the new row
         meal_obj.heifa_list = intake24_row['heifa_nutrient_id']
         meal_obj.meal_type = intake24_row['meal_name']
-        
+
         meal_obj.nutrition = intake24_row
 
         # Just in case: for new user objects
         user_dict[user_id] = user_obj
+    
+    intake24_df.apply(populate_user_information, axis = 1)
 
     return user_dict
 
