@@ -52,6 +52,13 @@ def _breakdown_recipe_calculation(nutrition_obj, heifa_ing, heifa_rec):
     print(f"New pieces: {extra_pieces}\n")
     recipe_pieces.update(extra_pieces)
 
+    extra_recipes = {
+        heifa_id: ingredient_obj for (heifa_id , ingredient_obj) in extra_pieces.items() 
+        if heifa_ing[heifa_id].is_recipe
+    }
+
+    print(f"Recipes found within recipes (NEW): {extra_recipes}")
+
     print(f"Update recipe list: {recipe_pieces}")
     # Calculate the whole recipe individually
     
