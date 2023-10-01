@@ -38,22 +38,21 @@ def _breakdown_recipe_calculation(nutrition_obj, heifa_ing, heifa_rec):
 
     extra_pieces = {}
     
-    for nutrient_code in extra_recipes.pieces():
+    for nutrient_code in extra_recipes.keys():
         
         # Get the eight digit code
         eight_digit_code = heifa_ing[nutrient_code].eight_digit_code
-        print(eight_digit_code)
         
-        #extra_recipes.update(heifa_rec[eight_digit_code].recipe_pieces)
+        extra_pieces.update(heifa_rec[eight_digit_code].recipe_pieces)
 
         # Delete the one from the original list
-        #del recipe_pieces[nutrient_code]
+        del recipe_pieces[nutrient_code]
 
     # Repeat until no more
-    #print(f"New pieces: {extra_pieces}\n")
-    #recipe_pieces.extend(extra_pieces)
+    print(f"New pieces: {extra_pieces}\n")
+    recipe_pieces.update(extra_pieces)
 
-    #print(f"Update recipe list: {recipe_pieces}")
+    print(f"Update recipe list: {recipe_pieces}")
     # Calculate the whole recipe individually
     
     return None
