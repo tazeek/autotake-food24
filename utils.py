@@ -22,44 +22,43 @@ def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
 
 def _breakdown_recipe_calculation(nutrition_obj, heifa_ing, heifa_rec):
 
+    # Get the original list of ingredients
 
-    # Get all the ingredients
-    recipe_pieces = heifa_rec[nutrition_obj.eight_digit_code].recipe_pieces
-    print(recipe_pieces)
+    original_pieces = heifa_rec[nutrition_obj.eight_digit_code].recipe_pieces
+    print(original_pieces)
 
-    # Break them down further
-    # Some of the ingredients in recipes, are recipes themselves
-    extra_recipes = {
-        heifa_id: ingredient_obj for (heifa_id , ingredient_obj) in recipe_pieces.items() 
-        if heifa_ing[heifa_id].is_recipe
-    }
+    # Time to break down further
+    while True:
 
-    print(f"Recipes found within recipes: {extra_recipes}")
+        # Some of the ingredients in recipes, can be recipes themselves
+        extra_recipes = {
+            heifa_id: ingredient_obj for (heifa_id , ingredient_obj) in original_pieces.items() 
+            if heifa_ing[heifa_id].is_recipe
+        }
 
-    extra_pieces = {}
-    
-    for nutrient_code in extra_recipes.keys():
+        # If nothing found, we break out
+        if len(extra_recipes) == 0:
+            break
         
-        # Get the eight digit code
-        eight_digit_code = heifa_ing[nutrient_code].eight_digit_code
-        
-        extra_pieces.update(heifa_rec[eight_digit_code].recipe_pieces)
+        extra_pieces = {}
 
-        # Delete the one from the original list
-        del recipe_pieces[nutrient_code]
+        # Lets break down the extra pieces
+        for nutrient_code in extra_recipes.keys():
+            
+            # Get the eight digit code
+            eight_digit_code = heifa_ing[nutrient_code].eight_digit_code
+            
+            extra_pieces.update(heifa_rec[eight_digit_code].recipe_pieces)
 
-    # Repeat until no more
-    print(f"New pieces: {extra_pieces}\n")
-    recipe_pieces.update(extra_pieces)
+            # Delete the one from the original list
+            del original_pieces[nutrient_code]
 
-    extra_recipes = {
-        heifa_id: ingredient_obj for (heifa_id , ingredient_obj) in extra_pieces.items() 
-        if heifa_ing[heifa_id].is_recipe
-    }
+        # Update the original list
+        # Repeat until no more
+        print(f"New pieces: {extra_pieces}\n")
+        original_pieces.update(extra_pieces)
 
-    print(f"Recipes found within recipes (NEW): {extra_recipes}")
-
-    print(f"Update recipe list: {recipe_pieces}")
+    print(f"Update recipe list: {original_pieces}")
     # Calculate the whole recipe individually
     
     return None
