@@ -20,19 +20,43 @@ def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
     
     return df.rename(columns = name_replacer_dict)
 
-def _breakdown_recipe_calculation(nutrition_obj, heifa_ing, heifa_dict):
+def _breakdown_recipe_calculation(nutrition_obj, heifa_ing, heifa_rec):
+
 
     # Get all the ingredients
-    recipe_obj = heifa_dict[nutrition_obj.eight_digit_code]
-
-    # Check which ones are recipes
+    recipe_pieces = heifa_rec[nutrition_obj.eight_digit_code].recipe_pieces
+    print(recipe_pieces)
 
     # Break them down further
+    # Some of the ingredients in recipes, are recipes themselves
+    extra_recipes = {
+        heifa_id: ingredient_obj for (heifa_id , ingredient_obj) in recipe_pieces.items() 
+        if heifa_ing[heifa_id].is_recipe
+    }
+
+    print(f"Recipes found within recipes: {extra_recipes}")
+
+    extra_pieces = {}
+    
+    for nutrient_code in extra_recipes.pieces():
+        
+        # Get the eight digit code
+        eight_digit_code = heifa_ing[nutrient_code].eight_digit_code
+        print(eight_digit_code)
+        
+        #extra_recipes.update(heifa_rec[eight_digit_code].recipe_pieces)
+
+        # Delete the one from the original list
+        #del recipe_pieces[nutrient_code]
 
     # Repeat until no more
+    #print(f"New pieces: {extra_pieces}\n")
+    #recipe_pieces.extend(extra_pieces)
 
+    #print(f"Update recipe list: {recipe_pieces}")
     # Calculate the whole recipe individually
-    ...
+    
+    return None
 
 def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
@@ -52,19 +76,19 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
         print(f"Portion size (gram): {ingredient_obj.portion_size}")
         print(f"Portion size (energy with fibre): {ingredient_obj.energy_with_fibre}")
-        print(f"Is it a recipe: {heifa_obj.is_recipe}\n")
+        print(f"Food group: {heifa_obj.food_group}\n")
         
         print(f"HEIFA Serving size: {heifa_obj.serving_size}")
         print(f"HEIFA Serving measure: {heifa_obj.serving_measure}\n")
 
         # Check if calculation is required or not
         if not heifa_obj.required_portion_calculation:
-            print("SKIPPED!")
             continue
 
         # Hold for recipes
         if heifa_obj.is_recipe:
-            print("RECIPE! Skip for now")
+            _breakdown_recipe_calculation(heifa_obj, heifa_ing, heifa_dict)
+            break
             continue
 
         # Calculate for non-recipes directly
