@@ -66,14 +66,14 @@ def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portio
 
 def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
-    print(nutrition_list)
+    print(list(nutrition_list.keys()))
 
     # One ingredient at a time
     for heifa_id, ingredient_obj in nutrition_list.items():
 
         # Just in case....
         if heifa_id not in heifa_ing:
-            print(f"HEIFA ID {heifa_id} not found")
+            print(f"\nHEIFA ID {heifa_id} not found")
             continue
 
         portion_size = ingredient_obj.portion_size
@@ -102,7 +102,7 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
         # Calculate for non-recipes directly
         recommended_serving_size = heifa_obj.calculate_serving_size(energy_with_fibre, portion_size)
-        print(f"Recommended serving size: {recommended_serving_size} serves \n")
+        print(f"Serving size: {recommended_serving_size} serves \n")
 
     return None
 
@@ -274,9 +274,12 @@ def calculate_portion_serving_heifa(foods_list, heifa_ing_dict, heifa_recipe_dic
 
     # Go one by one
     for nutrition_list in foods_list:
+
         _find_portion_serving(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
+        print("=" * 20)
+        print("\n\n")
 
     # Hold for the return type until everything is done properly
     # Discuss with Tracy, Heidi, Samara
 
-    ...
+    return None
