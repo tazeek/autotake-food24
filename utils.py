@@ -60,7 +60,7 @@ def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portio
         piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 1)
 
         print(f"Portion amount for {id}: {piece_amount:.1f}g")
-        print(f"Energy amount for {id}: {piece_energy:.1f}kJ\n")
+        print(f"Energy amount for {id} (based on {piece_amount}g): {piece_energy:.1f}kJ\n")
     
     return None
 
@@ -94,10 +94,9 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
         if not heifa_obj.required_portion_calculation:
             continue
 
-        # Hold for recipes
+        # Seperate calculation for recipes
         if heifa_obj.is_recipe:
             _breakdown_recipe_calculation(heifa_obj.eight_digit_code, heifa_ing, heifa_dict, portion_size)
-            break
             continue
 
         # Calculate for non-recipes directly
