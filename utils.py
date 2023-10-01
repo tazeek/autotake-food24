@@ -59,8 +59,8 @@ def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portio
         piece_amount = round(portion_size * piece_obj.proroption, 1)
         piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 1)
 
-        print(f"Portion amount for {id}: {piece_amount:.1f}")
-        print(f"Energy amount for {id}: {piece_energy:.1f}\n")
+        print(f"Portion amount for {id}: {piece_amount:.1f}g")
+        print(f"Energy amount for {id}: {piece_energy:.1f}kJ\n")
     
     return None
 
@@ -83,8 +83,8 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
         print(f"HEIFA ID: {heifa_id}\n")
         heifa_obj = heifa_ing[heifa_id]
 
-        print(f"Portion size (gram): {portion_size}")
-        print(f"Portion size (energy with fibre): {energy_with_fibre}")
+        print(f"Portion size (gram): {portion_size}g")
+        print(f"Portion size (energy with fibre): {energy_with_fibre}kJ")
         print(f"Food group: {heifa_obj.food_group}\n")
         
         print(f"HEIFA Serving size: {heifa_obj.serving_size}")
@@ -102,7 +102,7 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
         # Calculate for non-recipes directly
         recommended_serving_size = heifa_obj.calculate_serving_size(energy_with_fibre, portion_size)
-        print(f"Recommended serving size: {recommended_serving_size}\n")
+        print(f"Recommended serving size: {recommended_serving_size} serves \n")
 
     return None
 
