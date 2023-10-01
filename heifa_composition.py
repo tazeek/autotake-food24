@@ -63,12 +63,16 @@ class FoodComposition:
     
     def calculate_serving_size(self, energy_with_fibre, weight):
 
+        serving_size = 0
+
+        # Check if calculation is required or not
+        # If not, just return 0
+        if not self.required_portion_calculation:
+            return serving_size
+
         # Check the serving measure and round to 1 decimal place
         # - kJ: Use energy_with_fibre
         # - g: Use weight
-
-        serving_size = 0
-
         if self._serving_measure == "g":
             serving_size = round(weight/self._serving_size, 1)
         else:
