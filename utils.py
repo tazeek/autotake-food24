@@ -72,6 +72,8 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
     print(list(nutrition_list.keys()))
 
+    food_group_summary = {}
+
     # One ingredient at a time
     for heifa_id, ingredient_obj in nutrition_list.items():
 
@@ -86,6 +88,7 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
         print("\n")
         print(f"HEIFA ID: {heifa_id}\n")
         heifa_obj = heifa_ing[heifa_id]
+        food_group = heifa_obj.food_group
 
         print(f"Portion size (gram): {portion_size}g")
         print(f"Portion size (energy with fibre): {energy_with_fibre}kJ")
@@ -101,18 +104,33 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
         # Calculate for non-recipes directly
         serving_size = heifa_obj.calculate_serving_size(energy_with_fibre, portion_size)
+
+        group_serve_daily = food_group_summary.get(food_group, 0)
+        group_serve_daily += serving_size
+        food_group_summary[food_group] = group_serve_daily
+
         print(f"Serving size: {serving_size:.1f} serves \n")
 
-    return None
+    return food_group_summary
 
 def _find_servings_daily(meal_list, heifa_ing, heifa_rec):
 
     # Go through one meal at a time
+    daily_servings = {}
+
     for meal in meal_list:
 
-        _find_portion_serving(meal, heifa_ing, heifa_rec)
+        servings_dict = _find_portion_serving(meal, heifa_ing, heifa_rec)
+        print(servings_dict)
+        print("\n\n")
 
-    return None
+        for key, value in servings_dict.items():
+
+            serving_size_total = daily_servings.get(key, 0)
+            serving_size_total += value
+            daily_servings[key] = serving_size_total
+
+    return daily_servings
 
 
 async def load_intake24() -> pd.DataFrame:
@@ -291,8 +309,9 @@ def calculate_portion_serving_heifa(meal_date_dict, heifa_ing_dict, heifa_recipe
 
         print(f"\nOutput for the date: {date}")
         
-        _find_servings_daily(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
+        daily_servings_total = _find_servings_daily(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
 
+        print(daily_servings_total)
         print("=" * 20)
         print("\n\n")
 
