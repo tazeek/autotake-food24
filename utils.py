@@ -318,6 +318,8 @@ def calculate_portion_serving_heifa(meal_date_dict, heifa_ing_dict, heifa_recipe
         
         daily_servings_total = _find_servings_daily(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
 
+        print("=" * 20)
+        
         print(f"\nBreakdown for {date}\n")
 
         for group, amount in daily_servings_total.items():
