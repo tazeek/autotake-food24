@@ -60,6 +60,7 @@ class DailyCalculator:
             )
 
             # Add to the daily servings attribute
+            self.daily_servings = (food_group, serving_size)
 
         return None
     
