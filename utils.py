@@ -20,7 +20,7 @@ def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
     
     return df.rename(columns = name_replacer_dict)
 
-def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portion_size):
+def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portion_size, food_group_summary):
 
     # Get the original list of ingredients
 
@@ -60,11 +60,17 @@ def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portio
         piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
 
         heifa_obj = heifa_ing[heifa_id]
+        food_group = heifa_obj.food_group
         serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
 
         print(f"Portion amount for {heifa_id}: {piece_amount:.1f}g")
         print(f"Energy amount for {heifa_id} (based on {piece_amount}g): {piece_energy:.1f}kJ")
-        print(f"Serving size for {heifa_id} (based on {piece_amount}g): {serving_size:.1f} serves\n")
+        print(f"Serving size for {heifa_id} (based on {piece_amount}g): {serving_size:.1f} serves")
+        print(f"Food group: {food_group}\n")
+
+        group_serve_daily = food_group_summary.get(food_group, 0)
+        group_serve_daily += serving_size
+        food_group_summary[food_group] = group_serve_daily
     
     return None
 
@@ -92,14 +98,17 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
         print(f"Portion size (gram): {portion_size}g")
         print(f"Portion size (energy with fibre): {energy_with_fibre}kJ")
-        print(f"Food group: {heifa_obj.food_group}\n")
+        print(f"Food group: {food_group}\n")
         
         print(f"HEIFA Serving size: {heifa_obj.serving_size}")
         print(f"HEIFA Serving measure: {heifa_obj.serving_measure}\n")
 
         # Seperate calculation for recipes
         if heifa_obj.is_recipe:
-            _breakdown_recipe_calculation(heifa_obj.eight_digit_code, heifa_ing, heifa_dict, portion_size)
+            _breakdown_recipe_calculation(
+                heifa_obj.eight_digit_code, heifa_ing, heifa_dict, 
+                portion_size, food_group_summary
+            )
             continue
 
         # Calculate for non-recipes directly
