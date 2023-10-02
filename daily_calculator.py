@@ -34,6 +34,41 @@ class DailyCalculator:
 
         return None
     
+    def _perform_recipe_calculation(self, eight_digit_code, portion_size):
+
+        # Get the original list of ingredients
+        pieces = self.recipes[eight_digit_code].recipe_pieces
+
+        ingredients_dict = self.ingredients
+        recipes_dict = self.recipes
+
+        # Time to break down further
+        while True:
+
+            extra_pieces = {
+                heifa_id: ingredient_obj for (heifa_id, ingredient_obj)
+                in pieces.items() if ingredients_dict[heifa_id].is_recipe
+            }
+
+            # If nothing is found we break out
+            if len(extra_pieces) == 0:
+                break
+
+            # Break down to extra pieces
+            for nutrient_code in extra_pieces.keys():
+                
+                # Get the eight digit code
+                eight_digit_code = ingredients_dict[nutrient_code].eight_digit_code
+
+                # Update the original list
+                pieces.update(recipes_dict[eight_digit_code].recipe_pieces)
+
+                # Delete from original
+                del pieces[nutrient_code]
+
+            # Repeat until no longer recipes in the list
+        ...
+    
     def _calculate_serving(self, meal):
         
         ingredients_dict = self.ingredients
@@ -52,8 +87,12 @@ class DailyCalculator:
             heifa_obj = ingredients_dict[heifa_id]
             food_group = heifa_obj.food_group
 
+            # Seperate calculation for recipes
             if heifa_obj.is_recipe:
-                ...
+                self._perform_recipe_calculation(
+                    heifa_obj, portion_size
+                )
+                continue
 
             serving_size = heifa_obj.calculate_serving_size(
                 energy_with_fibre, portion_size
