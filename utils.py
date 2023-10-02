@@ -275,14 +275,18 @@ def fetch_user_food_list(user_dict):
 
     return user_meals
 
-def calculate_portion_serving_heifa(foods_list, heifa_ing_dict, heifa_recipe_dict):
+def calculate_portion_serving_heifa(meal_date_dict, heifa_ing_dict, heifa_recipe_dict):
 
     # Go one by one
-    for nutrition_list in foods_list:
+    for date, nutrition_list in meal_date_dict.items():
 
+        print(f"Output for the date: {date}")
+        print(len(nutrition_list))
+        
         _find_portion_serving(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
-        print("=" * 20)
-        print("\n\n")
+
+        #print("=" * 20)
+        #print("\n\n")
 
     # Hold for the return type until everything is done properly
     # Discuss with Tracy, Heidi, Samara
