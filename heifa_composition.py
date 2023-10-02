@@ -134,7 +134,7 @@ class IngredientInRecipe:
         return None
     
     @property
-    def proroption(self):
+    def proportion(self):
         return self._proportion_recipe
     
     @property

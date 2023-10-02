@@ -36,11 +36,11 @@ class DailyCalculator:
     
     def _perform_recipe_calculation(self, eight_digit_code, portion_size):
 
-        # Get the original list of ingredients
-        pieces = self.recipes[eight_digit_code].recipe_pieces
-
         ingredients_dict = self.ingredients
         recipes_dict = self.recipes
+
+        # Get the original list of ingredients
+        pieces = self.recipes[eight_digit_code].recipe_pieces
 
         # Time to break down further
         while True:
@@ -104,7 +104,7 @@ class DailyCalculator:
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
                 self._perform_recipe_calculation(
-                    heifa_obj, portion_size
+                    heifa_obj.eight_digit_code, portion_size
                 )
                 continue
 
@@ -134,13 +134,14 @@ class DailyCalculator:
         for date, meals_list in meals_daily_list.items():
 
             # Initialize with new dictionary for new date
-            self.daily_servings = {}
+            self._daily_servings = {}
 
             # Calculate the servings
             self._find_servings(meals_list)
 
             print(self.daily_servings)
-            
+            print("\n\n")
+
             total_daily_servings[date] = self.daily_servings
 
         return None
