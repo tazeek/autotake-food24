@@ -63,10 +63,10 @@ def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portio
         food_group = heifa_obj.food_group
         serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
 
-        print(f"Portion amount for {heifa_id}: {piece_amount:.1f}g")
-        print(f"Energy amount for {heifa_id} (based on {piece_amount}g): {piece_energy:.1f}kJ")
-        print(f"Serving size for {heifa_id} (based on {piece_amount}g): {serving_size:.1f} serves")
-        print(f"Food group: {food_group}\n")
+        print(f"Portion amount for {heifa_id}: {piece_amount:.2f}g")
+        print(f"Energy amount for {heifa_id} (based on {piece_amount}g): {piece_energy:.2f}kJ")
+        print(f"Food group: {food_group}")
+        print(f"Serving size for {heifa_id} (based on {piece_amount}g): {serving_size:.2f} serves\n")
 
         group_serve_daily = food_group_summary.get(food_group, 0)
         group_serve_daily += serving_size
@@ -118,7 +118,7 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
         group_serve_daily += serving_size
         food_group_summary[food_group] = group_serve_daily
 
-        print(f"Serving size: {serving_size:.1f} serves \n")
+        print(f"Serving size: {serving_size:.2f} serves \n")
 
     return food_group_summary
 
@@ -130,8 +130,6 @@ def _find_servings_daily(meal_list, heifa_ing, heifa_rec):
     for meal in meal_list:
 
         servings_dict = _find_portion_serving(meal, heifa_ing, heifa_rec)
-        print(servings_dict)
-        print("\n\n")
 
         for key, value in servings_dict.items():
 
@@ -320,7 +318,11 @@ def calculate_portion_serving_heifa(meal_date_dict, heifa_ing_dict, heifa_recipe
         
         daily_servings_total = _find_servings_daily(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
 
-        print(daily_servings_total)
+        print(f"\nBreakdown for {date}\n")
+
+        for group, amount in daily_servings_total.items():
+            print(f"{group}: {amount:.2f} serves\n")
+
         print("=" * 20)
         print("\n\n")
 
