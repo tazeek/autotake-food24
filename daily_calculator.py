@@ -22,3 +22,15 @@ class DailyCalculator:
     @property
     def daily_servings(self):
         return self._daily_servings
+    
+    def calculate_daily_servings(self, meals_daily_list):
+
+        # Store in this hierarchy: Date -> Food group -> Serving size
+        for date, meals_list in meals_daily_list.items():
+
+            # Initialize empty date with dictionary
+            self._daily_servings[date] = {}
+
+            # Calculate the servings
+            ...
+        ...
