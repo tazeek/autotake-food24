@@ -56,7 +56,7 @@ def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portio
     # Calculate the whole recipe individually
     for heifa_id, piece_obj in original_pieces.items():
 
-        piece_amount = round(portion_size * piece_obj.proroption, 2)
+        piece_amount = round(portion_size * piece_obj.proportion, 2)
         piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
 
         heifa_obj = heifa_ing[heifa_id]
