@@ -56,11 +56,11 @@ def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portio
     # Calculate the whole recipe individually
     for heifa_id, piece_obj in original_pieces.items():
 
-        piece_amount = round(portion_size * piece_obj.proroption, 1)
-        piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 1)
+        piece_amount = round(portion_size * piece_obj.proroption, 2)
+        piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
 
         heifa_obj = heifa_ing[heifa_id]
-        serving_size = heifa_obj.calculate_serving_size(piece_energy, portion_size)
+        serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
 
         print(f"Portion amount for {heifa_id}: {piece_amount:.1f}g")
         print(f"Energy amount for {heifa_id} (based on {piece_amount}g): {piece_energy:.1f}kJ")
@@ -101,7 +101,7 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
         # Calculate for non-recipes directly
         serving_size = heifa_obj.calculate_serving_size(energy_with_fibre, portion_size)
-        print(f"Serving size: {serving_size} serves \n")
+        print(f"Serving size: {serving_size:.1f} serves \n")
 
     return None
 
@@ -112,6 +112,7 @@ async def load_intake24() -> pd.DataFrame:
 
     # Replace column names
     column_replacer_dict = {
+        'Start time': 'information_date',
         'Energy, with dietary fibre': 'energy_with_fibre',
         'Meal name': 'meal_name',
         'Survey ID': 'survey_id',
@@ -123,6 +124,9 @@ async def load_intake24() -> pd.DataFrame:
     }
 
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
+
+    # Column conversion
+    intake24_df['information_date'] = pd.to_datetime(intake24_df['information_date']).dt.strftime('%Y-%m-%d')
 
     # Some of the IDs are not present, so we drop them
     print(f"Before dropping function: {len(intake24_df)} rows")
