@@ -128,15 +128,19 @@ class DailyCalculator:
     
     def calculate_daily_servings(self, meals_daily_list):
 
+        total_daily_servings = {}
+
         # Store in this hierarchy: Date -> Food group -> Serving size
         for date, meals_list in meals_daily_list.items():
 
-            # Initialize empty date with dictionary
-            self._daily_servings[date] = {}
+            # Initialize with new dictionary for new date
+            self.daily_servings = {}
 
             # Calculate the servings
             self._find_servings(meals_list)
-        
-        print(self._daily_servings)
+
+            print(self.daily_servings)
+            
+            total_daily_servings[date] = self.daily_servings
 
         return None
