@@ -67,7 +67,21 @@ class DailyCalculator:
                 del pieces[nutrient_code]
 
             # Repeat until no longer recipes in the list
-        ...
+
+        # Calculate the food group individually
+        for heifa_id, piece_obj in pieces.items():
+
+            piece_amount = round(portion_size * piece_obj.proportion, 2)
+            piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
+
+            heifa_obj = ingredients_dict[heifa_id]
+            food_group = heifa_obj.food_group
+            serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
+
+            # Add to the daily servings attribute
+            self.daily_servings = (food_group, serving_size)
+
+        return None
     
     def _calculate_serving(self, meal):
         
