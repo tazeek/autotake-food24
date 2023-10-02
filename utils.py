@@ -105,6 +105,15 @@ def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
 
     return None
 
+def _find_servings_daily(meal_list, heifa_ing, heifa_rec):
+
+    # Go through one meal at a time
+    for meal in meal_list:
+
+        _find_portion_serving(meal, heifa_ing, heifa_rec)
+
+    return None
+
 
 async def load_intake24() -> pd.DataFrame:
 
@@ -280,13 +289,12 @@ def calculate_portion_serving_heifa(meal_date_dict, heifa_ing_dict, heifa_recipe
     # Go one by one
     for date, nutrition_list in meal_date_dict.items():
 
-        print(f"Output for the date: {date}")
-        print(len(nutrition_list))
+        print(f"\nOutput for the date: {date}")
         
-        _find_portion_serving(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
+        _find_servings_daily(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
 
-        #print("=" * 20)
-        #print("\n\n")
+        print("=" * 20)
+        print("\n\n")
 
     # Hold for the return type until everything is done properly
     # Discuss with Tracy, Heidi, Samara

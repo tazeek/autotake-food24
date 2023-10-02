@@ -60,6 +60,10 @@ class User:
             survey_meals = [meal.nutrition for meal in meals_obj.values()]
 
             # Store in dictionary
-            all_food_information[survey_date] = survey_meals
+            # If survey date is already present, extend the existing dictionary
+            meal_date_list = all_food_information.get(survey_date, [])
+            meal_date_list.extend(survey_meals)
+
+            all_food_information[survey_date] = meal_date_list
 
         return all_food_information
