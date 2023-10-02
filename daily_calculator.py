@@ -23,6 +23,17 @@ class DailyCalculator:
     def daily_servings(self):
         return self._daily_servings
     
+    @daily_servings.setter
+    def daily_servings(self, group_tuple):
+
+        food_group, serving_size = group_tuple
+
+        group_serve_total = self.daily_servings.get(food_group, 0)
+        group_serve_total += serving_size
+        self.daily_servings[food_group] = group_serve_total
+
+        return None
+    
     def _calculate_serving(self, meal):
         
         ingredients_dict = self.ingredients
@@ -43,6 +54,12 @@ class DailyCalculator:
 
             if heifa_obj.is_recipe:
                 ...
+
+            serving_size = heifa_obj.calculate_serving_size(
+                energy_with_fibre, portion_size
+            )
+
+            # Add to the daily servings attribute
 
         return None
     
