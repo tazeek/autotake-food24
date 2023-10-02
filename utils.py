@@ -188,7 +188,9 @@ def create_user_objects(intake24_df: pd.DataFrame) -> dict:
         user_obj = user_dict.get(user_id, User(user_id))
 
         # Fetch the survey, regardless if it is same or not
-        survey_obj = user_obj.get_survey(intake24_row['survey_id'])
+        survey_obj = user_obj.get_survey(
+            intake24_row['survey_id'], intake24_row['information_date']
+        )
 
         # Fetch the meal, regardless if it is the same or not
         meal_obj = survey_obj.get_meal(intake24_row['meal_id'])

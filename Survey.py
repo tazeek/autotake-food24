@@ -2,13 +2,18 @@ from Intake import Intake
 
 class Survey:
 
-    def __init__(self):
+    def __init__(self, date):
 
+        self._date = date
         self._meals_intake = {}
 
     @property
     def meals(self):
         return self._meals_intake
+    
+    @property
+    def date(self):
+        return self._date
     
     @meals.setter
     def meals(self, meal_id):
