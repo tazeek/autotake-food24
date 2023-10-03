@@ -1,5 +1,6 @@
 from heifa_composition import FoodComposition, IngredientInRecipe, RecipeComposition
 
+from daily_calculator import DailyCalculator
 from User import User
 
 import pandas as pd
@@ -177,12 +178,19 @@ def create_recipe_objects(heifa_recipe_df: pd.DataFrame) -> dict:
     return heifa_recipe_dict
 
 
-def fetch_user_food_list(user_dict):
+def calculate_user_servings(user_dict, food_composition_dict, recipe_dict):
 
+    # First, we get all the meals (broken down by the date)
     user_meals = {}
 
     for id, user_obj in user_dict.items():
 
         user_meals[id] = user_obj.get_meals_information()
 
-    return user_meals
+    daily_calculator = DailyCalculator(food_composition_dict, recipe_dict)
+
+    # We calculate each serving on a daily basis and return
+    return {
+        user_id: daily_calculator.calculate_daily_servings(meal_date_dict)
+        for user_id, meal_date_dict in user_meals.items()
+    }
