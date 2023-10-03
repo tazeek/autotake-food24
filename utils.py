@@ -1,7 +1,5 @@
 from heifa_composition import FoodComposition, IngredientInRecipe, RecipeComposition
 
-from Intake import Intake
-from Food import Food
 from User import User
 
 import pandas as pd
@@ -19,126 +17,6 @@ def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
 def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
     
     return df.rename(columns = name_replacer_dict)
-
-def _breakdown_recipe_calculation(eight_digit_code, heifa_ing, heifa_rec, portion_size, food_group_summary):
-
-    # Get the original list of ingredients
-
-    original_pieces = heifa_rec[eight_digit_code].recipe_pieces
-
-    # Time to break down further
-    while True:
-
-        # Some of the ingredients in recipes, can be recipes themselves
-        extra_recipes = {
-            heifa_id: ingredient_obj for (heifa_id , ingredient_obj) in original_pieces.items() 
-            if heifa_ing[heifa_id].is_recipe
-        }
-
-        # If nothing found, we break out
-        if len(extra_recipes) == 0:
-            break
-
-        # Lets break down the extra pieces
-        for nutrient_code in extra_recipes.keys():
-            
-            # Get the eight digit code
-            eight_digit_code = heifa_ing[nutrient_code].eight_digit_code
-            
-            # Update the original list
-            original_pieces.update(heifa_rec[eight_digit_code].recipe_pieces)
-
-            # Delete the one from the original list
-            del original_pieces[nutrient_code]
-
-        # Repeat until no more
-
-    # Calculate the whole recipe individually
-    for heifa_id, piece_obj in original_pieces.items():
-
-        piece_amount = round(portion_size * piece_obj.proportion, 2)
-        piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
-
-        heifa_obj = heifa_ing[heifa_id]
-        food_group = heifa_obj.food_group
-        serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
-
-        print(f"Portion amount for {heifa_id}: {piece_amount:.2f}g")
-        print(f"Energy amount for {heifa_id} (based on {piece_amount}g): {piece_energy:.2f}kJ")
-        print(f"Food group: {food_group}")
-        print(f"Serving size for {heifa_id} (based on {piece_amount}g): {serving_size:.2f} serves\n")
-
-        group_serve_daily = food_group_summary.get(food_group, 0)
-        group_serve_daily += serving_size
-        food_group_summary[food_group] = group_serve_daily
-    
-    return None
-
-def _find_portion_serving(nutrition_list, heifa_ing, heifa_dict):
-
-    print(list(nutrition_list.keys()))
-
-    food_group_summary = {}
-
-    # One ingredient at a time
-    for heifa_id, ingredient_obj in nutrition_list.items():
-
-        # Just in case....
-        if heifa_id not in heifa_ing:
-            print(f"\nHEIFA ID {heifa_id} not found")
-            continue
-
-        portion_size = ingredient_obj.portion_size
-        energy_with_fibre = ingredient_obj.energy_with_fibre
-        
-        print("\n")
-        print(f"HEIFA ID: {heifa_id}\n")
-        heifa_obj = heifa_ing[heifa_id]
-        food_group = heifa_obj.food_group
-
-        print(f"Portion size (gram): {portion_size}g")
-        print(f"Portion size (energy with fibre): {energy_with_fibre}kJ")
-        print(f"Food group: {food_group}\n")
-        
-        print(f"HEIFA Serving size: {heifa_obj.serving_size}")
-        print(f"HEIFA Serving measure: {heifa_obj.serving_measure}\n")
-
-        # Seperate calculation for recipes
-        if heifa_obj.is_recipe:
-            _breakdown_recipe_calculation(
-                heifa_obj.eight_digit_code, heifa_ing, heifa_dict, 
-                portion_size, food_group_summary
-            )
-            continue
-
-        # Calculate for non-recipes directly
-        serving_size = heifa_obj.calculate_serving_size(energy_with_fibre, portion_size)
-
-        group_serve_daily = food_group_summary.get(food_group, 0)
-        group_serve_daily += serving_size
-        food_group_summary[food_group] = group_serve_daily
-
-        print(f"Serving size: {serving_size:.2f} serves \n")
-
-    return food_group_summary
-
-def _find_servings_daily(meal_list, heifa_ing, heifa_rec):
-
-    # Go through one meal at a time
-    daily_servings = {}
-
-    for meal in meal_list:
-
-        servings_dict = _find_portion_serving(meal, heifa_ing, heifa_rec)
-
-        for key, value in servings_dict.items():
-
-            serving_size_total = daily_servings.get(key, 0)
-            serving_size_total += value
-            daily_servings[key] = serving_size_total
-
-    return daily_servings
-
 
 async def load_intake24() -> pd.DataFrame:
 
@@ -308,27 +186,3 @@ def fetch_user_food_list(user_dict):
         user_meals[id] = user_obj.get_meals_information()
 
     return user_meals
-
-def calculate_portion_serving_heifa(meal_date_dict, heifa_ing_dict, heifa_recipe_dict):
-
-    # Go one by one
-    for date, nutrition_list in meal_date_dict.items():
-
-        print(f"\nOutput for the date: {date}")
-        
-        daily_servings_total = _find_servings_daily(nutrition_list, heifa_ing_dict, heifa_recipe_dict)
-
-        print("=" * 20)
-        
-        print(f"\nBreakdown for {date}\n")
-
-        for group, amount in daily_servings_total.items():
-            print(f"{group}: {amount:.2f} serves\n")
-
-        print("=" * 20)
-        print("\n\n")
-
-    # Hold for the return type until everything is done properly
-    # Discuss with Tracy, Heidi, Samara
-
-    return None
