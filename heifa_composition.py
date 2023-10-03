@@ -69,16 +69,15 @@ class FoodComposition:
         # If not, just return 0
         if not self.required_portion_calculation:
             return serving_size
+        
+        serving_function = lambda measure: round(measure / self.serving_size, 2)
 
         # Check the serving measure and round to 2 decimal place
         # - kJ: Use energy_with_fibre
         # - g: Use weight
-        if self._serving_measure == "g":
-            serving_size = round(weight/self._serving_size, 2)
-        else:
-            serving_size = round(energy_with_fibre/self._serving_size, 2)
+        measure = weight if self.serving_measure == "g" else energy_with_fibre
         
-        return serving_size
+        return serving_function(measure)
     
     def print_full_details(self):
 
