@@ -139,9 +139,6 @@ class DailyCalculator:
             # Calculate the servings
             self._find_servings(meals_list)
 
-            print(self.daily_servings)
-            print("\n\n")
-
             total_daily_servings[date] = self.daily_servings
 
         return total_daily_servings
