@@ -58,9 +58,9 @@ async def load_heifa_recipes() -> pd.DataFrame:
         'Recipe AUSNUT 8-digit code': 'eight_digit_code',
         'Ingredient Nutrient table code': 'heifa_code',
         'Recipe Food Name': 'recipe_name',
-        'Proportion of ingredients in the recipe': 'proportion_recipe',
+        'Proportion of ingredients in the recipe': 'proportion',
         'Ingredient Food Name': 'ingredient_name',
-        'Energy, with dietary fibre (kJ) per 100g': 'energy_with_fibre_100g',
+        'Energy, with dietary fibre (kJ) per 100g': 'energy_fibre_100g',
     }
 
     heifa_recipes_df = _rename_columns(column_replacer_dict, heifa_recipes_df)
@@ -129,17 +129,7 @@ def create_food_objects(heifa_food_df: pd.DataFrame) -> dict:
 
     def populate_food_composition(food_row):
 
-        heifa_code = food_row['heifa_code']
-        
-        info_dict = {
-            'heifa_code': heifa_code,
-            'eight_digit_code': food_row['eight_digit_code'],
-            'food_group': food_row['food_group'],
-            'serving_size': food_row['serving_size'],
-            'serving_measure': food_row['serving_measure']
-        }
-
-        heifa_food_dict[heifa_code] = FoodComposition(info_dict)
+        heifa_food_dict[food_row['heifa_code']] = FoodComposition(food_row)
 
     heifa_food_df.apply(populate_food_composition, axis = 1)
 
@@ -154,13 +144,7 @@ def create_recipe_objects(heifa_recipe_df: pd.DataFrame) -> dict:
     # Turn the ingredient row into an object
     def populate_ingredients_composition(ingredient_row):
 
-        info_dict = {
-            'proportion': ingredient_row['proportion_recipe'],
-            'ingredient_name': ingredient_row['ingredient_name'],
-            'energy_fibre_100g': ingredient_row['energy_with_fibre_100g']
-        }
-
-        ingredient_obj = IngredientInRecipe(info_dict)
+        ingredient_obj = IngredientInRecipe(ingredient_row)
 
         # Check if the recipe is in the dictionary
         # Default: Create new recipe if not in dictionary
