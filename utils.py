@@ -181,11 +181,10 @@ def create_recipe_objects(heifa_recipe_df: pd.DataFrame) -> dict:
 def calculate_user_servings(user_dict, food_composition_dict, recipe_dict):
 
     # First, we get all the meals (broken down by the date)
-    user_meals = {}
-
-    for id, user_obj in user_dict.items():
-
-        user_meals[id] = user_obj.get_meals_information()
+    user_meals = {
+        user_id : user_obj.get_meals_information()
+        for user_id, user_obj in user_dict.items()
+    }
 
     daily_calculator = DailyCalculator(food_composition_dict, recipe_dict)
 
