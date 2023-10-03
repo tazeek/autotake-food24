@@ -28,9 +28,15 @@ class DailyCalculator:
 
         food_group, serving_size = group_tuple
 
-        group_serve_total = self.daily_servings.get(food_group, 0)
+        group_serve_total = self._daily_servings.get(food_group, 0)
         group_serve_total += serving_size
-        self.daily_servings[food_group] = group_serve_total
+        self._daily_servings[food_group] = group_serve_total
+
+        return None
+    
+    @daily_servings.deleter
+    def daily_servings(self):
+        self._daily_servings = {}
 
         return None
     
@@ -134,7 +140,7 @@ class DailyCalculator:
         for date, meals_list in meals_daily_list.items():
 
             # Initialize with new dictionary for new date
-            self._daily_servings = {}
+            del self.daily_servings
 
             # Calculate the servings
             self._find_servings(meals_list)
