@@ -66,7 +66,7 @@ class DailyCalculator:
                 # Delete from original
                 del pieces[nutrient_code]
 
-            # Repeat until no longer recipes in the list
+            # Repeat until no recipe ingredients in the list
 
         # Calculate the food group individually
         for heifa_id, piece_obj in pieces.items():
@@ -86,7 +86,6 @@ class DailyCalculator:
     def _calculate_serving(self, meal):
         
         ingredients_dict = self.ingredients
-        recipes_dict = self.recipes
 
         for heifa_id, ingredient_obj in meal.items():
 
@@ -107,7 +106,8 @@ class DailyCalculator:
                     heifa_obj.eight_digit_code, portion_size
                 )
                 continue
-
+            
+            # Calculation for non-recipes
             serving_size = heifa_obj.calculate_serving_size(
                 energy_with_fibre, portion_size
             )
