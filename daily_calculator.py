@@ -144,4 +144,4 @@ class DailyCalculator:
 
             total_daily_servings[date] = self.daily_servings
 
-        return None
+        return total_daily_servings
