@@ -89,6 +89,27 @@ async def load_heifa_ingredients() -> pd.DataFrame:
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
 
+async def load_heifa_scores():
+
+    heifa_scores_df = pd.read_csv('files/heifa_scores.csv')
+
+    # Replace column names
+    column_replacer_dict = {
+        'Food group': 'food_group',
+        'Minimum serves per day (Male)': 'minimum_serves_male',
+        'Minimum serves per day (Female)': 'minimum_serves_female',
+        'HEIFA Score (Male)': 'heifa_score',
+    }
+
+    heifa_scores_df = _rename_columns(column_replacer_dict, heifa_scores_df)
+
+    # Replace "Fruits" with "Fruit" for consistent mapping
+    heifa_scores_df['food_group'].mask(
+        heifa_scores_df['food_group'] == 'Fruits', 'Fruit', inplace=True
+    )
+
+    return heifa_scores_df[column_replacer_dict.values()]
+
 def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
     user_dict = {}
