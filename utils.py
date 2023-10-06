@@ -100,7 +100,7 @@ async def load_heifa_scores():
         'Maximum serves per day (Male)': 'maximum_serves_male',
         'Minimum serves per day (Female)': 'minimum_serves_female',
         'Maximum serves per day (Female)': 'maximum_serves_female',
-        'HEIFA Score (Male)': 'heifa_score',
+        'HEIFA Score': 'heifa_score',
     }
 
     heifa_scores_df = _rename_columns(column_replacer_dict, heifa_scores_df)
