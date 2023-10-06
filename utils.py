@@ -97,7 +97,9 @@ async def load_heifa_scores():
     column_replacer_dict = {
         'Food group': 'food_group',
         'Minimum serves per day (Male)': 'minimum_serves_male',
+        'Maximum serves per day (Male)': 'maximum_serves_male',
         'Minimum serves per day (Female)': 'minimum_serves_female',
+        'Maximum serves per day (Female)': 'maximum_serves_female',
         'HEIFA Score (Male)': 'heifa_score',
     }
 
@@ -108,7 +110,10 @@ async def load_heifa_scores():
         heifa_scores_df['food_group'] == 'Fruits', 'Fruit', inplace=True
     )
 
-    return heifa_scores_df[column_replacer_dict.values()]
+    # Fill empty cell with INF
+    heifa_scores_df.fillna(value=float('inf'), inplace=True)
+
+    return heifa_scores_df
 
 def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
