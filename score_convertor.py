@@ -56,4 +56,7 @@ class ScoreConvertor:
                 break
         
         return male_score, female_score
+        
+    def transform_servings_score(self, ):
+
         ...

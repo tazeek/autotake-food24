@@ -1,5 +1,5 @@
 from heifa_composition import FoodComposition, IngredientInRecipe, RecipeComposition
-
+from score_convertor import ScoreConvertor
 from daily_calculator import DailyCalculator
 from User import User
 
@@ -225,3 +225,22 @@ def calculate_user_servings(user_dict, food_composition_dict, recipe_dict):
         user_id: daily_calculator.calculate_daily_servings(meal_date_dict)
         for user_id, meal_date_dict in user_meals.items()
     }
+
+def calculate_heifa_scores(heifa_scores_dict, user_dict):
+
+    score_obj = ScoreConvertor(heifa_scores_dict)
+
+    for user_id, daily_intake_dict in user_dict.items():
+
+        daily_servings = {
+            date: food_group_dict['total'] 
+            for date, food_group_dict in daily_intake_dict.items()
+        }
+
+        print(user_id)
+        print(daily_servings)
+        print("\n")
+
+        #score_obj.transform_servings_score()
+
+    return None
