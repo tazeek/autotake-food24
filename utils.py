@@ -187,6 +187,28 @@ def create_recipe_objects(heifa_recipe_df: pd.DataFrame) -> dict:
 
     return heifa_recipe_dict
 
+def create_scores_objects(heifa_scores_df: pd.DataFrame) -> dict:
+
+    heifa_scores_dict = {}
+
+    def create_scores_object(scores_row):
+
+        # Get the main attributes
+        scores_dictionary = {
+            'minimum_serves_male': scores_row['minimum_serves_male'],
+            'maximum_serves_male': scores_row['maximum_serves_male'],
+            'minimum_serves_female': scores_row['minimum_serves_female'],
+            'maximum_serves_female': scores_row['maximum_serves_female'],
+            'heifa_score': scores_row['heifa_score'],
+        }
+
+        food_group_list = heifa_scores_dict.get(scores_row['food_group'], [])
+        food_group_list.append(scores_dictionary)
+        heifa_scores_dict[scores_row['food_group']] = food_group_list
+
+    heifa_scores_df.apply(create_scores_object, axis=1)
+    return heifa_scores_dict
+
 
 def calculate_user_servings(user_dict, food_composition_dict, recipe_dict):
 
