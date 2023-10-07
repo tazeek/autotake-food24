@@ -8,6 +8,7 @@ class DailyCalculator:
         self._recipes = recipe_dict
 
         self._daily_servings = {}
+        self._group_servings = {}
 
         return None
 
@@ -22,6 +23,21 @@ class DailyCalculator:
     @property
     def daily_servings(self):
         return self._daily_servings
+
+    @property
+    def group_servings(self):
+        return self._group_servings
+    
+    @group_servings.setter
+    def group_servings(self, group_tuple):
+        food_group, serving_size = group_tuple
+
+        group_serve_total = self._group_servings.get(food_group, 0)
+        group_serve_total += serving_size
+        self._group_servings[food_group] = group_serve_total
+
+        return None
+    
     
     @daily_servings.setter
     def daily_servings(self, group_tuple):
@@ -31,6 +47,12 @@ class DailyCalculator:
         group_serve_total = self._daily_servings.get(food_group, 0)
         group_serve_total += serving_size
         self._daily_servings[food_group] = group_serve_total
+
+        return None
+    
+    @group_servings.deleter
+    def group_servings(self):
+        self._group_servings = {}
 
         return None
     
@@ -122,12 +144,32 @@ class DailyCalculator:
             self.daily_servings = (food_group, serving_size)
 
         return None
+
+    def _find_group_total(self):
+
+        for food_group, serving_size in self.daily_servings.items():
+
+            # For those without backslashes, just update and move on
+            if "/" not in food_group:
+                self.group_servings = (food_group, serving_size)
+                continue
+
+            food_group, sub_group = food_group.split("/")
+
+            # Whole grains are the exceptions as a main group
+            if sub_group == "Wholegrains":
+                self.group_servings = (sub_group, serving_size)
+
+            self.group_servings = (food_group, serving_size)
+        
+        return None
     
     def _find_servings(self, meals_list):
 
         for meal in meals_list:
 
             self._calculate_serving(meal)
+            self._find_group_total()
 
         return None
 
@@ -145,6 +187,11 @@ class DailyCalculator:
             # Calculate the servings
             self._find_servings(meals_list)
 
-            total_daily_servings[date] = self.daily_servings
+            # Store individual group servings and total group
+            # servings
+            total_daily_servings[date] = {
+                'individual': self.daily_servings,
+                'total': self.daily_servings
+            }
 
         return total_daily_servings
