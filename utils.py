@@ -49,6 +49,37 @@ async def load_intake24() -> pd.DataFrame:
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
 
+def load_latrobe_file() -> pd.DataFrame:
+
+    intake24_df = pd.read_csv('files/latrobe_cleaned_file.csv')
+
+    # Replace column names
+    column_replacer_dict = {
+        'Start date (AEST)': 'information_date',
+        'Energy, with dietary fibre (kJ)': 'energy_with_fibre',
+        'Meal name': 'meal_name',
+        'Survey ID': 'survey_id',
+        'Intake24 food code': 'food_code',
+        'User ID': 'user_id',
+        'Meal ID': 'meal_id',
+        'Nutrient table code (original)': 'heifa_nutrient_id',
+        'Portion size (g/ml)': 'portion_size_consumed'
+    }
+
+    intake24_df = _rename_columns(column_replacer_dict, intake24_df)
+
+    # Column conversion
+    intake24_df['information_date'] = pd.to_datetime(intake24_df['information_date']).dt.strftime('%Y-%m-%d')
+
+    # Some of the IDs are not present, so we drop them
+    print(f"Before dropping function: {len(intake24_df)} rows")
+    intake24_df = intake24_df[intake24_df['heifa_nutrient_id'].notna()]
+    print(f"After dropping function: {len(intake24_df)} rows")
+
+    # Filter the columns we only need
+    return intake24_df[column_replacer_dict.values()]
+
+
 async def load_heifa_recipes() -> pd.DataFrame:
 
     heifa_recipes_df = pd.read_csv('files/heifa_recipes.csv')

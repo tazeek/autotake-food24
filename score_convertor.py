@@ -5,12 +5,16 @@ class ScoreConvertor:
     def __init__(self, heifa_scores_dict):
 
         self._heifa_scores_dict = heifa_scores_dict
-
+        self._variations_list = ['Fruit', 'Vegetables']
         return None
     
     @property
     def scores_dict(self):
         return self._heifa_scores_dict
+    
+    @property
+    def variations_list(self):
+        return self._variations_list
     
     def _within_range(self, minimum, maximum, serving_size):
 
