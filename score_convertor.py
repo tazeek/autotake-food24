@@ -23,6 +23,8 @@ class ScoreConvertor:
         # Extract the given group
         scores_list = self.scores_dict[food_group]
 
+        print(f"Food group: {food_group}")
+
         for score_dict in scores_list:
 
             # Find the scores (male)
@@ -55,7 +57,10 @@ class ScoreConvertor:
             if male_score and female_score:
                 break
         
-        return male_score, female_score
+        return {
+            'male_score': male_score,
+            'female_score': female_score
+        }
         
     def transform_servings_score(self, daily_servings: dict):
 
@@ -67,4 +72,10 @@ class ScoreConvertor:
             #for food_group, serving_size in total_servings_dict.items()
 
             #male_score, female_score = self._find_score()
-        ...
+            heifa_scores[date] = {
+                food_group: self._find_score(food_group, serving_size)
+                for food_group, serving_size in total_servings_dict.items()
+                if food_group in self.scores_dict
+            }
+        
+        return heifa_scores
