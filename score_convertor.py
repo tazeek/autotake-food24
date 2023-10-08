@@ -25,6 +25,12 @@ class ScoreConvertor:
         minimum_serve, maximum_serve = [score_dict[key] for key in keys]
         return self._within_range(minimum_serve, maximum_serve, serving_size)
     
+    def _fruit_variation_score(self):
+        ...
+
+    def _vegetables_variation_score(self):
+        ...
+    
     def _find_score(self, food_group, serving):
 
         male_score, female_score = None, None
@@ -34,8 +40,17 @@ class ScoreConvertor:
 
         # Check if group is in the variation list
         # If it is, find the total summation of it
-        if serving in self.variations_list:
-            ...
+        # We will do two things: 
+        # 1. Find the summation of the sub-groups for the main group
+        # 2. Find the number of sub-groups that fulfills the criteria
+        if type(serving) is dict:
+            print(serving)
+            print("\n")
+            serving = sum(serving.values())
+
+        # Round to 1 decimal place
+        print(serving)
+        serving = round(serving, 1)
 
         for score_dict in scores_list:
 
@@ -71,7 +86,7 @@ class ScoreConvertor:
         for date, total_servings_dict in daily_servings.items():
 
             heifa_scores[date] = {
-                food_group: self._find_score(food_group, round(serving, 1))
+                food_group: self._find_score(food_group, serving)
                 for food_group, serving in total_servings_dict.items()
                 if food_group in self.scores_dict
             }
