@@ -16,8 +16,8 @@ class ScoreConvertor:
 
         return ((serving_size >= minimum) and (serving_size <= maximum))
 
-    def _find_by_gender(self, keys, score_dict, serving_size):
-
+    def _find_by_gender(self, keys, serving_size, score_dict):
+        
         minimum_serve, maximum_serve = [score_dict[key] for key in keys]
         return self._within_range(minimum_serve, maximum_serve, serving_size)
     
