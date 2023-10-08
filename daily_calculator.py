@@ -30,11 +30,24 @@ class DailyCalculator:
     
     @group_servings.setter
     def group_servings(self, group_tuple):
-        food_group, serving_size = group_tuple
+        food_group, serving_size, sub_group = group_tuple
 
-        group_serve_total = self._group_servings.get(food_group, 0)
-        group_serve_total += serving_size
-        self._group_servings[food_group] = group_serve_total
+        # For non sub-groups, we add and return
+        if sub_group is None:
+            group_serve_total = self._group_servings.get(food_group, 0)
+            group_serve_total += serving_size
+            self._group_servings[food_group] = group_serve_total
+
+            return None
+
+        # For sub-groups
+        group_dict = self._group_servings.get(food_group, {})
+        sub_group_total = group_dict.get(sub_group, 0)
+        sub_group_total += serving_size
+
+        group_dict[sub_group] = sub_group_total
+        self._group_servings[food_group] = group_dict
+
 
         return None
     
@@ -150,16 +163,17 @@ class DailyCalculator:
 
             # For those without backslashes, just update and move on
             if "/" not in food_group:
-                self.group_servings = (food_group, serving_size)
+                self.group_servings = (food_group, serving_size, None)
                 continue
 
             food_group, sub_group = food_group.split("/")
 
             # Whole grains are the exceptions as a main group
             if sub_group == "Wholegrains":
-                self.group_servings = (sub_group, serving_size)
+                self.group_servings = (sub_group, serving_size, None)
+                continue
 
-            self.group_servings = (food_group, serving_size)
+            self.group_servings = (food_group, serving_size, sub_group)
         
         return None
     
