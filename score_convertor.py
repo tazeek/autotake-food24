@@ -25,7 +25,7 @@ class ScoreConvertor:
         minimum_serve, maximum_serve = [score_dict[key] for key in keys]
         return self._within_range(minimum_serve, maximum_serve, serving_size)
     
-    def _find_score(self, food_group, serving_size):
+    def _find_score(self, food_group, serving):
 
         male_score, female_score = None, None
 
@@ -33,12 +33,14 @@ class ScoreConvertor:
         scores_list = self.scores_dict[food_group]
 
         # Check if group is in the variation list
+        # If it is, find the total summation of it
+        if serving
 
         for score_dict in scores_list:
 
             # Find the scores (male)
             range_found_male = self._find_by_gender(
-                ['minimum_serves_male', 'maximum_serves_male'], serving_size, score_dict
+                ['minimum_serves_male', 'maximum_serves_male'], serving, score_dict
             )
 
             if (range_found_male) and (not male_score):
@@ -46,7 +48,7 @@ class ScoreConvertor:
 
             # Find the scores (female)
             range_found_female = self._find_by_gender(
-                ['minimum_serves_female', 'maximum_serves_female'], serving_size, score_dict
+                ['minimum_serves_female', 'maximum_serves_female'], serving, score_dict
             )
 
             if (range_found_female) and (not female_score):
@@ -68,8 +70,8 @@ class ScoreConvertor:
         for date, total_servings_dict in daily_servings.items():
 
             heifa_scores[date] = {
-                food_group: self._find_score(food_group, round(serving_size, 1))
-                for food_group, serving_size in total_servings_dict.items()
+                food_group: self._find_score(food_group, round(serving, 1))
+                for food_group, serving in total_servings_dict.items()
                 if food_group in self.scores_dict
             }
         
