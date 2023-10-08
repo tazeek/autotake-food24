@@ -29,8 +29,10 @@ class ScoreConvertor:
 
         male_score, female_score = None, None
 
-        # Extract the given group
+        # Extract the given group from the HEIFA scores
         scores_list = self.scores_dict[food_group]
+
+        # Check if group is in the variation list
 
         for score_dict in scores_list:
 
