@@ -229,6 +229,7 @@ def calculate_user_servings(user_dict, food_composition_dict, recipe_dict):
 def calculate_heifa_scores(heifa_scores_dict, user_dict):
 
     score_obj = ScoreConvertor(heifa_scores_dict)
+    user_heifa_scores = {}
 
     for user_id, daily_intake_dict in user_dict.items():
 
@@ -237,10 +238,8 @@ def calculate_heifa_scores(heifa_scores_dict, user_dict):
             for date, food_group_dict in daily_intake_dict.items()
         }
 
-        print(user_id)
-        print(daily_servings)
-        print("\n")
+        # Get the scores
+        user_heifa_scores[user_id] = \
+            score_obj.transform_servings_score(daily_servings)
 
-        score_obj.transform_servings_score(daily_servings)
-
-    return None
+    return user_heifa_scores

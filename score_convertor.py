@@ -18,12 +18,10 @@ class ScoreConvertor:
     
     def _find_score(self, food_group, serving_size):
 
-        male_score, female_score = False, False
+        male_score, female_score = None, None
 
         # Extract the given group
         scores_list = self.scores_dict[food_group]
-
-        print(f"Food group: {food_group}")
 
         for score_dict in scores_list:
 
@@ -33,12 +31,9 @@ class ScoreConvertor:
             
             range_found_male = self._within_range(minimum_serve, maximum_serve, serving_size)
 
-            if range_found_male and not male_score:
-                print(f"Minimum (Male): {minimum_serve}")
-                print(f"Maximum (Male): {maximum_serve}")
+            if (range_found_male) and (not male_score):
                 
                 male_score = score_dict['heifa_score']
-                print(f"- HEIFA Score (Male): {male_score}\n")
 
             # Find the scores (female)
             minimum_serve_female = score_dict['minimum_serves_female']
@@ -46,12 +41,9 @@ class ScoreConvertor:
             
             range_found_female = self._within_range(minimum_serve_female, maximum_serve_female, serving_size)
 
-            if range_found_female and not female_score:
-                print(f"Minimum (Female): {minimum_serve_female}")
-                print(f"Maximum (Female): {maximum_serve_female}")
+            if (range_found_female) and (not female_score):
 
                 female_score = score_dict['heifa_score']
-                print(f"- HEIFA Score (Female): {female_score}")
 
             # Break if both are found
             if male_score and female_score:
@@ -68,10 +60,6 @@ class ScoreConvertor:
 
         for date, total_servings_dict in daily_servings.items():
 
-            #self._find_score(food_group, serving_size)
-            #for food_group, serving_size in total_servings_dict.items()
-
-            #male_score, female_score = self._find_score()
             heifa_scores[date] = {
                 food_group: self._find_score(food_group, serving_size)
                 for food_group, serving_size in total_servings_dict.items()
