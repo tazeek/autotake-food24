@@ -34,7 +34,8 @@ class ScoreConvertor:
 
         # Check if group is in the variation list
         # If it is, find the total summation of it
-        if serving
+        if serving in self.variations_list:
+            ...
 
         for score_dict in scores_list:
 
