@@ -16,7 +16,7 @@ class ScoreConvertor:
 
         return ((serving_size >= minimum) and (serving_size <= maximum))
     
-    def find_score(self, food_group, serving_size):
+    def _find_score(self, food_group, serving_size):
 
         male_score, female_score = False, False
 
@@ -57,6 +57,14 @@ class ScoreConvertor:
         
         return male_score, female_score
         
-    def transform_servings_score(self, ):
+    def transform_servings_score(self, daily_servings: dict):
 
+        heifa_scores = {}
+
+        for date, total_servings_dict in daily_servings.items():
+
+            #self._find_score(food_group, serving_size)
+            #for food_group, serving_size in total_servings_dict.items()
+
+            #male_score, female_score = self._find_score()
         ...

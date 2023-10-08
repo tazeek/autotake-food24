@@ -241,6 +241,6 @@ def calculate_heifa_scores(heifa_scores_dict, user_dict):
         print(daily_servings)
         print("\n")
 
-        #score_obj.transform_servings_score()
+        score_obj.transform_servings_score(daily_servings)
 
     return None
