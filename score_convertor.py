@@ -15,6 +15,11 @@ class ScoreConvertor:
     def _within_range(self, minimum, maximum, serving_size):
 
         return ((serving_size >= minimum) and (serving_size <= maximum))
+
+    def _find_by_gender(self, keys, score_dict, serving_size):
+
+        minimum_serve, maximum_serve = [score_dict[key] for key in keys]
+        return self._within_range(minimum_serve, maximum_serve, serving_size)
     
     def _find_score(self, food_group, serving_size):
 
@@ -26,23 +31,19 @@ class ScoreConvertor:
         for score_dict in scores_list:
 
             # Find the scores (male)
-            minimum_serve = score_dict['minimum_serves_male']
-            maximum_serve = score_dict['maximum_serves_male']
-            
-            range_found_male = self._within_range(minimum_serve, maximum_serve, serving_size)
+            range_found_male = self._find_by_gender(
+                ['minimum_serves_male', 'maximum_serves_male'], serving_size, score_dict
+            )
 
             if (range_found_male) and (not male_score):
-                
                 male_score = score_dict['heifa_score']
 
             # Find the scores (female)
-            minimum_serve_female = score_dict['minimum_serves_female']
-            maximum_serve_female = score_dict['maximum_serves_female']
-            
-            range_found_female = self._within_range(minimum_serve_female, maximum_serve_female, serving_size)
+            range_found_female = self._find_by_gender(
+                ['minimum_serves_female', 'maximum_serves_female'], serving_size, score_dict
+            )
 
             if (range_found_female) and (not female_score):
-
                 female_score = score_dict['heifa_score']
 
             # Break if both are found
