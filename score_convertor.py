@@ -43,13 +43,8 @@ class ScoreConvertor:
         # We will do two things: 
         # 1. Find the summation of the sub-groups for the main group
         # 2. Find the number of sub-groups that fulfills the criteria
-        if type(serving) is dict:
-            print(serving)
-            print("\n")
-            serving = sum(serving.values())
 
         # Round to 1 decimal place
-        print(serving)
         serving = round(serving, 1)
 
         for score_dict in scores_list:
