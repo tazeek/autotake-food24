@@ -9,8 +9,13 @@ class DailyCalculator:
 
         self._daily_servings = {}
         self._group_servings = {}
+        self._variation_servings = {}
 
         return None
+
+    @property
+    def variation_servings(self):
+        return self._variation_servings
 
     @property
     def ingredients(self):
@@ -27,6 +32,16 @@ class DailyCalculator:
     @property
     def group_servings(self):
         return self._group_servings
+    
+    @variation_servings.setter
+    def variation_servings(self, group_tuple):
+        sub_group, serving_size = group_tuple
+
+        serve_total = self._group_servings.get(sub_group, 0)
+        serve_total += serving_size
+        self._variation_servings[sub_group] = serve_total
+
+        return None
     
     @group_servings.setter
     def group_servings(self, group_tuple):
@@ -46,6 +61,12 @@ class DailyCalculator:
         group_serve_total = self._daily_servings.get(food_group, 0)
         group_serve_total += serving_size
         self._daily_servings[food_group] = group_serve_total
+
+        return None
+
+    @variation_servings.deleter
+    def variation_servings(self):
+        self._variation_servings = {}
 
         return None
     
@@ -186,6 +207,7 @@ class DailyCalculator:
             # Initialize with new dictionary for new date
             del self.daily_servings
             del self.group_servings
+            del self.variation_servings
 
             # Calculate the servings
             self._find_servings(meals_list)
@@ -194,7 +216,8 @@ class DailyCalculator:
             # servings
             total_daily_servings[date] = {
                 'individual': self.daily_servings,
-                'total': self.group_servings
+                'total': self.group_servings,
+                'variations': self.variation_servings
             }
 
         return total_daily_servings
