@@ -38,12 +38,21 @@ class ScoreConvertor:
 
     def _vegetables_variation_score(self, variation_dict):
 
-        variation_score = sum(
-            [1 for serving in variation_dict.values() if serving >= 1]
-        )
-
         print("VEGGIE!")
         print(variation_dict)
+
+        # Legumes are a different kind
+        legumes_score = 0
+        if "Legumes" in variation_dict:
+            legumes_servings = variation_dict['Legumes']
+            legumes_score = 1 if legumes_servings >= 0.5 else 0
+            del variation_dict['Legumes']
+
+        variation_score = sum(
+            [1 for serving in variation_dict.values() if serving >= 1]
+        ) + legumes_score
+
+        
         print(variation_score)
 
         return min(variation_score, 5)
@@ -95,6 +104,7 @@ class ScoreConvertor:
             # TODO: Talk to Heidi, Samara, and Tracy about this before displaying
             #male_score += bonus_points
             #female_score += bonus_points
+            print("")
 
         return {
             'male_score': male_score,

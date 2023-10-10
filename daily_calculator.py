@@ -172,12 +172,27 @@ class DailyCalculator:
 
         return None
 
+    def _no_split_exception(self, food_group, serving_size):
+
+        # Check for backslash
+        if "/" in food_group:
+            return False
+
+        # Legumes falls under Vegetables, as per HEIFA guideline
+        # Otherwise, do the usual for the rest
+        if food_group == "Legumes":
+            self.variation_servings = ("Vegetables", food_group, serving_size)
+        else:
+            self.group_servings = (food_group, serving_size)
+
+        return True
+
     def _find_group_total(self):
 
         for food_group, serving_size in self.daily_servings.items():
 
             # For those without backslashes, just update and move on
-            if "/" not in food_group:
+            if self._no_split_exception(food_group, serving_size):
                 self.group_servings = (food_group, serving_size)
                 continue
 
