@@ -85,10 +85,12 @@ class ScoreConvertor:
             print(variations_serving)
             print("\n\n")
 
-            heifa_scores[date] = {
+            scores_converted_dict = {
                 food_group: self._find_score(food_group, serving)
                 for food_group, serving in total_servings_dict.items()
                 if food_group in self.scores_dict
             }
+
+            heifa_scores[date] = scores_converted_dict
         
         return heifa_scores
