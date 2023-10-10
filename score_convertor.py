@@ -45,7 +45,8 @@ class ScoreConvertor:
         print("VEGGIE!")
         print(variation_dict)
         print(variation_score)
-        return None
+        
+        return min(variation_score, 5)
 
     def _get_variation_function(self, variation_key):
         return {
