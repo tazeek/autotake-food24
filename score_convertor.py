@@ -25,12 +25,18 @@ class ScoreConvertor:
         minimum_serve, maximum_serve = [score_dict[key] for key in keys]
         return self._within_range(minimum_serve, maximum_serve, serving_size)
     
-    def _fruit_variation_score(self):
+    def _fruit_variation_score(self, variation_dict):
         print("FRUIT!")
         return None
 
-    def _vegetables_variation_score(self):
-        print("VEGGIE!")
+    def _vegetables_variation_score(self, variation_dict):
+
+        print(variation_dict)
+        variation_score = sum(
+            [1 for _, serving in variation_dict.items() if serving >= 1]
+        )
+        print(variation_score)
+        print("VEGGIE!\n")
         return None
 
     def _get_variation_function(self, variation_key):
@@ -45,12 +51,6 @@ class ScoreConvertor:
 
         # Extract the given group from the HEIFA scores
         scores_list = self.scores_dict[food_group]
-
-        # Check if group is in the variation list
-        # If it is, find the total summation of it
-        # We will do two things: 
-        # 1. Find the summation of the sub-groups for the main group
-        # 2. Find the number of sub-groups that fulfills the criteria
 
         # Round to 1 decimal place
         serving = round(serving, 1)
@@ -76,11 +76,12 @@ class ScoreConvertor:
             # Break if both are found
             if male_score and female_score:
                 break
-        
-        # Check for variations serving:
+
+        # Check if group is in the variation list
+        # If it is, find the breakdown
         if food_group in self.variations_list:
             variation_function = self._get_variation_function(food_group)
-            variation_function()
+            variation_function(variations_serving[food_group])
 
         return {
             'male_score': male_score,
