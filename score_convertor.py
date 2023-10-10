@@ -35,8 +35,8 @@ class ScoreConvertor:
 
     def _get_variation_function(self, variation_key):
         return {
-            'Vegetables': self._vegetables_variation_score(),
-            'Fruit': self._fruit_variation_score()
+            'Vegetables': self._vegetables_variation_score,
+            'Fruit': self._fruit_variation_score
         }[variation_key]
     
     def _find_score(self, food_group, serving, variations_serving):
@@ -81,8 +81,6 @@ class ScoreConvertor:
         if food_group in self.variations_list:
             variation_function = self._get_variation_function(food_group)
             variation_function()
-            #print(variations_serving[food_group])
-            #print("\n")
 
         return {
             'male_score': male_score,
