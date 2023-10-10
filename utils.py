@@ -260,7 +260,10 @@ def calculate_heifa_scores(heifa_scores_dict, user_dict):
     for user_id, daily_intake_dict in user_dict.items():
 
         daily_servings = {
-            date: food_group_dict['total'] 
+            date: { 
+                'total': food_group_dict['total'], 
+                'variations': food_group_dict['variations']
+            }
             for date, food_group_dict in daily_intake_dict.items()
         }
 
@@ -269,3 +272,4 @@ def calculate_heifa_scores(heifa_scores_dict, user_dict):
             score_obj.transform_servings_score(daily_servings)
 
     return user_heifa_scores
+

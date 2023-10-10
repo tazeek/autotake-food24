@@ -78,7 +78,12 @@ class ScoreConvertor:
 
         heifa_scores = {}
 
-        for date, total_servings_dict in daily_servings.items():
+        for date, servings_dict in daily_servings.items():
+
+            total_servings_dict = servings_dict['total']
+            variations_serving = servings_dict['variations']
+            print(variations_serving)
+            print("\n\n")
 
             heifa_scores[date] = {
                 food_group: self._find_score(food_group, serving)
