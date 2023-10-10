@@ -31,7 +31,7 @@ class ScoreConvertor:
     def _vegetables_variation_score(self):
         ...
     
-    def _find_score(self, food_group, serving):
+    def _find_score(self, food_group, serving, variations_serving):
 
         male_score, female_score = None, None
 
@@ -69,6 +69,11 @@ class ScoreConvertor:
             if male_score and female_score:
                 break
         
+        # Check for variations serving:
+        if food_group in self.variations_list:
+            print(variations_serving[food_group])
+            print("\n")
+
         return {
             'male_score': male_score,
             'female_score': female_score
@@ -82,11 +87,9 @@ class ScoreConvertor:
 
             total_servings_dict = servings_dict['total']
             variations_serving = servings_dict['variations']
-            print(variations_serving)
-            print("\n\n")
 
             scores_converted_dict = {
-                food_group: self._find_score(food_group, serving)
+                food_group: self._find_score(food_group, serving, variations_serving)
                 for food_group, serving in total_servings_dict.items()
                 if food_group in self.scores_dict
             }
