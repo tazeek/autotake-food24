@@ -35,11 +35,18 @@ class DailyCalculator:
     
     @variation_servings.setter
     def variation_servings(self, group_tuple):
-        sub_group, serving_size = group_tuple
+        main_group, sub_group, serving_size = group_tuple
 
-        serve_total = self._group_servings.get(sub_group, 0)
+        # Get the main group
+        main_group_dict = self._variation_servings.get(main_group, {})
+
+        # Sum up the variations
+        serve_total = main_group_dict.get(sub_group, 0)
         serve_total += serving_size
-        self._variation_servings[sub_group] = serve_total
+        main_group_dict[sub_group] = serve_total
+
+        # Return back
+        self._variation_servings[main_group] = main_group_dict
 
         return None
     
@@ -182,6 +189,7 @@ class DailyCalculator:
                 continue
 
             self.group_servings = (food_group, serving_size)
+            self.variation_servings = (food_group, sub_group, serving_size)
         
         return None
     
