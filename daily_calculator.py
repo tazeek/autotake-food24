@@ -193,7 +193,6 @@ class DailyCalculator:
 
             # For those without backslashes, just update and move on
             if self._no_split_exception(food_group, serving_size):
-                self.group_servings = (food_group, serving_size)
                 continue
 
             food_group, sub_group = food_group.split("/")
