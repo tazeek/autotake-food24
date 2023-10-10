@@ -172,7 +172,7 @@ class DailyCalculator:
 
         return None
 
-    def _no_split_exception(self, food_group, serving_size):
+    def _skip_ahead(self, food_group, serving_size):
 
         # Check for backslash
         if "/" in food_group:
@@ -192,7 +192,7 @@ class DailyCalculator:
         for food_group, serving_size in self.daily_servings.items():
 
             # For those without backslashes, just update and move on
-            if self._no_split_exception(food_group, serving_size):
+            if self._skip_ahead(food_group, serving_size):
                 continue
 
             food_group, sub_group = food_group.split("/")
