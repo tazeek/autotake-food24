@@ -172,27 +172,25 @@ class DailyCalculator:
 
         return None
 
-    def _skip_ahead(self, food_group, serving_size):
-
-        # Check for backslash
-        if "/" in food_group:
-            return False
+    def _update_single_groups(self, food_group, serving_size):
 
         # Legumes falls under Vegetables, as per HEIFA guideline
         # Otherwise, do the usual for the rest
         if food_group == "Legumes":
             self.variation_servings = ("Vegetables", food_group, serving_size)
-        else:
-            self.group_servings = (food_group, serving_size)
+            return None
+        
+        self.group_servings = (food_group, serving_size)
 
-        return True
+        return None
 
     def _find_group_total(self):
 
         for food_group, serving_size in self.daily_servings.items():
 
             # For those without backslashes, just update and move on
-            if self._skip_ahead(food_group, serving_size):
+            if "/" not in food_group:
+                self._update_single_groups(food_group, serving_size)
                 continue
 
             food_group, sub_group = food_group.split("/")
