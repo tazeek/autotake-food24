@@ -6,6 +6,9 @@ class ScoreConvertor:
 
         self._heifa_scores_dict = heifa_scores_dict
         self._variations_list = ['Fruit', 'Vegetables']
+
+        self._male_total = 0
+        self._female_total = 0
         return None
     
     @property
@@ -15,6 +18,34 @@ class ScoreConvertor:
     @property
     def variations_list(self):
         return self._variations_list
+    
+    @property
+    def male_total(self):
+        return self._male_total
+    
+    @property
+    def female_total(self):
+        return self._female_total
+    
+    @male_total.setter
+    def male_total(self, heifa_score):
+        self._male_total += heifa_score
+        return None
+    
+    @female_total.setter
+    def female_total(self, heifa_score):
+        self._female_total += heifa_score
+        return None
+    
+    @male_total.deleter
+    def male_total(self):
+        self._male_total = 0
+        return None
+    
+    @female_total.deleter
+    def female_total(self):
+        self._female_total = 0
+        return None
     
     def _within_range(self, minimum, maximum, serving_size):
 
@@ -109,6 +140,10 @@ class ScoreConvertor:
             male_score += bonus_points
             female_score += bonus_points
 
+        # Sum up the grand total
+        self.male_total = male_score
+        self.female_total = female_score
+
         return {
             'male_score': male_score,
             'female_score': female_score
@@ -129,17 +164,18 @@ class ScoreConvertor:
                 if food_group in self.scores_dict
             }
 
-            # Find the grand total
-            male_total = sum([gender_scores['male_score'] for gender_scores in scores_converted_dict.values()])
-            female_total = sum([gender_scores['female_score'] for gender_scores in scores_converted_dict.values()])
-            print(male_total)
-            print(female_total)
+            print(self.male_total)
+            print(self.female_total)
             print("\n\n")
 
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
-                'male_total': male_total,
-                'female_total': female_total
+                'male_total': self.male_total,
+                'female_total': self.female_total
             }
+
+            # Reset again
+            del self.male_total
+            del self.female_total
         
         return heifa_scores
