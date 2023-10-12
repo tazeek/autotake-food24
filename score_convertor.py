@@ -60,10 +60,6 @@ class ScoreConvertor:
 
         one_servings_list = [1 for serving in variation_dict.values() if serving >= 1]
         variation_score = 5 if len(one_servings_list) >= 2 else 0
-
-        print("FRUIT!")
-        print(variation_dict)
-        print(variation_score)
     
         return variation_score
 
@@ -82,9 +78,6 @@ class ScoreConvertor:
         variation_score = sum(
             [1 for serving in variation_dict.values() if serving >= 1]
         ) + legumes_score
-
-        
-        print(variation_score)
 
         return min(variation_score, 5)
 
@@ -133,10 +126,6 @@ class ScoreConvertor:
             variation_function = self._get_variation_function(food_group)
             bonus_points = variation_function(variations_serving[food_group])
 
-            print(f"[MALE] Bonus points for {food_group}: {male_score} + {bonus_points} = {male_score + bonus_points}")
-            print(f"[FEMALE] Bonus points for {food_group}: {female_score} + {bonus_points} = {female_score + bonus_points}")
-            print("")
-
             male_score += bonus_points
             female_score += bonus_points
 
@@ -163,10 +152,6 @@ class ScoreConvertor:
                 for food_group, serving in total_servings_dict.items()
                 if food_group in self.scores_dict
             }
-
-            print(self.male_total)
-            print(self.female_total)
-            print("\n\n")
 
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
