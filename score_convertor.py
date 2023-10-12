@@ -34,7 +34,7 @@ class ScoreConvertor:
         print(variation_dict)
         print(variation_score)
     
-        return None
+        return variation_score
 
     def _vegetables_variation_score(self, variation_dict):
 
@@ -98,13 +98,16 @@ class ScoreConvertor:
         # Check if group is in the variation list
         # If it is, find the breakdown
         if food_group in self.variations_list:
+
             variation_function = self._get_variation_function(food_group)
             bonus_points = variation_function(variations_serving[food_group])
-            
-            # TODO: Talk to Heidi, Samara, and Tracy about this before displaying
-            #male_score += bonus_points
-            #female_score += bonus_points
+
+            print(f"[MALE] Bonus points for {food_group}: {male_score} + {bonus_points} = {male_score + bonus_points}")
+            print(f"[FEMALE] Bonus points for {food_group}: {female_score} + {bonus_points} = {female_score + bonus_points}")
             print("")
+
+            male_score += bonus_points
+            female_score += bonus_points
 
         return {
             'male_score': male_score,
