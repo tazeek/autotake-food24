@@ -129,6 +129,17 @@ class ScoreConvertor:
                 if food_group in self.scores_dict
             }
 
-            heifa_scores[survey_id] = scores_converted_dict
+            # Find the grand total
+            male_total = sum([gender_scores['male_score'] for gender_scores in scores_converted_dict.values()])
+            female_total = sum([gender_scores['female_score'] for gender_scores in scores_converted_dict.values()])
+            print(male_total)
+            print(female_total)
+            print("\n\n")
+
+            heifa_scores[survey_id] = {
+                'breakdown': scores_converted_dict,
+                'male_total': male_total,
+                'female_total': female_total
+            }
         
         return heifa_scores
