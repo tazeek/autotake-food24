@@ -50,7 +50,7 @@ class User:
         all_food_information = {}
 
         # Go by surveys
-        for survey_obj in self.surveys.values():
+        for survey_id, survey_obj in self.surveys.items():
 
             # Get the meal objects dictionary
             survey_date = survey_obj.date
@@ -61,9 +61,10 @@ class User:
 
             # Store in dictionary
             # If survey date is already present, extend the existing dictionary
-            meal_date_list = all_food_information.get(survey_date, [])
-            meal_date_list.extend(survey_meals)
+            #meal_date_list = all_food_information.get(survey_date, [])
+            #meal_date_list.extend(survey_meals)
 
-            all_food_information[survey_date] = meal_date_list
+            #all_food_information[survey_date] = meal_date_list
+            all_food_information[survey_id] = survey_meals
 
         return all_food_information

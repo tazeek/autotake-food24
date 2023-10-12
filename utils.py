@@ -66,9 +66,10 @@ def load_latrobe_file() -> pd.DataFrame:
 
     latrobe_df = _rename_columns(column_replacer_dict, latrobe_df)
 
-    # Some of the IDs are not present, so we drop them
+    # Some of the IDs and portion sizes are not present, so we drop them
     print(f"Before dropping function: {len(latrobe_df)} rows")
     latrobe_df = latrobe_df[latrobe_df['heifa_nutrient_id'].notna()]
+    latrobe_df = latrobe_df[latrobe_df['portion_size_consumed'].notna()]
     print(f"After dropping function: {len(latrobe_df)} rows")
 
     # Filter the columns we only need

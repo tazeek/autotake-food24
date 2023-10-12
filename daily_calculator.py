@@ -222,7 +222,7 @@ class DailyCalculator:
         total_daily_servings = {}
 
         # Store in this hierarchy: Date -> Food group -> Serving size
-        for date, meals_list in meals_daily_list.items():
+        for survey_id, meals_list in meals_daily_list.items():
 
             # Initialize with new dictionary for new date
             del self.daily_servings
@@ -234,7 +234,7 @@ class DailyCalculator:
 
             # Store individual group servings and total group
             # servings
-            total_daily_servings[date] = {
+            total_daily_servings[survey_id] = {
                 'individual': self.daily_servings,
                 'total': self.group_servings,
                 'variations': self.variation_servings

@@ -65,6 +65,9 @@ class FoodComposition:
 
         serving_size = 0
 
+        energy_with_fibre = float(energy_with_fibre)
+        weight = float(weight)
+
         # Check if calculation is required or not
         # If not, just return 0
         if not self.required_portion_calculation:
