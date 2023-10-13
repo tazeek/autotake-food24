@@ -101,9 +101,6 @@ class HeifaFileWriter():
         total_dict = food_group_dict['total']
         variations_dict = food_group_dict['variations']
 
-        heifa_key_name_male = f"{food_group} - HEIFA score (Male)"
-        heifa_key_name_female = f"{food_group} - HEIFA score (Female)"
-
         for food_group, total_serving in total_dict.items():
 
             # Key for the main group
@@ -114,6 +111,15 @@ class HeifaFileWriter():
             # Add to the row (serving size)
             self.row_data = (key_name, total_serving)
 
+            # Get the HEIFA scores
+            heifa_key_name_male = f"{food_group} - HEIFA score (Male)"
+            heifa_key_name_female = f"{food_group} - HEIFA score (Female)"
+
+            gender_scores = heifa_scores['breakdown'][food_group]
+
+            self.row_data = (heifa_key_name_male, gender_scores['male_score'])
+            self.row_data = (heifa_key_name_female, gender_scores['female_score'])
+
             if food_group in variations_dict:
 
                 self._handle_variations_servings(
@@ -122,7 +128,7 @@ class HeifaFileWriter():
         
         return None
 
-    def create_column_names(self):
+    def _create_column_names(self):
 
         # Then we create the keys in the format:
         # - Serving count (We will call this Discretionary) ("Food group")
@@ -143,9 +149,12 @@ class HeifaFileWriter():
             if len(sub_group) != 0:
                 self.column_names = sub_group
         
-        return self.column_names
+        return None
     
-    def create_row_data(self, user_intake):
+    def create_row_data(self, user_intake, user_scores):
+
+        # Create the columns
+        self._create_column_names()
 
         # Default row
         empty_row = {
@@ -166,10 +175,14 @@ class HeifaFileWriter():
                 self.row_data = ('User_ID', user_id)
                 self.row_data = ('Survey_ID', survey_id)
 
-                heifa_scores = self.scores[user_id][survey_id]['breakdown']
+                heifa_scores = user_scores[user_id][survey_id]
 
                 # Move to groups and sub-groups
                 self._fill_up_data(heifa_scores, food_group_dict)
 
+                self.row_data = ('HEIFA total score (Male)', heifa_scores['male_total'])
+                self.row_data = ('HEIFA total score (Female)', heifa_scores['female_total'])
+
             rows_list.append(self.row_data)
-        ...
+        
+        return rows_list
