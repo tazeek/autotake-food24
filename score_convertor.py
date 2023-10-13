@@ -9,53 +9,48 @@ class ScoreConvertor:
 
         self._male_total = 0
         self._female_total = 0
-        return None
-    
+
     @property
     def scores_dict(self):
         return self._heifa_scores_dict
-    
+
     @property
     def variations_list(self):
         return self._variations_list
-    
+
     @property
     def male_total(self):
         return self._male_total
-    
+
     @property
     def female_total(self):
         return self._female_total
-    
+
     @male_total.setter
     def male_total(self, heifa_score):
         self._male_total += heifa_score
-        return None
-    
+
     @female_total.setter
     def female_total(self, heifa_score):
         self._female_total += heifa_score
-        return None
-    
+
     @male_total.deleter
     def male_total(self):
         self._male_total = 0
-        return None
-    
+
     @female_total.deleter
     def female_total(self):
         self._female_total = 0
-        return None
-    
+
     def _within_range(self, minimum, maximum, serving_size):
 
-        return ((serving_size >= minimum) and (serving_size <= maximum))
+        return minimum <= serving_size <= maximum
 
     def _find_by_gender(self, keys, serving_size, score_dict):
-        
+
         minimum_serve, maximum_serve = [score_dict[key] for key in keys]
         return self._within_range(minimum_serve, maximum_serve, serving_size)
-    
+
     def _fruit_variation_score(self, variation_dict):
 
         one_servings_list = [1 for serving in variation_dict.values() if serving >= 1]
@@ -138,7 +133,7 @@ class ScoreConvertor:
             'female_score': female_score
         }
         
-    def transform_servings_score(self, daily_servings: dict):
+    def transform_servings_score(self, daily_servings: dict) -> dict:
 
         heifa_scores = {}
 
@@ -162,5 +157,6 @@ class ScoreConvertor:
             # Reset again
             del self.male_total
             del self.female_total
-        
+
         return heifa_scores
+    
