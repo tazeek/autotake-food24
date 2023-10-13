@@ -124,7 +124,7 @@ class ScoreConvertor:
         if food_group in self.variations_list:
 
             variation_function = self._get_variation_function(food_group)
-            bonus_points = variation_function(variations_serving[food_group])
+            bonus_points = variation_function(variations_serving[food_group].copy())
 
             male_score += bonus_points
             female_score += bonus_points
