@@ -63,7 +63,11 @@ class HeifaFileWriter():
 
         # Then we create the keys in the format:
         # - Serving count (We will call this Discretionary) ("Food group")
+        structure_dict = self._extract_groups_structure()
+
         # - Male (We will call this Discretionary - HEIFA score (Male)) ("Food group - HEIFA score (Male)")
         # - Female (We will call this Discretionary - HEIFA score (Female)) ("Food group - HEIFA score (Female)")
         # Storage order: HEIFA scores, Serve size, Sub-groups
+        for main_group, sub_group in structure_dict.items():
+            ...
         ...
