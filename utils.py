@@ -1,8 +1,10 @@
 import pandas as pd
 
-from heifa_composition import FoodComposition, IngredientInRecipe, RecipeComposition
+from heifa_composition import *
 from score_convertor import ScoreConvertor
 from daily_calculator import DailyCalculator
+from heifa_file_writer import HeifaFileWriter
+
 from User import User
 
 def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
@@ -271,3 +273,9 @@ def calculate_heifa_scores(heifa_scores_dict: dict, user_dict: dict) -> dict:
             score_obj.transform_servings_score(daily_servings)
 
     return user_heifa_scores
+
+def create_heifa_csv(heifa_scores_dict, food_composition_dict):
+
+    writer_obj = HeifaFileWriter(heifa_scores_dict, food_composition_dict)
+    
+    ...
