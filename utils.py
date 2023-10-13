@@ -277,5 +277,7 @@ def calculate_heifa_scores(heifa_scores_dict: dict, user_dict: dict) -> dict:
 def create_heifa_csv(heifa_scores_dict, food_composition_dict):
 
     writer_obj = HeifaFileWriter(heifa_scores_dict, food_composition_dict)
-    
-    ...
+
+    column_names = writer_obj.create_column_names()
+
+    return column_names

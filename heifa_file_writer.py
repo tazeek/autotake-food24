@@ -25,7 +25,9 @@ class HeifaFileWriter():
     
     @column_names.setter
     def column_names(self, name: list):
-        self.extend(name)
+        self.column_names.extend(name)
+
+        return None
 
     def _extract_groups_structure(self):
 
@@ -69,5 +71,15 @@ class HeifaFileWriter():
         # - Female (We will call this Discretionary - HEIFA score (Female)) ("Food group - HEIFA score (Female)")
         # Storage order: HEIFA scores, Serve size, Sub-groups
         for main_group, sub_group in structure_dict.items():
-            ...
-        ...
+            
+            heifa_keys = [
+                f"{main_group} - HEIFA score ({gender})" 
+                for gender in ['Male', 'Female']
+            ]
+
+            self.column_names = heifa_keys + [f"{main_group} - serves size"]
+
+            if len(sub_group) != 0:
+                self.column_names = sub_group
+        
+        return self.column_names
