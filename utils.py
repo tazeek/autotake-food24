@@ -278,6 +278,8 @@ def create_heifa_csv(scores_dict, composition_dict, daily_intake, user_scores):
 
     writer_obj = HeifaFileWriter(scores_dict, composition_dict)
 
-    rows_data = writer_obj.create_row_data(daily_intake, user_scores)
+    column_names, rows_data = writer_obj.create_row_data(
+        daily_intake, user_scores
+    )
 
-    return rows_data
+    return column_names, rows_data

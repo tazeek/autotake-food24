@@ -183,6 +183,7 @@ class HeifaFileWriter():
                 self.row_data = ('HEIFA total score (Male)', heifa_scores['male_total'])
                 self.row_data = ('HEIFA total score (Female)', heifa_scores['female_total'])
 
-            rows_list.append(self.row_data)
+                # Add to the row
+                rows_list.append(self.row_data)
         
-        return rows_list
+        return self.column_names, rows_list
