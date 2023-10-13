@@ -42,23 +42,26 @@ class ScoreConvertor:
     def female_total(self):
         self._female_total = 0
 
-    def _within_range(self, minimum, maximum, serving_size):
+    @classmethod
+    def _within_range(cls, minimum, maximum, serving_size):
 
         return minimum <= serving_size <= maximum
-
+    
     def _find_by_gender(self, keys, serving_size, score_dict):
 
         minimum_serve, maximum_serve = [score_dict[key] for key in keys]
         return self._within_range(minimum_serve, maximum_serve, serving_size)
 
-    def _fruit_variation_score(self, variation_dict):
+    @classmethod
+    def _fruit_variation_score(cls, variation_dict):
 
         one_servings_list = [1 for serving in variation_dict.values() if serving >= 1]
         variation_score = 5 if len(one_servings_list) >= 2 else 0
     
         return variation_score
 
-    def _vegetables_variation_score(self, variation_dict):
+    @classmethod
+    def _vegetables_variation_score(cls, variation_dict):
 
         print("VEGGIE!")
         print(variation_dict)

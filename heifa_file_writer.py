@@ -14,8 +14,6 @@ class HeifaFileWriter():
         ]
 
         self._row_data = {}
-
-        return None
     
     @property
     def scores(self):
@@ -37,7 +35,7 @@ class HeifaFileWriter():
     def row_data(self, input_info):
 
         # Reseting the information
-        if type(input_info) is dict:
+        if isinstance(input_info, dict):
             self._row_data = input_info
             return None
         
@@ -49,8 +47,6 @@ class HeifaFileWriter():
     @column_names.setter
     def column_names(self, name: list):
         self.column_names.extend(name)
-
-        return None
 
     def _extract_groups_structure(self):
 
@@ -92,8 +88,6 @@ class HeifaFileWriter():
                 else f"{food_group}/{sub_group}"
             
             self.row_data = (key_name, serving_size)
-
-        return None
     
     def _fill_up_data(self, heifa_scores, food_group_dict):
 
@@ -125,8 +119,6 @@ class HeifaFileWriter():
                 self._handle_variations_servings(
                     food_group, variations_dict[food_group]
                 )
-        
-        return None
 
     def _create_column_names(self):
 
@@ -134,8 +126,6 @@ class HeifaFileWriter():
         # - Serving count (We will call this Discretionary) ("Food group")
         structure_dict = self._extract_groups_structure()
 
-        # - Male (We will call this Discretionary - HEIFA score (Male)) ("Food group - HEIFA score (Male)")
-        # - Female (We will call this Discretionary - HEIFA score (Female)) ("Food group - HEIFA score (Female)")
         # Storage order: HEIFA scores, Serve size, Sub-groups
         for main_group, sub_group in structure_dict.items():
             
@@ -148,8 +138,6 @@ class HeifaFileWriter():
 
             if len(sub_group) != 0:
                 self.column_names = sub_group
-        
-        return None
     
     def create_row_data(self, user_intake, user_scores):
 
