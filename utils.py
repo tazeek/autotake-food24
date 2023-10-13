@@ -1,9 +1,9 @@
+import pandas as pd
+
 from heifa_composition import FoodComposition, IngredientInRecipe, RecipeComposition
 from score_convertor import ScoreConvertor
 from daily_calculator import DailyCalculator
 from User import User
-
-import pandas as pd
 
 def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
 
@@ -15,9 +15,8 @@ def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
 
     return ingredients_df.fillna(value = filled_values)
 
-def _rename_columns(name_replacer_dict: dict, df: pd.DataFrame) -> pd.DataFrame:
-    
-    return df.rename(columns = name_replacer_dict)
+def _rename_columns(name_replacer_dict: dict, dataframe: pd.DataFrame) -> pd.DataFrame:
+    return dataframe.rename(columns = name_replacer_dict)
 
 async def load_intake24() -> pd.DataFrame:
 
@@ -36,9 +35,6 @@ async def load_intake24() -> pd.DataFrame:
     }
 
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
-
-    # Column conversion
-    intake24_df['information_date'] = pd.to_datetime(intake24_df['information_date']).dt.strftime('%Y-%m-%d')
 
     # Some of the IDs are not present, so we drop them
     print(f"Before dropping function: {len(intake24_df)} rows")
@@ -169,7 +165,7 @@ def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
         # Just in case: for new user objects
         user_dict[user_id] = user_obj
-    
+
     intake24_df.apply(populate_user_information, axis = 1)
 
     return user_dict
@@ -237,7 +233,9 @@ def create_scores_objects(heifa_scores_df: pd.DataFrame) -> dict:
     return heifa_scores_dict
 
 
-def calculate_user_servings(user_dict, food_composition_dict, recipe_dict):
+def calculate_user_servings(
+        user_dict: dict, food_composition_dict: dict, recipe_dict: dict
+    ) -> dict:
 
     # First, we get all the meals (broken down by the date)
     user_meals = {
@@ -253,7 +251,7 @@ def calculate_user_servings(user_dict, food_composition_dict, recipe_dict):
         for user_id, meal_date_dict in user_meals.items()
     }
 
-def calculate_heifa_scores(heifa_scores_dict, user_dict):
+def calculate_heifa_scores(heifa_scores_dict: dict, user_dict: dict) -> dict:
 
     score_obj = ScoreConvertor(heifa_scores_dict)
     user_heifa_scores = {}
@@ -273,4 +271,3 @@ def calculate_heifa_scores(heifa_scores_dict, user_dict):
             score_obj.transform_servings_score(daily_servings)
 
     return user_heifa_scores
-
