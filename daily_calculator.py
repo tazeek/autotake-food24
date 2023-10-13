@@ -194,13 +194,14 @@ class DailyCalculator:
                 continue
 
             food_group, sub_group = food_group.split("/")
+            self.group_servings = (food_group, serving_size)
 
             # Whole grains are the exceptions as a main group
+            # They have a separate HEIFA score
             if sub_group == "Wholegrains":
                 self.group_servings = (sub_group, serving_size)
                 continue
 
-            self.group_servings = (food_group, serving_size)
             self.variation_servings = (food_group, sub_group, serving_size)
         
         return None

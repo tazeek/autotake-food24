@@ -14,7 +14,9 @@ class FoodComposition:
 
 
         self._is_recipe = self._check_if_recipe(info_dict['food_group'])
-        self._required_portion_calculation = self._is_required_portion_calculation(info_dict['food_group'])
+
+        self._required_portion_calculation = \
+            self._is_required_portion_calculation(info_dict['food_group'])
         
         return None
     
@@ -92,8 +94,6 @@ class FoodComposition:
             f"Serving measure: {self._serving_measure}\n"
         )
 
-        return None
-
 
 class RecipeComposition:
 
@@ -123,8 +123,6 @@ class RecipeComposition:
                 f"Propotion: {ingred_in_rec_obj._proportion_recipe:.2f}\n\n"
             )
 
-        return None
-
 class IngredientInRecipe:
 
     def __init__(self, info_dict):
@@ -132,8 +130,6 @@ class IngredientInRecipe:
         self._proportion_recipe = info_dict['proportion']
         self._ingredient_name = info_dict['ingredient_name']
         self._energy_fibre_100g = info_dict['energy_fibre_100g']
-
-        return None
     
     @property
     def proportion(self):
@@ -146,5 +142,3 @@ class IngredientInRecipe:
     @property
     def energy_with_fibre(self):
         return self._energy_fibre_100g
-
-
