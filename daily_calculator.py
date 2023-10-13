@@ -177,7 +177,6 @@ class DailyCalculator:
         # Legumes falls under Vegetables, as per HEIFA guideline
         # Otherwise, do the usual for the rest
         if food_group == "Legumes":
-            print("LEGUMES FOUND!!!")
             self.variation_servings = ("Vegetables", food_group, serving_size)
             return None
         
