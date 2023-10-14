@@ -282,4 +282,9 @@ def create_heifa_csv(scores_dict, composition_dict, daily_intake, user_scores):
         daily_intake, user_scores
     )
 
+    # Create DF and fill up the None values
+    transformed_df = pd.DataFrame(rows_data, columns=column_names)
+    transformed_df.fillna(0.00, inplace=True)
+    transformed_df.to_csv('heifa_scores_breakdown.csv', sep=",", index=False)
+
     return column_names, rows_data
