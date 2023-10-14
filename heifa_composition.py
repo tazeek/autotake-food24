@@ -12,7 +12,6 @@ class FoodComposition:
         self._serving_measure = info_dict['serving_measure']
         self._food_group = info_dict['food_group']
 
-
         self._is_recipe = self._check_if_recipe(info_dict['food_group'])
 
         self._required_portion_calculation = \

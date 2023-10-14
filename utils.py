@@ -46,7 +46,7 @@ async def load_intake24() -> pd.DataFrame:
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
 
-def load_latrobe_file() -> pd.DataFrame:
+async def load_latrobe_file() -> pd.DataFrame:
 
     latrobe_df = pd.read_csv('files/latrobe_cleaned_further.csv')
 
