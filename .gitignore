@@ -1,0 +1,12 @@
+# Ignore the CSV creations
+*.csv
+
+# Ignore the text files
+*.txt
+
+# Ignore the python checkpoints
+.ipynb_checkpoints/*
+
+# Ignore pycache
+__pycache__
+
