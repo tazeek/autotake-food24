@@ -1,8 +1,8 @@
 import pandas as pd
 
-from heifa_composition import *
-from score_convertor import ScoreConvertor
-from daily_calculator import DailyCalculator
+from classes.heifa_composition import *
+from convertors.score_convertor import ScoreConvertor
+from convertors.daily_calculator import DailyCalculator
 from heifa_file_writer import HeifaFileWriter
 
 from classes.User import User
