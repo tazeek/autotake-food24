@@ -5,7 +5,7 @@ from score_convertor import ScoreConvertor
 from daily_calculator import DailyCalculator
 from heifa_file_writer import HeifaFileWriter
 
-from User import User
+from classes.User import User
 
 def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
