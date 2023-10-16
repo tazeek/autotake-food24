@@ -66,7 +66,8 @@ class DailyCalculator:
         food_group, serving_size = group_tuple
 
         group_serve_total = self._daily_servings.get(food_group, 0)
-        group_serve_total += serving_size
+
+        group_serve_total += float(serving_size)
         self._daily_servings[food_group] = group_serve_total
 
         return None
@@ -169,6 +170,9 @@ class DailyCalculator:
 
             # Add to the daily servings attribute
             self.daily_servings = (food_group, serving_size)
+
+            # For Sodium
+            self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
 
         return None
 
