@@ -21,5 +21,5 @@ class Food:
 
     @property
     def alcohol_amount(self):
-        return self._alcohol_amount
+        return float(self._alcohol_amount)
 
