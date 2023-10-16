@@ -99,6 +99,10 @@ async def load_heifa_ingredients() -> pd.DataFrame:
 
     heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
 
+    alcohol_column_size = 'Alcoholic beverage serving size\n' + \
+        '(Used for number of standard drinks calculations)\n' + \
+        "Note: Column AU = 'Alcohol' in grams"
+
     # Replace column names
     column_replacer_dict = {
         'Nutrient table code': 'heifa_code',
@@ -106,12 +110,11 @@ async def load_heifa_ingredients() -> pd.DataFrame:
         'HEIFA Food Groups': 'food_group',
         'Energy or grams per Serve \n(HEIFA food groups)': 'serving_size',
         'Serving size unit of measure': 'serving_measure',
-        'Beverage Flag\n(0=Non-alcoholic\n1=Alcoholic)': 'beverage_flag'
+        'Beverage Flag\n(0=Non-alcoholic\n1=Alcoholic)': 'is_alcohol',
+        alcohol_column_size: 'alcohol_serving_size'
     }
 
     heifa_food_df = _rename_columns(column_replacer_dict, heifa_food_df)
-
-    print(heifa_food_df['beverage_flag'].value_counts())
 
     # Data cleaning
     heifa_food_df = _clean_ingredients_file(heifa_food_df)
