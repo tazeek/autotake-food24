@@ -5,6 +5,7 @@ class Food:
         self._portion_size = food_info_dict['portion_size_consumed']
         self._energy_with_fibre = food_info_dict['energy_with_fibre']
         self._sodium_consumed = food_info_dict['sodium_consumed']
+        self._alcohol_amount = food_info_dict['alcohol_consumed']
 
     @property
     def portion_size(self):
@@ -17,4 +18,8 @@ class Food:
     @property
     def sodium_consumed(self):
         return self._sodium_consumed
+
+    @property
+    def alcohol_amount(self):
+        return self._alcohol_amount
 

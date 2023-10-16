@@ -8,7 +8,13 @@ def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
         'serving_measure': 'N/A'
     }
 
-    return ingredients_df.fillna(value = filled_values)
+    replaced_columns = list(filled_values.keys())
+
+    # Replace specific columns
+    ingredients_df[replaced_columns] = \
+        ingredients_df[replaced_columns].fillna(value = filled_values)
+
+    return ingredients_df
 
 def _rename_columns(name_replacer_dict: dict, dataframe: pd.DataFrame) -> pd.DataFrame:
     return dataframe.rename(columns = name_replacer_dict)
@@ -27,7 +33,8 @@ async def load_intake24() -> pd.DataFrame:
         'Meal ID': 'meal_id',
         'Nutrient table code': 'heifa_nutrient_id',
         'Portion size (g/ml)': 'portion_size_consumed',
-        'Sodium': 'sodium_consumed'
+        'Sodium': 'sodium_consumed',
+        'Alcohol': 'alcohol_consumed'
     }
 
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
@@ -103,6 +110,8 @@ async def load_heifa_ingredients() -> pd.DataFrame:
     }
 
     heifa_food_df = _rename_columns(column_replacer_dict, heifa_food_df)
+
+    print(heifa_food_df['beverage_flag'].value_counts())
 
     # Data cleaning
     heifa_food_df = _clean_ingredients_file(heifa_food_df)
