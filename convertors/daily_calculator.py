@@ -156,6 +156,13 @@ class DailyCalculator:
             heifa_obj = ingredients_dict[heifa_id]
             food_group = heifa_obj.food_group
 
+            # Check for alcohol amount in the food, if any
+            if ingredient_obj.alcohol_amount > 0:
+                self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
+
+            # For Sodium
+            self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
+
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
                 self._perform_recipe_calculation(
@@ -168,11 +175,8 @@ class DailyCalculator:
                 energy_with_fibre, portion_size
             )
 
-            # Add to the daily servings attribute
+            # Add to the daily servings attribute, based on food group
             self.daily_servings = (food_group, serving_size)
-
-            # For Sodium
-            self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
 
         return None
 
