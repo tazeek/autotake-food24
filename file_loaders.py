@@ -99,6 +99,7 @@ async def load_heifa_ingredients() -> pd.DataFrame:
         'HEIFA Food Groups': 'food_group',
         'Energy or grams per Serve \n(HEIFA food groups)': 'serving_size',
         'Serving size unit of measure': 'serving_measure',
+        'Beverage Flag\n(0=Non-alcoholic\n1=Alcoholic)': 'beverage_flag'
     }
 
     heifa_food_df = _rename_columns(column_replacer_dict, heifa_food_df)
