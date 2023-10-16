@@ -55,7 +55,7 @@ class Intake:
                 f"Details for {code}:\n"
                 f"Portion size of {nutrient.portion_size}g/ml\n"
                 f"Energy (Dietary Fibre included): {nutrient.energy_with_fibre} kJ\n"
-                f"Sodium consumed (in mg): {nutrient.sodium_consumed}\n"
+                f"Sodium consumed (in mg): {nutrient.sodium_consumed} mg\n"
             )
         
         return None

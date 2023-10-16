@@ -53,6 +53,7 @@ async def load_latrobe_file() -> pd.DataFrame:
         'User ID': 'user_id',
         'Meal ID': 'meal_id',
         'Nutrient table code': 'heifa_nutrient_id',
+        'Sodium ': 'sodium_consumed',
         'Portion size (g/ml)': 'portion_size_consumed'
     }
 
