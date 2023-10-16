@@ -63,9 +63,6 @@ class ScoreConvertor:
     @classmethod
     def _vegetables_variation_score(cls, variation_dict):
 
-        print("VEGGIE!")
-        print(variation_dict)
-
         # Legumes are a different kind
         legumes_score = 0
         if "Legumes" in variation_dict:
@@ -119,7 +116,7 @@ class ScoreConvertor:
 
         # Check if group is in the variation list
         # If it is, find the breakdown
-        if food_group in self.variations_list:
+        if (food_group in self.variations_list) and (food_group in variations_serving):
 
             variation_function = self._get_variation_function(food_group)
             bonus_points = variation_function(variations_serving[food_group].copy())
@@ -144,6 +141,15 @@ class ScoreConvertor:
 
             total_servings_dict = servings_dict['total']
             variations_serving = servings_dict['variations']
+
+            # Add the keys not in the variations
+            # We want to calculate all the groups, regardless of their prescence
+            missing_variations = {
+                key: 0 for key in self.scores_dict.keys()
+                if key not in total_servings_dict
+            }
+
+            total_servings_dict.update(missing_variations)
 
             scores_converted_dict = {
                 food_group: self._find_score(food_group, serving, variations_serving)

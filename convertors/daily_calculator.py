@@ -157,8 +157,22 @@ class DailyCalculator:
             food_group = heifa_obj.food_group
 
             # Check for alcohol amount in the food, if any
+            # PENDING: Feedback from HEIFA team
             if ingredient_obj.alcohol_amount > 0:
-                self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
+
+                print(f"Heifa ID: {heifa_id}")
+                print(f"Amount: {ingredient_obj.alcohol_amount}")
+                print(f"Size: {heifa_obj.alcohol_serving_size}")
+
+                #alcohol_serves = round(
+                #    ingredient_obj.alcohol_amount / heifa_obj.alcohol_serving_size,
+                #    1
+                #)
+
+                #print(f"Size (after division): {alcohol_serves}")
+                print("\n")
+
+                #self.daily_servings = ("Alcohol", alcohol_serves)
 
             # For Sodium
             self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)

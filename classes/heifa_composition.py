@@ -17,6 +17,8 @@ class FoodComposition:
         self._required_portion_calculation = \
             self._is_required_portion_calculation(info_dict['food_group'])
         
+        self._alcohol_serving_size = info_dict['alcohol_serving_size']
+        
         return None
     
     @property
@@ -42,6 +44,10 @@ class FoodComposition:
     @property
     def food_group(self):
         return self._food_group
+    
+    @property
+    def alcohol_serving_size(self):
+        return self._alcohol_serving_size
     
     def _is_required_portion_calculation(self, food_group):
 
