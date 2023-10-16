@@ -26,7 +26,8 @@ async def load_intake24() -> pd.DataFrame:
         'User ID': 'user_id',
         'Meal ID': 'meal_id',
         'Nutrient table code': 'heifa_nutrient_id',
-        'Portion size (g/ml)': 'portion_size_consumed'
+        'Portion size (g/ml)': 'portion_size_consumed',
+        'Sodium': 'sodium_consumed'
     }
 
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
