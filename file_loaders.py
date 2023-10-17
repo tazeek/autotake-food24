@@ -110,7 +110,7 @@ async def load_heifa_ingredients() -> pd.DataFrame:
     column_replacer_dict = {
         'Nutrient table code': 'heifa_code',
         '8 digit code': 'eight_digit_code',
-        'HEIFA Food Groups': 'food_group',
+        'HEIFA-2013 Food Group': 'food_group',
         'Energy or grams per Serve \n(HEIFA food groups)': 'serving_size',
         'Serving size unit of measure': 'serving_measure',
         'Water Flag\n(0=Not water, 1=Water)': 'is_water',
