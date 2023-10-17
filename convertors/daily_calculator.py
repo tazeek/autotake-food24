@@ -11,6 +11,8 @@ class DailyCalculator:
         self._group_servings = {}
         self._variation_servings = {}
 
+        self._sub_as_main = ['Wholegrains', 'Alcohol']
+
         return None
 
     @property
@@ -32,6 +34,10 @@ class DailyCalculator:
     @property
     def group_servings(self):
         return self._group_servings
+
+    @property
+    def sub_groups_main(self):
+        return self._sub_as_main
     
     @variation_servings.setter
     def variation_servings(self, group_tuple):
@@ -222,9 +228,9 @@ class DailyCalculator:
 
             self.group_servings = (food_group, serving_size)
 
-            # Whole grains are the exceptions as a main group
+            # Whole grains and Alcohol are the exceptions as a main group
             # They have a separate HEIFA score
-            if sub_group == "Wholegrains":
+            if sub_group in self.sub_groups_main:
                 self.group_servings = (sub_group, serving_size)
                 continue
 
