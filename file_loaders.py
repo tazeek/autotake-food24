@@ -5,7 +5,9 @@ def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
     # For ingredients without size or measure
     filled_values = {
         'serving_size' : 'N/A',
-        'serving_measure': 'N/A'
+        'serving_measure': 'N/A',
+        'alcohol_serving_size': -1,
+        'is_alcohol': -1
     }
 
     replaced_columns = list(filled_values.keys())
@@ -76,7 +78,6 @@ async def load_latrobe_file() -> pd.DataFrame:
     # Filter the columns we only need
     return latrobe_df[column_replacer_dict.values()]
 
-
 async def load_heifa_recipes() -> pd.DataFrame:
 
     heifa_recipes_df = pd.read_csv('files/heifa_recipes.csv')
@@ -119,6 +120,7 @@ async def load_heifa_ingredients() -> pd.DataFrame:
 
     # Data cleaning
     heifa_food_df = _clean_ingredients_file(heifa_food_df)
+    print(heifa_food_df['is_alcohol'].value_counts())
 
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
