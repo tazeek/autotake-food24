@@ -2,12 +2,13 @@ import pandas as pd
 
 def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
 
-    # For ingredients without size or measure
+    # For ingredients with missing values
     filled_values = {
         'serving_size' : 'N/A',
         'serving_measure': 'N/A',
         'alcohol_serving_size': -1,
-        'is_alcohol': -1
+        'is_alcohol': -1,
+        'is_water': -1
     }
 
     replaced_columns = list(filled_values.keys())
@@ -112,6 +113,7 @@ async def load_heifa_ingredients() -> pd.DataFrame:
         'HEIFA Food Groups': 'food_group',
         'Energy or grams per Serve \n(HEIFA food groups)': 'serving_size',
         'Serving size unit of measure': 'serving_measure',
+        'Water Flag\n(0=Not water, 1=Water)': 'is_water',
         'Beverage Flag\n(0=Non-alcoholic\n1=Alcoholic)': 'is_alcohol',
         alcohol_column_size: 'alcohol_serving_size'
     }
@@ -120,7 +122,6 @@ async def load_heifa_ingredients() -> pd.DataFrame:
 
     # Data cleaning
     heifa_food_df = _clean_ingredients_file(heifa_food_df)
-    print(heifa_food_df['is_alcohol'].value_counts())
 
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
