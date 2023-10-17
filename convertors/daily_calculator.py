@@ -158,11 +158,11 @@ class DailyCalculator:
 
             # Check for alcohol amount in the food, if any
             # PENDING: Feedback from HEIFA team
-            if ingredient_obj.alcohol_amount > 0:
+            #if ingredient_obj.alcohol_amount > 0:
 
-                print(f"Heifa ID: {heifa_id}")
-                print(f"Amount: {ingredient_obj.alcohol_amount}")
-                print(f"Size: {heifa_obj.alcohol_serving_size}")
+                #print(f"Heifa ID: {heifa_id}")
+                #print(f"Amount: {ingredient_obj.alcohol_amount}")
+                #print(f"Size: {heifa_obj.alcohol_serving_size}")
 
                 #alcohol_serves = round(
                 #    ingredient_obj.alcohol_amount / heifa_obj.alcohol_serving_size,
@@ -170,7 +170,7 @@ class DailyCalculator:
                 #)
 
                 #print(f"Size (after division): {alcohol_serves}")
-                print("\n")
+                #print("\n")
 
                 #self.daily_servings = ("Alcohol", alcohol_serves)
 
@@ -210,12 +210,16 @@ class DailyCalculator:
 
         for food_group, serving_size in self.daily_servings.items():
 
+
             # For those without backslashes, just update and move on
             if "/" not in food_group:
                 self._update_single_groups(food_group, serving_size)
                 continue
-
+            
+            # Reduce whitespace within the food group
             food_group, sub_group = food_group.split("/")
+            food_group, sub_group = food_group.strip(), sub_group.strip()
+
             self.group_servings = (food_group, serving_size)
 
             # Whole grains are the exceptions as a main group
