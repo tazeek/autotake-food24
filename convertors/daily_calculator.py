@@ -182,7 +182,7 @@ class DailyCalculator:
 
             # For non-alcoholic beverage
             if heifa_obj.plain_beverage:
-                self.daily_servings = ("Liquid", portion_size)
+                self.daily_servings = ("Non_Alcohol", portion_size)
 
             # For water:
             if heifa_obj.is_water:
@@ -212,13 +212,13 @@ class DailyCalculator:
 
          # Handle for water
         if food_group == "Water":
-            beverage_amount = self.daily_servings.get("Liquid", 0)
+            beverage_amount = self.daily_servings.get("Non_Alcohol", 0)
             amount = (serving_size/beverage_amount) * 100
 
             # Has to be more than 1.5L else default to 0
             amount = amount if beverage_amount >= 1500 else 0
             self.group_servings = ("Water", amount)
-            
+
             return None
 
         # Legumes falls under Vegetables, as per HEIFA guideline
