@@ -52,6 +52,14 @@ class FoodComposition:
         return self._food_group
     
     @property
+    def is_water(self):
+        return self._is_water
+    
+    @property
+    def is_not_alcohol(self):
+        return self._is_non_alcoholic
+    
+    @property
     def alcohol_serving_size(self):
         return self._alcohol_serving_size
     
