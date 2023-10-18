@@ -210,6 +210,17 @@ class DailyCalculator:
 
     def _update_single_groups(self, food_group, serving_size):
 
+         # Handle for water
+        if food_group == "Water":
+            beverage_amount = self.daily_servings.get("Liquid", 0)
+            amount = (serving_size/beverage_amount) * 100
+
+            # Has to be more than 1.5L else default to 0
+            amount = amount if beverage_amount >= 1500 else 0
+            self.group_servings = ("Water", amount)
+            
+            return None
+
         # Legumes falls under Vegetables, as per HEIFA guideline
         # Otherwise, do the usual for the rest
         if food_group == "Legumes":
@@ -224,12 +235,11 @@ class DailyCalculator:
 
         for food_group, serving_size in self.daily_servings.items():
 
-
             # For those without backslashes, just update and move on
             if "/" not in food_group:
                 self._update_single_groups(food_group, serving_size)
                 continue
-            
+
             # Reduce whitespace within the food group
             food_group, sub_group = food_group.split("/")
             food_group, sub_group = food_group.strip(), sub_group.strip()
