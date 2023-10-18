@@ -118,8 +118,8 @@ class FoodComposition:
             f"Serving Size: {self._serving_size}\n"
             f"Recipe: {self.food_group}\n"
             f"Serving measure: {self._serving_measure}\n"
+            f"Is Beverage: {self.plain_beverage}\n"
             f"Is Plain Water: {self.is_water}\n"
-            f"Is not Alcohol: {self.is_not_alcohol}\n"
         )
 
 

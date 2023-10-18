@@ -11,7 +11,7 @@ class DailyCalculator:
         self._group_servings = {}
         self._variation_servings = {}
 
-        self._sub_as_main = ['Wholegrains', 'Alcohol']
+        self._sub_as_main = ['Wholegrains']
 
         return None
 
@@ -162,27 +162,14 @@ class DailyCalculator:
             heifa_obj = ingredients_dict[heifa_id]
             food_group = heifa_obj.food_group
 
-            # Check for alcohol amount in the food, if any
-            # PENDING: Feedback from HEIFA team
+            # For Alcohol
             if ingredient_obj.alcohol_amount > 0:
-
-                print(f"Heifa ID: {heifa_id}")
-                print(f"Amount: {ingredient_obj.alcohol_amount}")
-                print(f"Size: {heifa_obj.alcohol_serving_size}")
-
-                #alcohol_serves = round(
-                #    ingredient_obj.alcohol_amount / heifa_obj.alcohol_serving_size,
-                #    1
-                #)
-
-                #print(f"Size (after division): {alcohol_serves}")
-                print("\n")
-
-                #self.daily_servings = ("Alcohol", alcohol_serves)
+                standard_size_drinks = round(ingredient_obj.alcohol_amount / 10, 1)
+                self.daily_servings = ("Alcohol", standard_size_drinks)
 
             # For non-alcoholic beverage
             if heifa_obj.plain_beverage:
-                self.daily_servings = ("Non_Alcohol", portion_size)
+                self.daily_servings = ("Non-Alcohol", portion_size)
 
             # For water:
             if heifa_obj.is_water:
@@ -212,7 +199,7 @@ class DailyCalculator:
 
          # Handle for water
         if food_group == "Water":
-            beverage_amount = self.daily_servings.get("Non_Alcohol", 0)
+            beverage_amount = self.daily_servings.get("Non-Alcohol", 0)
             amount = round((serving_size/beverage_amount) * 100, 1)
 
             # Has to be more than 1.5L else default to 0
