@@ -19,8 +19,8 @@ class FoodComposition:
         
         self._alcohol_serving_size = info_dict['alcohol_serving_size']
 
-        self._is_non_alcoholic_beverage = \
-            self._is_non_alcoholic(info_dict['is_alcohol'])
+        self._plain_beverage = \
+            self._is_plain_beverage(info_dict['is_alcohol'])
         
         self._is_water = \
             self._is_water(info_dict['is_water'])
@@ -56,8 +56,8 @@ class FoodComposition:
         return self._is_water
     
     @property
-    def is_not_alcohol(self):
-        return self._is_non_alcoholic
+    def plain_beverage(self):
+        return self._plain_beverage
     
     @property
     def alcohol_serving_size(self):
@@ -74,8 +74,8 @@ class FoodComposition:
         
         return False
     
-    def _is_non_alcoholic(self, is_non_alcoholic):
-        return True if is_non_alcoholic == 0 else False
+    def _is_plain_beverage(self, is_alcohol):
+        return True if is_alcohol == 0 else False
     
     def _is_water(self, is_water):
         return True if is_water == 1 else False
@@ -118,6 +118,8 @@ class FoodComposition:
             f"Serving Size: {self._serving_size}\n"
             f"Recipe: {self.food_group}\n"
             f"Serving measure: {self._serving_measure}\n"
+            f"Is Plain Water: {self.is_water}\n"
+            f"Is not Alcohol: {self.is_not_alcohol}\n"
         )
 
 
