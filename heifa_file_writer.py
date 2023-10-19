@@ -13,6 +13,14 @@ class HeifaFileWriter():
             'HEIFA total score (Female)'
         ]
 
+        # Create a dictionary on the metric measurement
+        # Example: Sodium -> mg (milligrams)
+        self._group_metrics = {
+            'Sodium': 'mg (milligrams)',
+            'Alcohol': 'standard serves',
+            'Water': '%'
+        }
+
         self._row_data = {}
     
     @property
@@ -47,6 +55,11 @@ class HeifaFileWriter():
     @column_names.setter
     def column_names(self, name: list):
         self.column_names.extend(name)
+
+    def _generate_column_name(self, food_group):
+        # Add to the row (serving size)
+        metric = self._group_metrics.get(food_group, "serve size")
+        return f"{food_group} - {metric}"
 
     def _extract_groups_structure(self):
 
@@ -98,11 +111,10 @@ class HeifaFileWriter():
         for food_group, total_serving in total_dict.items():
 
             # Key for the main group
-            key_name = f"{food_group} - serves size"
+            key_name = self._generate_column_name(food_group)
             if key_name not in self.row_data:
                 continue
-            
-            # Add to the row (serving size)
+
             self.row_data = (key_name, total_serving)
 
             # Get the HEIFA scores
@@ -126,14 +138,6 @@ class HeifaFileWriter():
         # - Serving count (We will call this Discretionary) ("Food group")
         structure_dict = self._extract_groups_structure()
 
-        # Create a dictionary on the metric measurement
-        # Example: Sodium -> mg (milligrams)
-        group_metrics = {
-            'Sodium': 'mg (milligrams)',
-            'Alcohol': 'standard serves',
-            'Water': '%'
-        }
-
         # Storage order: HEIFA scores, Serve size, Sub-groups
         for main_group, sub_group in structure_dict.items():
             
@@ -142,12 +146,8 @@ class HeifaFileWriter():
                 for gender in ['Male', 'Female']
             ]
 
-            # Get the key name
-            # Default: " serves size"
-            metric = group_metrics.get(main_group, "serve size")
-            main_group_key = f"{main_group} - {metric}"
-
-            self.column_names = heifa_keys + [main_group_key]
+            main_column_name = self._generate_column_name(main_group)
+            self.column_names = heifa_keys + [main_column_name]
 
             if len(sub_group) != 0:
                 self.column_names = sub_group
