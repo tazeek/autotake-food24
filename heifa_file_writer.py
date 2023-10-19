@@ -130,7 +130,8 @@ class HeifaFileWriter():
         # Example: Sodium -> mg (milligrams)
         group_metrics = {
             'Sodium': 'mg (milligrams)',
-            'Alcohol': 'standard serves'
+            'Alcohol': 'standard serves',
+            'Water': '%'
         }
 
         # Storage order: HEIFA scores, Serve size, Sub-groups
