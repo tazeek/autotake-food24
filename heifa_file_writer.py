@@ -143,8 +143,10 @@ class HeifaFileWriter():
 
             # Get the key name
             # Default: " serves size"
+            metric = group_metrics.get(main_group, "serve size")
+            main_group_key = f"{main_group} - {metric}"
 
-            self.column_names = heifa_keys + [f"{main_group} - serves size"]
+            self.column_names = heifa_keys + [main_group_key]
 
             if len(sub_group) != 0:
                 self.column_names = sub_group
