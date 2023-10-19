@@ -154,4 +154,4 @@ def create_heifa_csv(scores_dict, composition_dict, daily_intake, user_scores, f
     transformed_df.fillna(0.00, inplace=True)
     transformed_df.to_csv(f'{file_name}.csv', sep=",", index=False)
 
-    return None
+    return column_names
