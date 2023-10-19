@@ -126,6 +126,13 @@ class HeifaFileWriter():
         # - Serving count (We will call this Discretionary) ("Food group")
         structure_dict = self._extract_groups_structure()
 
+        # Create a dictionary on the metric measurement
+        # Example: Sodium -> mg (milligrams)
+        group_metrics = {
+            'Sodium': 'mg (milligrams)',
+            'Alcohol': 'standard serves'
+        }
+
         # Storage order: HEIFA scores, Serve size, Sub-groups
         for main_group, sub_group in structure_dict.items():
             
@@ -133,6 +140,9 @@ class HeifaFileWriter():
                 f"{main_group} - HEIFA score ({gender})" 
                 for gender in ['Male', 'Female']
             ]
+
+            # Get the key name
+            # Default: " serves size"
 
             self.column_names = heifa_keys + [f"{main_group} - serves size"]
 
