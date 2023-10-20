@@ -54,11 +54,7 @@ class ScoreConvertor:
 
     @classmethod
     def _fruit_variation_score(cls, variation_dict):
-
-        one_servings_list = [1 for serving in variation_dict.values() if serving >= 1]
-        variation_score = 5 if len(one_servings_list) >= 2 else 0
-    
-        return variation_score
+        return 5 if len(variation_dict) >= 2 else 0
 
     @classmethod
     def _vegetables_variation_score(cls, variation_dict):

@@ -7,18 +7,19 @@ class Food:
         self._sodium_consumed = food_info_dict['sodium_consumed']
         self._alcohol_amount = food_info_dict['alcohol_consumed']
         self._sugar_amount = food_info_dict['sugar_amount']
+        self._saturated_fat_amount = food_info_dict['saturated_fat_amount']
 
     @property
     def portion_size(self):
-        return self._portion_size
+        return float(self._portion_size)
     
     @property
     def energy_with_fibre(self):
-        return self._energy_with_fibre
+        return float(self._energy_with_fibre)
     
     @property
     def sodium_consumed(self):
-        return self._sodium_consumed
+        return float(self._sodium_consumed)
 
     @property
     def alcohol_amount(self):
@@ -27,4 +28,8 @@ class Food:
     @property
     def sugar_amount(self):
         return float(self._sugar_amount)
+    
+    @property
+    def saturated_fat_amount(self):
+        return float(self._saturated_fat_amount)
 

@@ -210,6 +210,7 @@ class DailyCalculator:
             self.daily_servings = ("Sugar", ingredient_obj.sugar_amount)
 
             # For the Fats
+            self.daily_servings = ("Saturated Fat", ingredient_obj.saturated_fat_amount)
 
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
@@ -230,19 +231,35 @@ class DailyCalculator:
 
     def _update_single_groups(self, food_group, serving_size):
 
-        # Handle for sugar
-        if food_group == "Sugar":
-            sugar_amount = self.daily_servings.get("Sugar", 0)
-            sugar_energy = round(sugar_amount * self._grams_to_calories[food_group], 2)
+        # Handle for fat:
+        if food_group == "Saturated Fat":
+            sat_fat_amount = self.daily_servings.get(food_group, 0)
+
+            sat_fat_energy = round(
+                sat_fat_amount * self._grams_to_calories["Fat"], 2
+            )
 
             # Percentage amount
             # NOTE: Some days, the energy amount can be 0. Don't ask
-            total_energy =max(self.total_energy, 1)
-            percentage_sugar = round((sugar_energy/total_energy) * 100, 2)
+            total_energy = max(self.total_energy, 1)
+            percentage_fat = round((sat_fat_energy/total_energy) * 100, 1)
 
-            print(f"Sugar amount: {sugar_energy:.2f}")
-            print(f"Energy amount: {total_energy:.2f}")
-            print(f"Percentage sugar: {percentage_sugar:.2f}\n")
+            self.group_servings = ("Saturated Fat", percentage_fat)
+
+            return None
+        
+        # Handle for sugar
+        if food_group == "Sugar":
+            sugar_amount = self.daily_servings.get(food_group, 0)
+
+            sugar_energy = round(
+                sugar_amount * self._grams_to_calories[food_group], 2
+            )
+
+            # Percentage amount
+            # NOTE: Some days, the energy amount can be 0. Don't ask
+            total_energy = max(self.total_energy, 1)
+            percentage_sugar = round((sugar_energy/total_energy) * 100, 1)
 
             self.group_servings = ("Sugar", percentage_sugar)
 

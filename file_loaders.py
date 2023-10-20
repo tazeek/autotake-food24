@@ -38,7 +38,8 @@ async def load_intake24() -> pd.DataFrame:
         'Portion size (g/ml)': 'portion_size_consumed',
         'Sodium': 'sodium_consumed',
         'Alcohol': 'alcohol_consumed',
-        'Total sugars': 'sugar_amount'
+        'Total sugars': 'sugar_amount',
+        'Satd FA': 'saturated_fat_amount'
     }
 
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
@@ -67,7 +68,8 @@ async def load_latrobe_file() -> pd.DataFrame:
         'Sodium ': 'sodium_consumed',
         'Alcohol ': 'alcohol_consumed',
         'Portion size (g/ml)': 'portion_size_consumed',
-        'Total sugars': 'sugar_amount'
+        'Total sugars': 'sugar_amount',
+        'Satd FA': 'saturated_fat_amount'
     }
 
     latrobe_df = _rename_columns(column_replacer_dict, latrobe_df)
