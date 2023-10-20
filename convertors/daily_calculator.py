@@ -54,7 +54,7 @@ class DailyCalculator:
     
     @total_energy.setter
     def total_energy(self, energy_amount):
-        self.total_energy += energy_amount
+        self._total_energy += energy_amount
 
         return None
     
@@ -117,7 +117,7 @@ class DailyCalculator:
     
     @total_energy.deleter
     def total_energy(self):
-        self.total_energy = 0
+        self._total_energy = 0
 
         return None
     
@@ -236,9 +236,17 @@ class DailyCalculator:
             sugar_energy = round(sugar_amount * self._grams_to_calories[food_group], 2)
 
             # Percentage amount
-            percentage_sugar = round((sugar_energy/self._total_energy) * 100, 2)
+            # NOTE: Some days, the energy amount can be 0. Don't ask
+            total_energy =max(self.total_energy, 1)
+            percentage_sugar = round((sugar_energy/total_energy) * 100, 2)
+
+            print(f"Sugar amount: {sugar_energy:.2f}")
+            print(f"Energy amount: {total_energy:.2f}")
+            print(f"Percentage sugar: {percentage_sugar:.2f}\n")
 
             self.group_servings = ("Sugar", percentage_sugar)
+
+            return None
 
         # Handle for fats
 
@@ -308,9 +316,11 @@ class DailyCalculator:
         for survey_id, meals_list in meals_daily_list.items():
 
             # Initialize with new dictionary for new date
+            # and for energy as well
             del self.daily_servings
             del self.group_servings
             del self.variation_servings
+            del self.total_energy
 
             # Calculate the servings
             self._find_servings(meals_list)
