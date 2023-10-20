@@ -186,7 +186,10 @@ class DailyCalculator:
             heifa_obj = ingredients_dict[heifa_id]
             food_group = heifa_obj.food_group
 
-            # For Alcohol
+            # Add in the energy for sugar and fats calculation
+            self.total_energy = energy_with_fibre
+
+            # For Alcohol (PENDING CONFIRMATION)
             if ingredient_obj.alcohol_amount > 0:
                 standard_size_drinks = round(ingredient_obj.alcohol_amount / 10, 1)
                 self.daily_servings = ("Alcohol", standard_size_drinks)
