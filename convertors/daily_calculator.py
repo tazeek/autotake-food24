@@ -231,6 +231,14 @@ class DailyCalculator:
     def _update_single_groups(self, food_group, serving_size):
 
         # Handle for sugar
+        if food_group == "Sugar":
+            sugar_amount = self.daily_servings.get("Sugar", 0)
+            sugar_energy = round(sugar_amount * self._grams_to_calories[food_group], 2)
+
+            # Percentage amount
+            percentage_sugar = round((sugar_energy/self._total_energy) * 100, 2)
+
+            self.group_servings = ("Sugar", percentage_sugar)
 
         # Handle for fats
 
