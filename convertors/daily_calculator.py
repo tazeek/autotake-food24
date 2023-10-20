@@ -13,6 +13,12 @@ class DailyCalculator:
 
         self._sub_as_main = ['Wholegrains']
 
+        # For some of the conversions
+        self._grams_to_calories = {
+            'Sugar': 16.7,
+            'Fat': 37.7
+        }
+
         return None
 
     @property
@@ -178,6 +184,10 @@ class DailyCalculator:
             # For Sodium
             self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
 
+            # For Sugar
+
+            # For the Fats
+
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
                 self._perform_recipe_calculation(
@@ -197,6 +207,10 @@ class DailyCalculator:
 
     def _update_single_groups(self, food_group, serving_size):
 
+        # Handle for sugar
+
+        # Handle for fats
+        
          # Handle for water
         if food_group == "Water":
             beverage_amount = self.daily_servings.get("Non-Alcohol", 0)
