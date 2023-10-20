@@ -16,6 +16,7 @@ class DailyCalculator:
         self._sub_as_main = ['Wholegrains']
 
         # For some of the conversions
+        # Reference: Samara's video
         self._grams_to_calories = {
             'Sugar': 16.7,
             'Fat': 37.7
@@ -206,6 +207,7 @@ class DailyCalculator:
             self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
 
             # For Sugar
+            self.daily_servings = ("Sugar", ingredient_obj.sugar_amount)
 
             # For the Fats
 
