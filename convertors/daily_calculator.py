@@ -7,6 +7,8 @@ class DailyCalculator:
         self._ingredients = ingredients_dict
         self._recipes = recipe_dict
 
+        self._total_energy = 0
+
         self._daily_servings = {}
         self._group_servings = {}
         self._variation_servings = {}
@@ -24,6 +26,10 @@ class DailyCalculator:
     @property
     def variation_servings(self):
         return self._variation_servings
+    
+    @property
+    def total_energy(self):
+        return self._total_energy
 
     @property
     def ingredients(self):
@@ -44,6 +50,12 @@ class DailyCalculator:
     @property
     def sub_groups_main(self):
         return self._sub_as_main
+    
+    @total_energy.setter
+    def total_energy(self, energy_amount):
+        self.total_energy += energy_amount
+
+        return None
     
     @variation_servings.setter
     def variation_servings(self, group_tuple):
@@ -99,6 +111,12 @@ class DailyCalculator:
     @daily_servings.deleter
     def daily_servings(self):
         self._daily_servings = {}
+
+        return None
+    
+    @total_energy.deleter
+    def total_energy(self):
+        self.total_energy = 0
 
         return None
     
@@ -210,7 +228,7 @@ class DailyCalculator:
         # Handle for sugar
 
         # Handle for fats
-        
+
          # Handle for water
         if food_group == "Water":
             beverage_amount = self.daily_servings.get("Non-Alcohol", 0)
