@@ -17,8 +17,10 @@ class HeifaFileWriter():
         # Example: Sodium -> mg (milligrams)
         self._group_metrics = {
             'Sodium': 'mg (milligrams)',
-            'Alcohol': 'standard serves',
-            'Water': '%'
+            'Alcohol': 'standard drinks',
+            'Water': '%',
+            'Sugar': '%',
+            'Saturated Fat': '%',
         }
 
         self._row_data = {}
