@@ -209,8 +209,10 @@ class DailyCalculator:
             # For Sugar
             self.daily_servings = ("Sugar", ingredient_obj.sugar_amount)
 
-            # For the Fats
+            # For the Fats: Saturated, Unsaturated (Mono), Unsaturdated (Poly)
             self.daily_servings = ("Saturated Fat", ingredient_obj.saturated_fat_amount)
+            self.daily_servings = ("Unsaturdated Fat", ingredient_obj.unsaturated_fat_mono_amount)
+            self.daily_servings = ("Unsaturdated Fat", ingredient_obj.unsaturated_fat_poly_amount)
 
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
@@ -231,7 +233,7 @@ class DailyCalculator:
 
     def _update_single_groups(self, food_group, serving_size):
 
-        # Handle for fat:
+        # Handle for saturated fat:
         if food_group == "Saturated Fat":
             sat_fat_amount = self.daily_servings.get(food_group, 0)
 
@@ -265,7 +267,7 @@ class DailyCalculator:
 
             return None
 
-        # Handle for fats
+        # Handle for unsaturated fat
 
          # Handle for water
         if food_group == "Water":
