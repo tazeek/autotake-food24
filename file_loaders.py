@@ -69,7 +69,9 @@ async def load_latrobe_file() -> pd.DataFrame:
         'Alcohol ': 'alcohol_consumed',
         'Portion size (g/ml)': 'portion_size_consumed',
         'Total sugars': 'sugar_amount',
-        'Satd FA': 'saturated_fat_amount'
+        'Satd FA': 'saturated_fat_amount',
+        'Monounsaturated fatty acids (g)': 'unsaturated_fat_mono_amount',
+        'Polyunsaturated fatty acids (g)': 'unsaturated_fat_poly_amount'
     }
 
     latrobe_df = _rename_columns(column_replacer_dict, latrobe_df)
