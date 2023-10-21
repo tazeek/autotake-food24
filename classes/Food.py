@@ -8,6 +8,8 @@ class Food:
         self._alcohol_amount = food_info_dict['alcohol_consumed']
         self._sugar_amount = food_info_dict['sugar_amount']
         self._saturated_fat_amount = food_info_dict['saturated_fat_amount']
+        self._unsaturated_fat_mono_amount = food_info_dict['unsaturated_fat_mono_amount']
+        self._unsaturated_fat_poly_amount = food_info_dict['unsaturated_fat_poly_amount']
 
     @property
     def portion_size(self):
@@ -32,4 +34,12 @@ class Food:
     @property
     def saturated_fat_amount(self):
         return float(self._saturated_fat_amount)
+    
+    @property
+    def unsaturated_fat_mono_amount(self):
+        return float(self._unsaturated_fat_mono_amount)
+
+    @property
+    def unsaturated_fat_poly_amount(self):
+        return float(self._unsaturated_fat_poly_amount)
 

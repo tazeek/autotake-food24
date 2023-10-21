@@ -39,7 +39,9 @@ async def load_intake24() -> pd.DataFrame:
         'Sodium': 'sodium_consumed',
         'Alcohol': 'alcohol_consumed',
         'Total sugars': 'sugar_amount',
-        'Satd FA': 'saturated_fat_amount'
+        'Satd FA': 'saturated_fat_amount',
+        'Monounsaturated fatty acids (g)': 'unsaturated_fat_mono_amount',
+        'Polyunsaturated fatty acids (g)': 'unsaturated_fat_poly_amount'
     }
 
     intake24_df = _rename_columns(column_replacer_dict, intake24_df)
@@ -55,6 +57,7 @@ async def load_intake24() -> pd.DataFrame:
 async def load_latrobe_file() -> pd.DataFrame:
 
     latrobe_df = pd.read_csv('files/latrobe_cleaned_further.csv')
+    print(latrobe_df.columns)
 
     # Replace column names
     column_replacer_dict = {
