@@ -4,6 +4,12 @@ from utils import *
 import streamlit as st
 import pandas as pd
 
+@st.cache_data
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to
+    #  prevent computation on every rerun
+    return df.to_csv().encode('utf-8')
+
 def convert_file_csv(possible_file) -> pd.DataFrame:
 
     # Check if the file is uploaded
@@ -46,6 +52,7 @@ score_convert_df = convert_file_csv(heifa_score_converter)
 user_dict, recipe_dict = None, None
 food_composition_dict, heifa_scores_dict = None, None
 user_heifa_scores, user_daily_intake = None, None
+transformed_df = None
 
 if intake_df is not None:
     intake_df = load_intake24(intake_df)
@@ -83,10 +90,19 @@ if user_daily_intake and heifa_scores_dict:
 if (heifa_scores_dict and food_composition_dict) and \
     (user_daily_intake and user_heifa_scores):
 
-    column_names, dataframe = create_heifa_csv(
+    column_names, transformed_df = create_heifa_csv(
         heifa_scores_dict, food_composition_dict, 
         user_daily_intake, user_heifa_scores,
     )
 
-    st.write(dataframe)
+    csv_file = convert_df(transformed_df)
+
+    st.download_button(
+        label="Download scoring file",
+        data=csv_file,
+        file_name='intake24_testing.csv',
+        mime='text/csv',
+    )
+
+    st.write(transformed_df)
 
