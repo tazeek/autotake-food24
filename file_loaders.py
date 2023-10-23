@@ -22,9 +22,10 @@ def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
 def _rename_columns(name_replacer_dict: dict, dataframe: pd.DataFrame) -> pd.DataFrame:
     return dataframe.rename(columns = name_replacer_dict)
 
-async def load_intake24() -> pd.DataFrame:
+def load_intake24(intake24_df = None) -> pd.DataFrame:
 
-    intake24_df = pd.read_csv('files/intake24_survey_file.csv')
+    if intake24_df is None:
+        intake24_df = pd.read_csv('files/intake24_survey_file.csv')
 
     # Replace column names
     column_replacer_dict = {
@@ -54,9 +55,10 @@ async def load_intake24() -> pd.DataFrame:
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
 
-async def load_latrobe_file() -> pd.DataFrame:
+def load_latrobe_file(latrobe_df = None) -> pd.DataFrame:
 
-    latrobe_df = pd.read_csv('files/latrobe_cleaned_further.csv')
+    if latrobe_df is None:
+        latrobe_df = pd.read_csv('files/latrobe_cleaned_further.csv')
 
     # Replace column names
     column_replacer_dict = {
@@ -87,9 +89,10 @@ async def load_latrobe_file() -> pd.DataFrame:
     # Filter the columns we only need
     return latrobe_df[column_replacer_dict.values()]
 
-async def load_heifa_recipes() -> pd.DataFrame:
+def load_heifa_recipes(heifa_recipes_df = None) -> pd.DataFrame:
 
-    heifa_recipes_df = pd.read_csv('files/heifa_recipes.csv')
+    if heifa_recipes_df is None:
+        heifa_recipes_df = pd.read_csv('files/heifa_recipes.csv')
 
     # Replace column names
     column_replacer_dict = {
@@ -106,9 +109,10 @@ async def load_heifa_recipes() -> pd.DataFrame:
     # Filter the columns we only need
     return heifa_recipes_df[column_replacer_dict.values()]
 
-async def load_heifa_ingredients() -> pd.DataFrame:
+def load_heifa_ingredients(heifa_food_df = None) -> pd.DataFrame:
 
-    heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
+    if heifa_food_df is None:
+        heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
 
     alcohol_column_size = 'Alcoholic beverage serving size\n' + \
         '(Used for number of standard drinks calculations)\n' + \
@@ -134,9 +138,10 @@ async def load_heifa_ingredients() -> pd.DataFrame:
     # Filter the columns we only need
     return heifa_food_df[column_replacer_dict.values()]
 
-async def load_heifa_scores():
+def load_heifa_scores(heifa_scores_df = None):
 
-    heifa_scores_df = pd.read_csv('files/heifa_scores.csv')
+    if heifa_scores_df is None:
+        heifa_scores_df = pd.read_csv('files/heifa_scores.csv')
 
     # Replace column names
     column_replacer_dict = {
