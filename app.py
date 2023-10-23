@@ -1,4 +1,5 @@
 from file_loaders import *
+from utils import *
 
 import streamlit as st
 import pandas as pd
@@ -17,11 +18,6 @@ intake24_file = st.file_uploader(
     "Upload Intake24 file",
     type="csv"
 )
-
-#if intake24_file is not None:
-#    intake_df = pd.read_csv(intake24_file)
-#    print(intake24_file.name)
-#    st.write(intake_df)
 
 # Upload the HEIFA:
 # - Recipes
@@ -47,21 +43,50 @@ recipe_df = convert_file_csv(heifa_recipe_file)
 food_comp_df = convert_file_csv(heifa_food_composition_file)
 score_convert_df = convert_file_csv(heifa_score_converter)
 
+user_dict, recipe_dict = None, None
+food_composition_dict, heifa_scores_dict = None, None
+user_heifa_scores, user_daily_intake = None, None
+
 if intake_df is not None:
     intake_df = load_intake24(intake_df)
-    st.write(intake_df.columns)
+    user_dict = create_user_objects(intake_df)
 
 if recipe_df is not None:
     recipe_df = load_heifa_recipes(recipe_df)
-    st.write(recipe_df.columns)
+    recipe_dict = create_recipe_objects(recipe_df)
 
 if food_comp_df is not None:
     food_comp_df = load_heifa_ingredients(food_comp_df)
-    st.write(food_comp_df.columns)
+    food_composition_dict = create_food_objects(food_comp_df)
 
 if score_convert_df is not None:
     score_convert_df = load_heifa_scores(score_convert_df)
-    st.write(score_convert_df.columns)
+    heifa_scores_dict = create_scores_objects(score_convert_df)
 
+# Get the serves
+if user_dict and recipe_dict and food_composition_dict:
 
+    user_daily_intake = calculate_user_servings(
+        user_dict,
+        food_composition_dict,
+        recipe_dict
+    )
+
+# Get the user intake
+if user_daily_intake and heifa_scores_dict:
+
+    user_heifa_scores = calculate_heifa_scores(
+        heifa_scores_dict, user_daily_intake
+    )
+
+# Get the loaded CSV
+if (heifa_scores_dict and food_composition_dict) and \
+    (user_daily_intake and user_heifa_scores):
+
+    column_names, dataframe = create_heifa_csv(
+        heifa_scores_dict, food_composition_dict, 
+        user_daily_intake, user_heifa_scores,
+    )
+
+    st.write(dataframe)
 
