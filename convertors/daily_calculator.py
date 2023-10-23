@@ -191,9 +191,9 @@ class DailyCalculator:
             self.total_energy = energy_with_fibre
 
             # For Alcohol (PENDING CONFIRMATION)
-            if ingredient_obj.alcohol_amount > 0:
-                standard_size_drinks = round(ingredient_obj.alcohol_amount / 10, 1)
-                self.daily_servings = ("Alcohol", standard_size_drinks)
+            #if ingredient_obj.alcohol_amount > 0:
+            #    standard_size_drinks = round(ingredient_obj.alcohol_amount / 10, 1)
+            #    self.daily_servings = ("Alcohol", standard_size_drinks)
 
             # For non-alcoholic beverage
             if heifa_obj.plain_beverage:
