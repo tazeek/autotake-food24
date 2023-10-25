@@ -1,5 +1,6 @@
 from file_loaders import *
 from utils import *
+from datetime import datetime
 
 import streamlit as st
 import pandas as pd
@@ -9,6 +10,15 @@ def convert_df(df):
     # IMPORTANT: Cache the conversion to
     #  prevent computation on every rerun
     return df.to_csv().encode('utf-8')
+
+def get_file_name():
+
+    file_name = ''
+
+    # Get the current date and time
+    current_datetime = datetime.now()
+
+    return file_name
 
 def convert_file_csv(possible_file) -> pd.DataFrame:
 
@@ -96,6 +106,8 @@ if (heifa_scores_dict and food_composition_dict) and \
     )
 
     csv_file = convert_df(transformed_df)
+
+    
 
     st.download_button(
         label="Download scoring file",
