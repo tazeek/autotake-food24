@@ -121,10 +121,28 @@ class DailyCalculator:
 
         return None
     
-    def _perform_recipe_calculation(self, eight_digit_code, portion_size):
+    def _liquid_calculation(self, heifa_obj, ingredient_obj, portion_size):
+
+        # For Alcohol
+        if heifa_obj.is_alcohol:
+            self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
+
+        # For non-alcoholic beverage
+        if heifa_obj.plain_beverage:
+            self.daily_servings = ("Non-Alcohol", portion_size)
+
+        # For water:
+        if heifa_obj.is_water:
+            self.daily_servings = ("Water", portion_size)
+
+        return None
+    
+    def _perform_recipe_calculation(self, eight_digit_code, ingredient_obj):
 
         ingredients_dict = self.ingredients
         recipes_dict = self.recipes
+
+        portion_size = ingredient_obj.portion_size
 
         # Get the original list of ingredients
         pieces = self.recipes[eight_digit_code].recipe_pieces
@@ -165,6 +183,9 @@ class DailyCalculator:
             food_group = heifa_obj.food_group
             serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
 
+            # For Alcohol, Beverage and/or Water
+            self._liquid_calculation(heifa_obj, ingredient_obj, piece_amount)
+
             # Add to the daily servings attribute
             self.daily_servings = (food_group, serving_size)
 
@@ -204,22 +225,12 @@ class DailyCalculator:
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
                 self._perform_recipe_calculation(
-                    heifa_obj.eight_digit_code, portion_size
+                    heifa_obj.eight_digit_code, ingredient_obj
                 )
                 continue
-
-            # For Alcohol
-            if heifa_obj.is_alcohol:
-                standard_size_drinks = round(ingredient_obj.alcohol_amount / 10, 1)
-                self.daily_servings = ("Alcohol", standard_size_drinks)
-
-            # For non-alcoholic beverage
-            if heifa_obj.plain_beverage:
-                self.daily_servings = ("Non-Alcohol", portion_size)
-
-            # For water:
-            if heifa_obj.is_water:
-                self.daily_servings = ("Water", portion_size)
+            
+            # For Alcohol, Beverage and/or Water
+            self._liquid_calculation(heifa_obj, ingredient_obj, portion_size)
             
             # Calculation for non-recipes
             serving_size = heifa_obj.calculate_serving_size(
@@ -232,6 +243,14 @@ class DailyCalculator:
         return None
 
     def _update_single_groups(self, food_group, serving_size):
+
+        # Handle for Alcohol
+        if food_group == "Alcohol":
+            alcohol_amount = self.daily_servings.get(food_group, 0)
+            standard_serves = round(alcohol_amount / 10, 1)
+            self.group_servings = ("Alcohol", standard_serves)
+
+            return None
 
         # Handle for saturated fat
         if food_group == "Saturated Fat":
