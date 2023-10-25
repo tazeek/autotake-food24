@@ -9,7 +9,7 @@ import pandas as pd
 def convert_df(df):
     # IMPORTANT: Cache the conversion to
     #  prevent computation on every rerun
-    return df.to_csv().encode('utf-8')
+    return df.to_csv(sep=",", index=False).encode('utf-8')
 
 def get_file_name():
 
@@ -106,14 +106,13 @@ if (heifa_scores_dict and food_composition_dict) and \
         user_daily_intake, user_heifa_scores,
     )
 
-    csv_file = convert_df(transformed_df)
-
     st.download_button(
         label="Download scoring file",
-        data=csv_file,
+        data=convert_df(transformed_df),
         file_name=get_file_name(),
         mime='text/csv',
     )
 
     st.write(transformed_df)
+    st.balloons()
 
