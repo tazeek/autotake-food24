@@ -5,7 +5,7 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 
-@st.cache_data
+@st.cache_data(ttl="1d", max_entries=100)
 def convert_df(df):
     # IMPORTANT: Cache the conversion to
     #  prevent computation on every rerun
@@ -21,9 +21,11 @@ def get_file_name():
 
     return f"HEIFA Scores {date} - {time}.csv"
 
+@st.cache_data
 def convert_file_csv(possible_file) -> pd.DataFrame:
 
     # Check if the file is uploaded
+    print("Testing\n\n\n")
     return pd.read_csv(possible_file) \
         if possible_file is not None else None
 
