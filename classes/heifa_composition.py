@@ -4,8 +4,7 @@ class FoodComposition:
 
     def __init__(self, info_dict) -> None:
 
-        alcohol_flag = info_dict['is_alcohol']
-        water_flag = info_dict['is_water'] 
+        beverage_flag = info_dict['is_beverage']
         food_group = info_dict['food_group']
 
         # As per Dr. Heidi: Skip for those with no food groups
@@ -26,9 +25,9 @@ class FoodComposition:
         
         self._alcohol_serving_size = info_dict['alcohol_serving_size']
 
-        self._is_alcohol = alcohol_flag == 1
-        self._plain_beverage = alcohol_flag == 0
-        self._is_water = water_flag == 1
+        self._is_alcohol = 'Alcohol' in food_group
+        self._plain_beverage = beverage_flag == 1
+        self._is_water = 'Water' in food_group
         
         return None
     

@@ -7,8 +7,7 @@ def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
         'serving_size' : 'N/A',
         'serving_measure': 'N/A',
         'alcohol_serving_size': -1,
-        'is_alcohol': -1,
-        'is_water': -1
+        'is_beverage': 0
     }
 
     replaced_columns = list(filled_values.keys())
@@ -118,6 +117,8 @@ def load_heifa_ingredients(heifa_food_df = None) -> pd.DataFrame:
         '(Used for number of standard drinks calculations)\n' + \
         "Note: Column AU = 'Alcohol' in grams"
 
+    print(heifa_food_df.columns)
+
     # Replace column names
     column_replacer_dict = {
         'Nutrient table code': 'heifa_code',
@@ -125,8 +126,7 @@ def load_heifa_ingredients(heifa_food_df = None) -> pd.DataFrame:
         'HEIFA-2013 Food Group': 'food_group',
         'Energy or grams per Serve \n(HEIFA food groups)': 'serving_size',
         'Serving size unit of measure': 'serving_measure',
-        'Water Flag\n(0=Not water, 1=Water)': 'is_water',
-        'Beverage Flag\n(0=Non-alcoholic\n1=Alcoholic)': 'is_alcohol',
+        'Non-alcoholic beverage Flag\n(1=Non-alcoholic beverage)': 'is_beverage',
         alcohol_column_size: 'alcohol_serving_size'
     }
 
