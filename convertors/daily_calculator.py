@@ -311,7 +311,7 @@ class DailyCalculator:
 
          # Handle for water
         if food_group == "Water":
-            beverage_amount = self.daily_servings.get("Non-Alcohol", 0)
+            beverage_amount = self.daily_servings.get("Non-Alcohol", 1)
             amount = round((serving_size/beverage_amount) * 100, 1)
 
             # Has to be more than 1.5L else default to 0

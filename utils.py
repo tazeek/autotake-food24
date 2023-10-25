@@ -154,7 +154,8 @@ def create_heifa_csv(scores_dict, composition_dict,
     transformed_df = pd.DataFrame(rows_data, columns=column_names)
     transformed_df.fillna(0.00, inplace=True)
 
+    # This is if you want to generate in-line, without the streamlit app
     if file_name is not None:
         transformed_df.to_csv(f'{file_name}.csv', sep=",", index=False)
 
-    return column_names, transformed_df
+    return transformed_df

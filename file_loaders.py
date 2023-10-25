@@ -117,8 +117,6 @@ def load_heifa_ingredients(heifa_food_df = None) -> pd.DataFrame:
         '(Used for number of standard drinks calculations)\n' + \
         "Note: Column AU = 'Alcohol' in grams"
 
-    print(heifa_food_df.columns)
-
     # Replace column names
     column_replacer_dict = {
         'Nutrient table code': 'heifa_code',
