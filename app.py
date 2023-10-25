@@ -5,6 +5,14 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 
+def _dataframe_transformer(function_loader):
+    return {
+        'intake24': load_intake24,
+        'food_compo': load_heifa_ingredients,
+        'recipe': load_heifa_recipes,
+        'heifa_scores': load_heifa_scores,
+    }[function_loader]
+
 @st.cache_data
 def convert_df(df):
     return df.to_csv(sep=",", index=False).encode('utf-8')
@@ -20,12 +28,16 @@ def get_file_name():
     return f"HEIFA Scores {date} - {time}.csv"
 
 @st.cache_data(ttl="1d", max_entries=100)
-def convert_file_csv(possible_file) -> pd.DataFrame:
+def convert_file_csv(possible_file, function_loader) -> pd.DataFrame:
 
-    # Check if the file is uploaded
-    print("Testing\n\n\n")
-    return pd.read_csv(possible_file) \
-        if possible_file is not None else None
+    if possible_file is None:
+        return None
+    
+    file = pd.read_csv(possible_file)
+    transformer_function = _dataframe_transformer(function_loader)
+    
+    print(f"Loading: {function_loader}\n\n\n")
+    return transformer_function(file)
 
 @st.cache_data(ttl="1d", max_entries = 20)
 def fetch_heifa_scores(_heifa_scores_dict, _user_daily_intake):
@@ -69,10 +81,10 @@ heifa_score_converter = st.file_uploader(
     type="csv"
 )
 
-intake_df = convert_file_csv(intake24_file)
-recipe_df = convert_file_csv(heifa_recipe_file)
-food_comp_df = convert_file_csv(heifa_food_composition_file)
-score_convert_df = convert_file_csv(heifa_score_converter)
+intake_df = convert_file_csv(intake24_file, 'intake24')
+recipe_df = convert_file_csv(heifa_recipe_file, 'recipe')
+food_comp_df = convert_file_csv(heifa_food_composition_file, 'food_compo')
+score_convert_df = convert_file_csv(heifa_score_converter, 'heifa_scores')
 
 user_dict, recipe_dict = None, None
 food_composition_dict, heifa_scores_dict = None, None
@@ -80,19 +92,15 @@ user_heifa_scores, user_daily_intake = None, None
 transformed_df = None
 
 if intake_df is not None:
-    intake_df = load_intake24(intake_df)
     user_dict = create_user_objects(intake_df)
 
 if recipe_df is not None:
-    recipe_df = load_heifa_recipes(recipe_df)
     recipe_dict = create_recipe_objects(recipe_df)
 
 if food_comp_df is not None:
-    food_comp_df = load_heifa_ingredients(food_comp_df)
     food_composition_dict = create_food_objects(food_comp_df)
 
 if score_convert_df is not None:
-    score_convert_df = load_heifa_scores(score_convert_df)
     heifa_scores_dict = create_scores_objects(score_convert_df)
 
 # Get the serves
