@@ -5,7 +5,7 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 
-@st.cache_data(ttl="1d", max_entries=100)
+@st.cache_data
 def convert_df(df):
     # IMPORTANT: Cache the conversion to
     #  prevent computation on every rerun
@@ -21,13 +21,27 @@ def get_file_name():
 
     return f"HEIFA Scores {date} - {time}.csv"
 
-@st.cache_data
+@st.cache_data(ttl="1d", max_entries=100)
 def convert_file_csv(possible_file) -> pd.DataFrame:
 
     # Check if the file is uploaded
     print("Testing\n\n\n")
     return pd.read_csv(possible_file) \
         if possible_file is not None else None
+
+@st.cache_data(ttl="1d", max_entries = 20)
+def fetch_heifa_scores(heifa_scores_dict, user_daily_intake):
+    return calculate_heifa_scores(
+        heifa_scores_dict, user_daily_intake
+    )
+
+@st.cache_data(ttl="1d", max_entries = 20)
+def get_user_servings(user_dict, food_comp_dict, recipe_dict):
+    return calculate_user_servings(
+        user_dict,
+        food_comp_dict,
+        recipe_dict
+    )
 
 st.title('Hello World. Welcome to Autotake24.')
 
@@ -86,7 +100,7 @@ if score_convert_df is not None:
 # Get the serves
 if user_dict and recipe_dict and food_composition_dict:
 
-    user_daily_intake = calculate_user_servings(
+    user_daily_intake = get_user_servings(
         user_dict,
         food_composition_dict,
         recipe_dict
@@ -95,7 +109,7 @@ if user_dict and recipe_dict and food_composition_dict:
 # Get the user intake
 if user_daily_intake and heifa_scores_dict:
 
-    user_heifa_scores = calculate_heifa_scores(
+    user_heifa_scores = fetch_heifa_scores(
         heifa_scores_dict, user_daily_intake
     )
 
