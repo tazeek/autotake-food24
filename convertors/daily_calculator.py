@@ -190,19 +190,6 @@ class DailyCalculator:
             # Add in the energy for sugar and fats calculation
             self.total_energy = energy_with_fibre
 
-            # For Alcohol (PENDING CONFIRMATION)
-            #if ingredient_obj.alcohol_amount > 0:
-            #    standard_size_drinks = round(ingredient_obj.alcohol_amount / 10, 1)
-            #    self.daily_servings = ("Alcohol", standard_size_drinks)
-
-            # For non-alcoholic beverage
-            if heifa_obj.plain_beverage:
-                self.daily_servings = ("Non-Alcohol", portion_size)
-
-            # For water:
-            if heifa_obj.is_water:
-                self.daily_servings = ("Water", portion_size)
-
             # For Sodium
             self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
 
@@ -220,6 +207,19 @@ class DailyCalculator:
                     heifa_obj.eight_digit_code, portion_size
                 )
                 continue
+
+            # For Alcohol
+            if heifa_obj.is_alcohol:
+                standard_size_drinks = round(ingredient_obj.alcohol_amount / 10, 1)
+                self.daily_servings = ("Alcohol", standard_size_drinks)
+
+            # For non-alcoholic beverage
+            if heifa_obj.plain_beverage:
+                self.daily_servings = ("Non-Alcohol", portion_size)
+
+            # For water:
+            if heifa_obj.is_water:
+                self.daily_servings = ("Water", portion_size)
             
             # Calculation for non-recipes
             serving_size = heifa_obj.calculate_serving_size(
