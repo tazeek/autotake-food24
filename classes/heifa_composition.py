@@ -4,6 +4,14 @@ class FoodComposition:
 
     def __init__(self, info_dict) -> None:
 
+        alcohol_flag = info_dict['is_alcohol']
+        water_flag = info_dict['is_water'] 
+        food_group = info_dict['food_group']
+
+        # As per Dr. Heidi: Skip for those with no food groups
+        # Trial-error checks: Skip for Water
+        skip_group_list = ['No food group', 'Water']
+
         self._heifa_code = info_dict['heifa_code']
         self._8_digit_code = info_dict['eight_digit_code']
 
@@ -12,18 +20,15 @@ class FoodComposition:
         self._serving_measure = info_dict['serving_measure']
         self._food_group = info_dict['food_group']
 
-        self._is_recipe = self._check_if_recipe(info_dict['food_group'])
-
+        self._is_recipe = 'Recipe' in food_group
         self._required_portion_calculation = \
-            self._is_required_portion_calculation(info_dict['food_group'])
+            food_group not in skip_group_list
         
         self._alcohol_serving_size = info_dict['alcohol_serving_size']
 
-        self._plain_beverage = \
-            self._is_plain_beverage(info_dict['is_alcohol'])
-        
-        self._is_water = \
-            self._is_water(info_dict['is_water'])
+        self._is_alcohol = alcohol_flag == 1
+        self._plain_beverage = alcohol_flag == 0
+        self._is_water = water_flag == 1
         
         return None
     
@@ -62,31 +67,6 @@ class FoodComposition:
     @property
     def alcohol_serving_size(self):
         return self._alcohol_serving_size
-    
-    def _is_required_portion_calculation(self, food_group):
-
-        # As per Dr. Heidi: Skip for those with no food groups
-        # Trial-error checks: Skip for Water
-        skip_group_list = ['No food group', 'Water']
-
-        if food_group not in skip_group_list:
-            return True
-        
-        return False
-    
-    def _is_plain_beverage(self, is_alcohol):
-        return True if is_alcohol == 0 else False
-    
-    def _is_water(self, is_water):
-        return True if is_water == 1 else False
-    
-    def _check_if_recipe(self, food_group):
-
-        if "Recipe" in food_group:
-
-            return True
-        
-        return False
     
     def calculate_serving_size(self, energy_with_fibre, weight):
 
