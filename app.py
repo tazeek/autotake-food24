@@ -31,7 +31,7 @@ def get_file_name():
 
     return f"HEIFA Scores {date} - {time}.csv"
 
-@st.cache_data
+@st.cache_data(ttl="1hr", max_entries=20)
 def convert_df(df):
     return df.to_csv(sep=",", index=False).encode('utf-8')
 
@@ -44,15 +44,12 @@ def convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
     file = pd.read_csv(possible_file)
     transformer_function = _dataframe_transformer(function_loader)
     
-    print(f"\nLoading: {function_loader}\n\n")
     return transformer_function(file)
 
 @st.cache_data(ttl="1d", max_entries=100)
 def convert_dataframe_objects(dataframe, function_loader) -> pd.DataFrame:
 
     transformer_function = _create_objects(function_loader)
-    
-    print(f"\nCreating objects: {function_loader}\n\n")
     return transformer_function(dataframe)
 
 @st.cache_data(ttl="1d", max_entries = 20)
@@ -69,19 +66,31 @@ def get_user_servings(_user_dict, _food_comp_dict, _recipe_dict):
         _recipe_dict
     )
 
-st.title('Hello World. Welcome to Autotake24.')
+user_dict, recipe_dict = None, None
+food_composition_dict, heifa_scores_dict = None, None
+user_heifa_scores, user_daily_intake = None, None
+transformed_df = None
 
-# Upload the Intake24 file
+# Page configurations
+st.set_page_config(
+    page_title="Autotake24 - Get your scores calculated!",
+    page_icon="🍊",
+    layout="wide"
+)
+
+st.title('Welcome to Autotake24.')
 st.header("File upload section")
+# Upload:
+# - Intake24
+# - Recipes
+# - Food Composition
+# - Scoring file
+
 intake24_file = st.file_uploader(
     "Upload Intake24 file",
     type="csv"
 )
 
-# Upload the HEIFA:
-# - Recipes
-# - Food Composition
-# - Scoring file
 heifa_recipe_file = st.file_uploader(
     "Upload HEIFA recipe list",
     type="csv"
@@ -101,11 +110,6 @@ intake_df = convert_csv_dataframe(intake24_file, 'intake24')
 recipe_df = convert_csv_dataframe(heifa_recipe_file, 'recipe')
 food_comp_df = convert_csv_dataframe(heifa_food_composition_file, 'food_compo')
 score_convert_df = convert_csv_dataframe(heifa_score_converter, 'heifa_scores')
-
-user_dict, recipe_dict = None, None
-food_composition_dict, heifa_scores_dict = None, None
-user_heifa_scores, user_daily_intake = None, None
-transformed_df = None
 
 if intake_df is not None:
     user_dict = convert_dataframe_objects(intake_df, 'intake24')
