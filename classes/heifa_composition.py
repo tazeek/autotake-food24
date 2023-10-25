@@ -65,6 +65,10 @@ class FoodComposition:
         return self._plain_beverage
     
     @property
+    def is_alcohol(self):
+        return self._is_alcohol
+    
+    @property
     def alcohol_serving_size(self):
         return self._alcohol_serving_size
     
