@@ -13,12 +13,13 @@ def convert_df(df):
 
 def get_file_name():
 
-    file_name = ''
-
     # Get the current date and time
-    current_datetime = datetime.now()
+    datetime_obj = datetime.now()
+    
+    date = datetime_obj.strftime("%Y_%m_%d")
+    time = datetime_obj.strftime("%H-%M")
 
-    return file_name
+    return f"HEIFA Scores {date} - {time}.csv"
 
 def convert_file_csv(possible_file) -> pd.DataFrame:
 
@@ -100,19 +101,17 @@ if user_daily_intake and heifa_scores_dict:
 if (heifa_scores_dict and food_composition_dict) and \
     (user_daily_intake and user_heifa_scores):
 
-    column_names, transformed_df = create_heifa_csv(
+    transformed_df = create_heifa_csv(
         heifa_scores_dict, food_composition_dict, 
         user_daily_intake, user_heifa_scores,
     )
 
     csv_file = convert_df(transformed_df)
 
-    
-
     st.download_button(
         label="Download scoring file",
         data=csv_file,
-        file_name='intake24_testing.csv',
+        file_name=get_file_name(),
         mime='text/csv',
     )
 
