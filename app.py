@@ -7,8 +7,6 @@ import pandas as pd
 
 @st.cache_data
 def convert_df(df):
-    # IMPORTANT: Cache the conversion to
-    #  prevent computation on every rerun
     return df.to_csv(sep=",", index=False).encode('utf-8')
 
 def get_file_name():
@@ -30,17 +28,17 @@ def convert_file_csv(possible_file) -> pd.DataFrame:
         if possible_file is not None else None
 
 @st.cache_data(ttl="1d", max_entries = 20)
-def fetch_heifa_scores(heifa_scores_dict, user_daily_intake):
+def fetch_heifa_scores(_heifa_scores_dict, _user_daily_intake):
     return calculate_heifa_scores(
-        heifa_scores_dict, user_daily_intake
+        _heifa_scores_dict, _user_daily_intake
     )
 
 @st.cache_data(ttl="1d", max_entries = 20)
-def get_user_servings(user_dict, food_comp_dict, recipe_dict):
+def get_user_servings(_user_dict, _food_comp_dict, _recipe_dict):
     return calculate_user_servings(
-        user_dict,
-        food_comp_dict,
-        recipe_dict
+        _user_dict,
+        _food_comp_dict,
+        _recipe_dict
     )
 
 st.title('Hello World. Welcome to Autotake24.')
