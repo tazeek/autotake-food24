@@ -7,21 +7,13 @@ import pandas as pd
 
 def _dataframe_transformer(function_loader):
     return {
-        'intake24': load_intake24,
-        'food_compo': load_heifa_ingredients,
-        'recipe': load_heifa_recipes,
-        'heifa_scores': load_heifa_scores,
+        'intake24': [load_intake24, create_user_objects],
+        'food_compo': [load_heifa_ingredients, create_food_objects],
+        'recipe': [load_heifa_recipes, create_recipe_objects],
+        'heifa_scores': [load_heifa_scores, create_scores_objects],
     }[function_loader]
 
-def _create_objects(function_loader):
-    return {
-        'intake24': create_user_objects,
-        'food_compo': create_food_objects,
-        'recipe': create_recipe_objects,
-        'heifa_scores': create_scores_objects,
-    }[function_loader]
-
-def get_file_name():
+def _get_file_name():
 
     # Get the current date and time
     datetime_obj = datetime.now()
@@ -32,7 +24,7 @@ def get_file_name():
     return f"HEIFA Scores {date} - {time}.csv"
 
 @st.cache_data(ttl="1hr", max_entries=20)
-def convert_df(df):
+def _convert_df(df):
     return df.to_csv(sep=",", index=False).encode('utf-8')
 
 @st.cache_data(ttl="1d", max_entries=100)
@@ -43,12 +35,14 @@ def _convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
     
     file = pd.read_csv(possible_file)
 
-    # Step 1: Load the CSV properly
-    cleaner_function = _dataframe_transformer(function_loader)
+    # Step 1: Load the CSV properly (Cleaner)
+    # Step 2: Convert from CSV to objects (Transformer)
+    cleaner_function, transformer_function = \
+        _dataframe_transformer(function_loader)
+    
     cleaned_df = cleaner_function(file)
 
-    # Step 2: Convert from CSV to objects
-    transformer_function = _create_objects(function_loader)
+    #transformer_function = _create_objects(function_loader)
     
     return transformer_function(cleaned_df)
 
@@ -64,7 +58,7 @@ def get_csv_heifa_scores(*args):
     heifa_scores_dict = _convert_csv_dataframe(heifa_score_file, 'heifa_scores')
 
     # 2. Get the user servings
-    user_daily_intake = calculate_user_servings(
+    missing_ids_list, user_daily_intake = calculate_user_servings(
         user_dict,
         food_composition_dict,
         recipe_dict
@@ -76,7 +70,7 @@ def get_csv_heifa_scores(*args):
     )
 
     # 4. Return the created CSV file
-    return create_heifa_csv(
+    return missing_ids_list, create_heifa_csv(
         heifa_scores_dict, 
         food_composition_dict, 
         user_daily_intake, 
@@ -92,6 +86,7 @@ st.set_page_config(
 
 st.title('Welcome to Autotake24.')
 st.header("File upload section")
+
 # Upload:
 # - Intake24
 # - Recipes
@@ -122,17 +117,22 @@ heifa_score_file = st.file_uploader(
 if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
 
     # Get the loaded CSV
-    transformed_df = get_csv_heifa_scores(
+    missing_ids_list, transformed_df = get_csv_heifa_scores(
         intake24_file, 
         heifa_recipe_file, 
         heifa_food_file, 
         heifa_score_file,
     )
 
+    # For missing HEIFA files
+    if missing_ids_list:
+        combined_ids = " ".join(missing_ids_list)
+        st.write(f'Following HEIFA IDs not found: {combined_ids}')
+
     st.download_button(
         label="Download scoring file",
-        data=convert_df(transformed_df),
-        file_name=get_file_name(),
+        data=_convert_df(transformed_df),
+        file_name=_get_file_name(),
         mime='text/csv',
     )
 

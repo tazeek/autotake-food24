@@ -113,9 +113,10 @@ def calculate_user_servings(
     }
 
     daily_calculator = DailyCalculator(food_composition_dict, recipe_dict)
+    missing_ids_list = daily_calculator.missing_nutrition_ids
 
     # We calculate each serving on a daily basis and return
-    return {
+    return missing_ids_list, {
         user_id: daily_calculator.calculate_daily_servings(meal_date_dict)
         for user_id, meal_date_dict in user_meals.items()
     }

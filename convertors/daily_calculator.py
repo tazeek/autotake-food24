@@ -13,6 +13,8 @@ class DailyCalculator:
         self._group_servings = {}
         self._variation_servings = {}
 
+        self._missing_nutrition_ids = []
+
         self._sub_as_main = ['Wholegrains']
 
         # For some of the conversions
@@ -51,6 +53,10 @@ class DailyCalculator:
     @property
     def sub_groups_main(self):
         return self._sub_as_main
+    
+    @property
+    def missing_nutrition_ids(self):
+        return self._missing_nutrition_ids
     
     @total_energy.setter
     def total_energy(self, energy_amount):
@@ -95,6 +101,13 @@ class DailyCalculator:
         group_serve_total += float(serving_size)
         self._daily_servings[food_group] = group_serve_total
 
+        return None
+    
+    @missing_nutrition_ids.setter
+    def missing_nutrition_ids(self, heifa_id):
+
+        if heifa_id not in self._missing_nutrition_ids:
+            self._missing_nutrition_ids.append(heifa_id)
         return None
 
     @variation_servings.deleter
@@ -210,6 +223,7 @@ class DailyCalculator:
 
             # Just in case....
             if heifa_id not in ingredients_dict:
+                self.missing_nutrition_ids = heifa_id
                 print(f"\nHEIFA ID {heifa_id} not found")
                 continue
 
