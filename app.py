@@ -36,7 +36,7 @@ def convert_df(df):
     return df.to_csv(sep=",", index=False).encode('utf-8')
 
 @st.cache_data(ttl="1d", max_entries=100)
-def convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
+def _convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
 
     if possible_file is None:
         return None
@@ -58,10 +58,10 @@ def get_csv_heifa_scores(*args):
     intake24_file, heifa_recipe_file, heifa_food_file, heifa_score_file = args
 
     # 1. Load the files
-    user_dict = convert_csv_dataframe(intake24_file, 'intake24')
-    recipe_dict = convert_csv_dataframe(heifa_recipe_file, 'recipe')
-    food_composition_dict = convert_csv_dataframe(heifa_food_file, 'food_compo')
-    heifa_scores_dict = convert_csv_dataframe(heifa_score_file, 'heifa_scores')
+    user_dict = _convert_csv_dataframe(intake24_file, 'intake24')
+    recipe_dict = _convert_csv_dataframe(heifa_recipe_file, 'recipe')
+    food_composition_dict = _convert_csv_dataframe(heifa_food_file, 'food_compo')
+    heifa_scores_dict = _convert_csv_dataframe(heifa_score_file, 'heifa_scores')
 
     # 2. Get the user servings
     user_daily_intake = calculate_user_servings(
