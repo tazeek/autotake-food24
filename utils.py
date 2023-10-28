@@ -20,7 +20,7 @@ def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
         # Fetch the survey, regardless if it is same or not
         survey_obj = user_obj.get_survey(
-            intake24_row['survey_id'], intake24_row['information_date']
+            intake24_row['survey_id']
         )
 
         # Fetch the meal, regardless if it is the same or not

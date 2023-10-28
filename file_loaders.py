@@ -26,9 +26,11 @@ def load_intake24(intake24_df = None) -> pd.DataFrame:
     if intake24_df is None:
         intake24_df = pd.read_csv('files/intake24_survey_file.csv')
 
+    # Remove whitespaces in columns
+    intake24_df.rename(columns=lambda x: x.strip(), inplace=True)
+
     # Replace column names
     column_replacer_dict = {
-        'Start time': 'information_date',
         'Energy, with dietary fibre': 'energy_with_fibre',
         'Meal name': 'meal_name',
         'Survey ID': 'survey_id',
@@ -49,6 +51,7 @@ def load_intake24(intake24_df = None) -> pd.DataFrame:
     # Some of the IDs are not present, so we drop them
     print(f"Before dropping function: {len(intake24_df)} rows")
     intake24_df = intake24_df[intake24_df['heifa_nutrient_id'].notna()]
+    intake24_df = intake24_df[intake24_df['portion_size_consumed'].notna()]
     print(f"After dropping function: {len(intake24_df)} rows")
 
     # Filter the columns we only need
@@ -61,7 +64,6 @@ def load_latrobe_file(latrobe_df = None) -> pd.DataFrame:
 
     # Replace column names
     column_replacer_dict = {
-        'Start date (AEST)': 'information_date',
         'Energy, with dietary fibre': 'energy_with_fibre',
         'Meal name': 'meal_name',
         'Survey ID': 'survey_id',

@@ -12,22 +12,19 @@ class User:
         return self._surveys
     
     @surveys.setter
-    def surveys(self, survey_tuple):
-
-        # Unpack the tuples
-        survey_id, survey_date = survey_tuple
+    def surveys(self, survey_id):
 
         # Add if it does not exist
         if survey_id not in self.surveys:
-            self.surveys[survey_id] = Survey(survey_date)
+            self.surveys[survey_id] = Survey()
 
         return None
 
-    def get_survey(self, survey_id, survey_date=None) -> Survey:
+    def get_survey(self, survey_id) -> Survey:
 
         # Use the setter, regardless
-        # The setter will handle it
-        self.surveys = (survey_id, survey_date)
+        # The setter will handle i
+        self.surveys = survey_id
 
         return self.surveys[survey_id]
 
@@ -36,7 +33,7 @@ class User:
         for id, survey_obj in self.surveys.items():
             
             # Go by surveys
-            print(f"Printing for Survey ID {id} on date {survey_obj.date}\n")
+            print(f"Printing for Survey ID {id}\n")
 
             # Print out one meal per survey
             survey_obj.print_meals()
