@@ -52,30 +52,36 @@ def convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
     
     return transformer_function(cleaned_df)
 
-@st.cache_data(ttl="1d", max_entries=100)
-def convert_dataframe_objects(dataframe, function_loader) -> pd.DataFrame:
+@st.cache_data(ttl="1hr", max_entries = 30)
+def get_csv_heifa_scores(*args):
 
-    transformer_function = _create_objects(function_loader)
-    return transformer_function(dataframe)
+    intake24_file, heifa_recipe_file, heifa_food_file, heifa_score_file = args
 
-@st.cache_data(ttl="1d", max_entries = 20)
-def fetch_heifa_scores(file_name, _heifa_scores_dict, _user_daily_intake):
-    return calculate_heifa_scores(
-        _heifa_scores_dict, _user_daily_intake
+    # 1. Load the files
+    user_dict = convert_csv_dataframe(intake24_file, 'intake24')
+    recipe_dict = convert_csv_dataframe(heifa_recipe_file, 'recipe')
+    food_composition_dict = convert_csv_dataframe(heifa_food_file, 'food_compo')
+    heifa_scores_dict = convert_csv_dataframe(heifa_score_file, 'heifa_scores')
+
+    # 2. Get the user servings
+    user_daily_intake = calculate_user_servings(
+        user_dict,
+        food_composition_dict,
+        recipe_dict
     )
 
-@st.cache_data(ttl="1d", max_entries = 20)
-def get_user_servings(file_name, _user_dict, _food_comp_dict, _recipe_dict):
-    return calculate_user_servings(
-        _user_dict,
-        _food_comp_dict,
-        _recipe_dict
+    # 3. Convert to HEIFA scores
+    user_heifa_scores = calculate_heifa_scores(
+        heifa_scores_dict, user_daily_intake
     )
 
-user_dict, recipe_dict = None, None
-food_composition_dict, heifa_scores_dict = None, None
-user_heifa_scores, user_daily_intake = None, None
-transformed_df = None
+    # 4. Return the created CSV file
+    return create_heifa_csv(
+        heifa_scores_dict, 
+        food_composition_dict, 
+        user_daily_intake, 
+        user_heifa_scores,
+    )
 
 # Page configurations
 st.set_page_config(
@@ -102,46 +108,25 @@ heifa_recipe_file = st.file_uploader(
     type="csv"
 )
 
-heifa_food_composition_file = st.file_uploader(
+heifa_food_file = st.file_uploader(
     "Upload HEIFA food composition list",
     type="csv"
 )
 
-heifa_score_converter = st.file_uploader(
+heifa_score_file = st.file_uploader(
     "Upload HEIFA scoring rules file",
     type="csv"
 )
 
-user_dict = convert_csv_dataframe(intake24_file, 'intake24')
-recipe_dict = convert_csv_dataframe(heifa_recipe_file, 'recipe')
-food_composition_dict = convert_csv_dataframe(heifa_food_composition_file, 'food_compo')
-heifa_scores_dict = convert_csv_dataframe(heifa_score_converter, 'heifa_scores')
-
 # Get the serves
-if (user_dict and recipe_dict) and (food_composition_dict and heifa_scores_dict):
-
-    hashed_file = intake24_file.name
-
-    user_daily_intake = get_user_servings(
-        hashed_file,
-        user_dict,
-        food_composition_dict,
-        recipe_dict
-    )
-
-    # Get the user intake
-    user_heifa_scores = fetch_heifa_scores(
-        hashed_file,
-        heifa_scores_dict, 
-        user_daily_intake
-    )
+if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
 
     # Get the loaded CSV
-    transformed_df = create_heifa_csv(
-        heifa_scores_dict, 
-        food_composition_dict, 
-        user_daily_intake, 
-        user_heifa_scores,
+    transformed_df = get_csv_heifa_scores(
+        intake24_file, 
+        heifa_recipe_file, 
+        heifa_food_file, 
+        heifa_score_file,
     )
 
     st.download_button(
