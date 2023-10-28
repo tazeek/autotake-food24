@@ -42,9 +42,15 @@ def convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
         return None
     
     file = pd.read_csv(possible_file)
-    transformer_function = _dataframe_transformer(function_loader)
+
+    # Step 1: Load the CSV properly
+    cleaner_function = _dataframe_transformer(function_loader)
+    cleaned_df = cleaner_function(file)
+
+    # Step 2: Convert from CSV to objects
+    transformer_function = _create_objects(function_loader)
     
-    return transformer_function(file)
+    return transformer_function(cleaned_df)
 
 @st.cache_data(ttl="1d", max_entries=100)
 def convert_dataframe_objects(dataframe, function_loader) -> pd.DataFrame:
@@ -106,22 +112,10 @@ heifa_score_converter = st.file_uploader(
     type="csv"
 )
 
-intake_df = convert_csv_dataframe(intake24_file, 'intake24')
-recipe_df = convert_csv_dataframe(heifa_recipe_file, 'recipe')
-food_comp_df = convert_csv_dataframe(heifa_food_composition_file, 'food_compo')
-score_convert_df = convert_csv_dataframe(heifa_score_converter, 'heifa_scores')
-
-if intake_df is not None:
-    user_dict = convert_dataframe_objects(intake_df, 'intake24')
-
-if recipe_df is not None:
-    recipe_dict = convert_dataframe_objects(recipe_df, 'recipe')
-
-if food_comp_df is not None:
-    food_composition_dict = convert_dataframe_objects(food_comp_df, 'food_compo')
-
-if score_convert_df is not None:
-    heifa_scores_dict = convert_dataframe_objects(score_convert_df, 'heifa_scores')
+user_dict = convert_csv_dataframe(intake24_file, 'intake24')
+recipe_dict = convert_csv_dataframe(heifa_recipe_file, 'recipe')
+food_composition_dict = convert_csv_dataframe(heifa_food_composition_file, 'food_compo')
+heifa_scores_dict = convert_csv_dataframe(heifa_score_converter, 'heifa_scores')
 
 # Get the serves
 if user_dict and recipe_dict and food_composition_dict:
