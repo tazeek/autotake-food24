@@ -59,13 +59,13 @@ def convert_dataframe_objects(dataframe, function_loader) -> pd.DataFrame:
     return transformer_function(dataframe)
 
 @st.cache_data(ttl="1d", max_entries = 20)
-def fetch_heifa_scores(_heifa_scores_dict, _user_daily_intake):
+def fetch_heifa_scores(file_name, _heifa_scores_dict, _user_daily_intake):
     return calculate_heifa_scores(
         _heifa_scores_dict, _user_daily_intake
     )
 
 @st.cache_data(ttl="1d", max_entries = 20)
-def get_user_servings(_user_dict, _food_comp_dict, _recipe_dict):
+def get_user_servings(file_name, _user_dict, _food_comp_dict, _recipe_dict):
     return calculate_user_servings(
         _user_dict,
         _food_comp_dict,
@@ -118,28 +118,30 @@ food_composition_dict = convert_csv_dataframe(heifa_food_composition_file, 'food
 heifa_scores_dict = convert_csv_dataframe(heifa_score_converter, 'heifa_scores')
 
 # Get the serves
-if user_dict and recipe_dict and food_composition_dict:
+if (user_dict and recipe_dict) and (food_composition_dict and heifa_scores_dict):
+
+    hashed_file = intake24_file.name
 
     user_daily_intake = get_user_servings(
+        hashed_file,
         user_dict,
         food_composition_dict,
         recipe_dict
     )
 
-# Get the user intake
-if user_daily_intake and heifa_scores_dict:
-
+    # Get the user intake
     user_heifa_scores = fetch_heifa_scores(
-        heifa_scores_dict, user_daily_intake
+        hashed_file,
+        heifa_scores_dict, 
+        user_daily_intake
     )
 
-# Get the loaded CSV
-if (heifa_scores_dict and food_composition_dict) and \
-    (user_daily_intake and user_heifa_scores):
-
+    # Get the loaded CSV
     transformed_df = create_heifa_csv(
-        heifa_scores_dict, food_composition_dict, 
-        user_daily_intake, user_heifa_scores,
+        heifa_scores_dict, 
+        food_composition_dict, 
+        user_daily_intake, 
+        user_heifa_scores,
     )
 
     st.download_button(
