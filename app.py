@@ -27,7 +27,6 @@ def _get_file_name():
 def _convert_df(df):
     return df.to_csv(sep=",", index=False).encode('utf-8')
 
-@st.cache_data(ttl="1d", max_entries=100)
 def _convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
 
     if possible_file is None:
@@ -46,16 +45,19 @@ def _convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
     
     return transformer_function(cleaned_df)
 
-@st.cache_data(ttl="1hr", max_entries = 30)
 def get_csv_heifa_scores(*args):
 
     intake24_file, heifa_recipe_file, heifa_food_file, heifa_score_file = args
+
+    my_bar = st.progress(0, text="Loading files..")
 
     # 1. Load the files
     user_dict = _convert_csv_dataframe(intake24_file, 'intake24')
     recipe_dict = _convert_csv_dataframe(heifa_recipe_file, 'recipe')
     food_composition_dict = _convert_csv_dataframe(heifa_food_file, 'food_compo')
     heifa_scores_dict = _convert_csv_dataframe(heifa_score_file, 'heifa_scores')
+
+    my_bar.progress(25, text="Calculating User Servings..")
 
     # 2. Get the user servings
     missing_ids_list, user_daily_intake = calculate_user_servings(
@@ -64,18 +66,26 @@ def get_csv_heifa_scores(*args):
         recipe_dict
     )
 
+    my_bar.progress(50, text="Converting to HEIFA scores.")
+
     # 3. Convert to HEIFA scores
     user_heifa_scores = calculate_heifa_scores(
         heifa_scores_dict, user_daily_intake
     )
 
-    # 4. Return the created CSV file
-    return missing_ids_list, create_heifa_csv(
+    my_bar.progress(75, text="Creating CSV file.")
+
+    csv_file = create_heifa_csv(
         heifa_scores_dict, 
         food_composition_dict, 
         user_daily_intake, 
         user_heifa_scores,
     )
+
+    my_bar.progress(100, text="CSV file creation done.")
+
+    # 4. Return the created CSV file
+    return missing_ids_list, csv_file
 
 # Page configurations
 st.set_page_config(
@@ -86,6 +96,16 @@ st.set_page_config(
 
 st.title('Welcome to Autotake24.')
 st.header("File upload section")
+
+# Just in case
+cache_clear_button = st.button(
+    "Clear cache data",
+    type = "primary",
+    help = "Clear all in-memory data. Refresh the page after clicking this button"
+)
+
+if cache_clear_button:
+    st.cache_data.clear()
 
 # Upload:
 # - Intake24
