@@ -85,8 +85,8 @@ class ScoreConvertor:
         # Extract the given group from the HEIFA scores
         scores_list = self.scores_dict[food_group]
 
-        # Round to 1 decimal place
-        serving = round(serving, 1)
+        # Round to 2 decimal places
+        serving = round(serving, 2)
 
         for score_dict in scores_list:
 
@@ -119,6 +119,10 @@ class ScoreConvertor:
 
             male_score += bonus_points
             female_score += bonus_points
+
+        # Assign default value of 0 if nothing is found
+        male_score = 0 if male_score is None else male_score
+        female_score = 0 if female_score is None else female_score
 
         # Sum up the grand total
         self.male_total = male_score
