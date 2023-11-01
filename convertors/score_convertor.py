@@ -11,6 +11,14 @@ class ScoreConvertor:
         self._male_total = 0
         self._female_total = 0
 
+        self._max_meat_score = self._get_max_score(
+            heifa_scores_dict['Meat and alternatives']
+        )
+
+        self._max_veg_score = self._get_max_score(
+            heifa_scores_dict['Vegetables']
+        )
+
     @property
     def scores_dict(self):
         return self._heifa_scores_dict
@@ -68,6 +76,10 @@ class ScoreConvertor:
     @classmethod
     def _fruit_variation_score(cls, variation_dict):
         return 5 if len(variation_dict) >= 2 else 0
+    
+    @classmethod
+    def _get_max_score(cls, scores_range_list):
+        return max([score['heifa_score'] for score in scores_range_list])
 
     @classmethod
     def _vegetables_variation_score(cls, variation_dict):
