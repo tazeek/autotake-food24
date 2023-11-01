@@ -139,14 +139,17 @@ class DailyCalculator:
         # For Alcohol
         if heifa_obj.is_alcohol:
             self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
+            print(f"- Alcohol amount: {ingredient_obj.alcohol_amount}")
 
         # For non-alcoholic beverage
         if heifa_obj.plain_beverage:
             self.daily_servings = ("Non-Alcohol", portion_size)
+            print(f"- Plain-beverage amount: {portion_size}")
 
         # For water:
         if heifa_obj.is_water:
             self.daily_servings = ("Water", portion_size)
+            print(f"- Water amount: {portion_size}")
 
         return None
     
@@ -198,17 +201,22 @@ class DailyCalculator:
             food_group = heifa_obj.food_group
             serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
 
+            print(f"- Serve size {food_group}: {serving_size:.2f} serves.")
+
             # Beverage: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.plain_beverage:
                 self.daily_servings = ("Non-Alcohol", piece_amount)
+                print(f"- Plain-beverage amount: {portion_size:.2f}")
 
             # Water: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.is_water:
                 self.daily_servings = ("Water", piece_amount)
+                print(f"- Water amount: {portion_size:.2f}")
 
             # Alcohol: As long as the ingredient is alcohol, we move
             if heifa_obj.is_alcohol:
                 self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
+                print(f"- Alcohol amount: {ingredient_obj.alcohol_amount:.2f}")
 
             # Add to the daily servings attribute
             self.daily_servings = (food_group, serving_size)
@@ -230,6 +238,8 @@ class DailyCalculator:
             portion_size = ingredient_obj.portion_size
             energy_with_fibre = ingredient_obj.energy_with_fibre
 
+            print(f"\nFor HEIFA ID: {heifa_id}")
+
             heifa_obj = ingredients_dict[heifa_id]
             food_group = heifa_obj.food_group
 
@@ -238,14 +248,19 @@ class DailyCalculator:
 
             # For Sodium
             self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
+            print(f"- Sodium amount: {ingredient_obj.sodium_consumed:.2f}mg")
 
             # For Sugar
             self.daily_servings = ("Sugar", ingredient_obj.sugar_amount)
+            print(f"- Sugar amount: {ingredient_obj.sugar_amount:.2f}g")
 
             # For the Fats: Saturated, Unsaturated (Mono), Unsaturdated (Poly)
             self.daily_servings = ("Saturated Fat", ingredient_obj.saturated_fat_amount)
             self.daily_servings = ("Unsaturated Fat", ingredient_obj.unsaturated_fat_mono_amount)
             self.daily_servings = ("Unsaturated Fat", ingredient_obj.unsaturated_fat_poly_amount)
+
+            print(f"- Saturated Fat amount: {ingredient_obj.saturated_fat_amount:.2f}g")
+            print(f"- Unsaturated Fat amount: {(ingredient_obj.unsaturated_fat_mono_amount + ingredient_obj.unsaturated_fat_poly_amount):.2f}g")
 
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
@@ -262,6 +277,8 @@ class DailyCalculator:
                 energy_with_fibre, portion_size
             )
 
+            print(f"- Serve size {food_group}: {serving_size} serves")
+
             # Add to the daily servings attribute, based on food group
             self.daily_servings = (food_group, serving_size)
 
@@ -272,7 +289,7 @@ class DailyCalculator:
         # Handle for Alcohol
         if food_group == "Alcohol":
             alcohol_amount = self.daily_servings.get(food_group, 0)
-            standard_serves = round(alcohol_amount / 10, 1)
+            standard_serves = alcohol_amount / 10
             self.group_servings = ("Alcohol", standard_serves)
 
             return None
@@ -281,14 +298,13 @@ class DailyCalculator:
         if food_group == "Saturated Fat":
             sat_fat_amount = self.daily_servings.get(food_group, 0)
 
-            sat_fat_energy = round(
-                sat_fat_amount * self._grams_to_calories["Fat"], 2
-            )
+            # Convert to energy
+            sat_fat_energy = sat_fat_amount * self._grams_to_calories["Fat"]
 
             # Percentage amount
             # NOTE: Some days, the energy amount can be 0. Don't ask
             total_energy = max(self.total_energy, 1)
-            percentage_fat = round((sat_fat_energy/total_energy) * 100, 1)
+            percentage_fat = (sat_fat_energy/total_energy) * 100
 
             self.group_servings = ("Saturated Fat", percentage_fat)
 
@@ -300,8 +316,7 @@ class DailyCalculator:
             unsat_fat_amount = self.daily_servings.get(food_group, 0)
 
             # 1 serving size = 10g
-            serve_size = round(unsat_fat_amount / 10, 2)
-
+            serve_size = unsat_fat_amount / 10
             self.group_servings = ("Unsaturated Fat", serve_size)
 
             return None
@@ -310,14 +325,12 @@ class DailyCalculator:
         if food_group == "Sugar":
             sugar_amount = self.daily_servings.get(food_group, 0)
 
-            sugar_energy = round(
-                sugar_amount * self._grams_to_calories[food_group], 2
-            )
+            sugar_energy = sugar_amount * self._grams_to_calories[food_group]
 
             # Percentage amount
             # NOTE: Some days, the energy amount can be 0. Don't ask
             total_energy = max(self.total_energy, 1)
-            percentage_sugar = round((sugar_energy/total_energy) * 100, 1)
+            percentage_sugar = (sugar_energy/total_energy) * 100
 
             self.group_servings = ("Sugar", percentage_sugar)
 
@@ -326,7 +339,7 @@ class DailyCalculator:
          # Handle for water
         if food_group == "Water":
             beverage_amount = self.daily_servings.get("Non-Alcohol", 1)
-            amount = round((serving_size/beverage_amount) * 100, 1)
+            amount = (serving_size/beverage_amount) * 100
 
             # Has to be more than 1.5L else default to 0
             amount = amount if beverage_amount >= 1500 else 0
@@ -390,6 +403,8 @@ class DailyCalculator:
 
             # Initialize with new dictionary for new date
             # and for energy as well
+            print(f"Printing for Survey ID: {survey_id}")
+            print("=" * 20)
             del self.daily_servings
             del self.group_servings
             del self.variation_servings
@@ -405,5 +420,6 @@ class DailyCalculator:
                 'total': self.group_servings,
                 'variations': self.variation_servings
             }
+            print("\n")
 
         return total_daily_servings
