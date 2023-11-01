@@ -130,6 +130,7 @@ def calculate_heifa_scores(heifa_scores_dict: dict, user_dict: dict) -> dict:
 
         daily_servings = {
             survey_id: { 
+                'Legumes': food_group_dict['individual'].get('Legumes', 0),
                 'total': food_group_dict['total'], 
                 'variations': food_group_dict['variations']
             }

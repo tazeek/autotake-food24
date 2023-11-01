@@ -97,29 +97,43 @@ class ScoreConvertor:
 
         return min(variation_score, 5)
     
-    def _allocate_legumes_groups(self):
+    def _allocate_legumes_groups(self, scores_converted_dict):
 
-        # Get the maximum score of vegetables and meat
+
+        def perform_allocation_logic(current_score):
+            # Deduct for now
+
+            # Check for legumes logic via the permutations
+            # - Veg max, Meat not -> Allocate to meat
+            # - Veg max, Meat max -> Allocate to vegetables
+            # - Veg not, Meat not -> Allocate half
+            # - Veg not, Meat max -> Allocate to vegetables
+
+            # If meat is max, we allocate to vegetables 
+            # regardless of how much vegetables serving it is
+            if current_score >= self._max_meat_score:
+
+                return None
+                ...
+
+            # If vegetables is max, we allocate all to meat
+            if current_score >= self._max_veg_score:
+
+                return None
+                ...
+
+            # If neither, we divide based on:
+            # - Vegetables: divide by 2
+            # - Meat: divide by 4
+            # Reference: HEIFA calculation
+
+            return None
 
         # Get the current scores of vegetables and meat (both)
-        # Deduct for now
+        heifa_meat = scores_converted_dict['Meat and alternatives']
+        heifa_veg = scores_converted_dict['Vegetables']
 
-        # Check for legumes logic via the permutations
-        # - Veg max, Meat not -> Allocate to meat
-        # - Veg max, Meat max -> Allocate to vegetables
-        # - Veg not, Meat not -> Allocate half
-        # - Veg not, Meat max -> Allocate to vegetables
-
-        # If meat is max, we allocate to vegetables 
-        # regardless of how much vegetables serving it is
-
-        # If vegetables is max, we allocate all to meat
-
-        # If neither, we divide based on:
-        # - Vegetables: divide by 2
-        # - Meat: divide by 4
-        # Reference: HEIFA calculation
-        ...
+        return None
 
     def _get_variation_function(self, variation_key):
         return {
@@ -191,7 +205,7 @@ class ScoreConvertor:
         heifa_scores = {}
 
         for survey_id, servings_dict in daily_servings.items():
-
+            print(servings_dict)
             total_servings_dict = servings_dict['total']
             variations_serving = servings_dict['variations']
 
@@ -212,6 +226,10 @@ class ScoreConvertor:
 
             # Add the variations list
             scores_converted_dict.update(self.variations_total)
+
+            # Handle legumes, if it is present
+            if 'Legumes' != 0:
+                self._allocate_legumes_groups(scores_converted_dict)
 
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
