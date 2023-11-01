@@ -90,6 +90,7 @@ class ScoreConvertor:
         # Get the maximum score of vegetables and meat
 
         # Get the current scores of vegetables and meat (both)
+        # Deduct for now
 
         # Check for legumes logic via the permutations
         # - Veg max, Meat not -> Allocate to meat
@@ -102,7 +103,10 @@ class ScoreConvertor:
 
         # If vegetables is max, we allocate all to meat
 
-        # If neither, we split(?)
+        # If neither, we divide based on:
+        # - Vegetables: divide by 2
+        # - Meat: divide by 4
+        # Reference: HEIFA calculation
         ...
 
     def _get_variation_function(self, variation_key):
