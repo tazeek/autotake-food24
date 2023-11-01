@@ -117,6 +117,9 @@ class HeifaFileWriter():
             if key_name not in self.row_data:
                 continue
 
+            # Round to 2 decimal places
+            total_serving = round(total_serving, 2)
+
             self.row_data = (key_name, total_serving)
 
             # Get the HEIFA scores
