@@ -54,7 +54,7 @@ class ScoreConvertor:
 
     @variations_total.deleter
     def variations_total(self):
-        self.variations_total = {}
+        self._variations_total = {}
 
     @classmethod
     def _within_range(cls, minimum, maximum, serving_size):
