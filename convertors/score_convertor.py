@@ -84,6 +84,26 @@ class ScoreConvertor:
         ) + legumes_score
 
         return min(variation_score, 5)
+    
+    def _allocate_legumes_groups(self):
+
+        # Get the maximum score of vegetables and meat
+
+        # Get the current scores of vegetables and meat (both)
+
+        # Check for legumes logic via the permutations
+        # - Veg max, Meat not -> Allocate to meat
+        # - Veg max, Meat max -> Allocate to vegetables
+        # - Veg not, Meat not -> Allocate half
+        # - Veg not, Meat max -> Allocate to vegetables
+
+        # If meat is max, we allocate to vegetables 
+        # regardless of how much vegetables serving it is
+
+        # If vegetables is max, we allocate all to meat
+
+        # If neither, we split(?)
+        ...
 
     def _get_variation_function(self, variation_key):
         return {
