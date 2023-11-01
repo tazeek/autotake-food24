@@ -110,6 +110,10 @@ class ScoreConvertor:
             if male_score and female_score:
                 break
 
+        # Assign default value of 0 if nothing is found
+        male_score = 0 if male_score is None else male_score
+        female_score = 0 if female_score is None else female_score
+
         # Check if group is in the variation list
         # If it is, find the breakdown
         if (food_group in self.variations_list) and (food_group in variations_serving):
@@ -119,10 +123,6 @@ class ScoreConvertor:
 
             male_score += bonus_points
             female_score += bonus_points
-
-        # Assign default value of 0 if nothing is found
-        male_score = 0 if male_score is None else male_score
-        female_score = 0 if female_score is None else female_score
 
         # Sum up the grand total
         self.male_total = male_score
