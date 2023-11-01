@@ -229,6 +229,8 @@ class DailyCalculator:
 
         for heifa_id, ingredient_obj in meal.items():
 
+            heifa_id = heifa_id.split('_')[0] if '_' in heifa_id else heifa_id
+
             # Just in case....
             if heifa_id not in ingredients_dict:
                 self.missing_nutrition_ids = heifa_id

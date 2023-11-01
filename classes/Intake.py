@@ -1,5 +1,8 @@
 from classes.Food import Food
 
+import random
+import string
+
 class Intake:
 
     def __init__(self):
@@ -39,6 +42,16 @@ class Intake:
         self.meal_type = intake24_row['meal_name']
 
         heifa_code = intake24_row['heifa_nutrient_id']
+
+        # Just in case there is a duplicate
+        if heifa_code in self.nutrition:
+            random_id = ''.join(random.choices(
+                string.ascii_uppercase + string.digits, 
+                k=8
+            ))
+
+            heifa_code = heifa_code + "_" + random_id
+
         self.nutrition[heifa_code] = Food(intake24_row)
 
         return None
