@@ -7,6 +7,7 @@ class ScoreConvertor:
         self._heifa_scores_dict = heifa_scores_dict
         self._variations_list = ['Fruit', 'Vegetables']
 
+        self._variations_total = {}
         self._male_total = 0
         self._female_total = 0
 
@@ -21,6 +22,10 @@ class ScoreConvertor:
     @property
     def male_total(self):
         return self._male_total
+    
+    @property
+    def variations_total(self):
+        return self._variations_total
 
     @property
     def female_total(self):
@@ -34,6 +39,11 @@ class ScoreConvertor:
     def female_total(self, heifa_score):
         self._female_total += heifa_score
 
+    @variations_total.setter
+    def variations_total(self, setter_tuple):
+        name, total = setter_tuple
+        self.variations_total[name] = total
+
     @male_total.deleter
     def male_total(self):
         self._male_total = 0
@@ -42,9 +52,12 @@ class ScoreConvertor:
     def female_total(self):
         self._female_total = 0
 
+    @variations_total.deleter
+    def variations_total(self):
+        self.variations_total = {}
+
     @classmethod
     def _within_range(cls, minimum, maximum, serving_size):
-
         return minimum <= serving_size <= maximum
     
     def _find_by_gender(self, keys, serving_size, score_dict):
@@ -121,6 +134,10 @@ class ScoreConvertor:
             variation_function = self._get_variation_function(food_group)
             bonus_points = variation_function(variations_serving[food_group].copy())
 
+            # Add to the total of variations
+            key_name = f"{food_group} - variations score"
+            self.variations_total = (key_name, bonus_points)
+
             male_score += bonus_points
             female_score += bonus_points
 
@@ -157,6 +174,9 @@ class ScoreConvertor:
                 if food_group in self.scores_dict
             }
 
+            # Add the variations list
+            scores_converted_dict.update(self.variations_total)
+
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
                 'male_total': self.male_total,
@@ -166,6 +186,7 @@ class ScoreConvertor:
             # Reset again
             del self.male_total
             del self.female_total
+            del self.variations_total
 
         return heifa_scores
     
