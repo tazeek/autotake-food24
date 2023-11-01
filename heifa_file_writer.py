@@ -24,6 +24,7 @@ class HeifaFileWriter():
         }
 
         self._row_data = {}
+        self._variations_list = ('Fruit', 'Vegetables')
     
     @property
     def scores(self):
@@ -36,6 +37,10 @@ class HeifaFileWriter():
     @property
     def column_names(self):
         return self._column_names
+    
+    @property
+    def variations_list(self):
+        return self._variations_list
     
     @property
     def row_data(self):
@@ -131,7 +136,12 @@ class HeifaFileWriter():
             self.row_data = (heifa_key_name_male, gender_scores['male_score'])
             self.row_data = (heifa_key_name_female, gender_scores['female_score'])
 
-            if food_group in variations_dict:
+            if (food_group in variations_dict) and (food_group in self.variations_list):
+
+                # Add the variation serving as a column
+                key_name = f"{food_group} - variations score"
+                score = heifa_scores['breakdown'][key_name]
+                self.row_data = (key_name, score)
 
                 self._handle_variations_servings(
                     food_group, variations_dict[food_group]
@@ -153,6 +163,10 @@ class HeifaFileWriter():
 
             main_column_name = self._generate_column_name(main_group)
             self.column_names = heifa_keys + [main_column_name]
+
+            # Add the variation column
+            if main_group in self.variations_list:
+                self.column_names = [f"{main_group} - variations score"]
 
             if len(sub_group) != 0:
                 self.column_names = sub_group
@@ -191,5 +205,5 @@ class HeifaFileWriter():
 
                 # Add to the row
                 rows_list.append(self.row_data)
-        
+
         return self.column_names, rows_list
