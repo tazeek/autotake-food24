@@ -97,8 +97,10 @@ class ScoreConvertor:
 
         return min(variation_score, 5)
     
-    def _legumes_allocation_logic(self, legumes_amount, scores_dict, servings_dict):
+    def _legumes_allocation_logic(self, *args):
 
+        legumes_amount, scores_dict, servings_dict = args
+        
         # Get the scores of meat and veg
         meat_scores = scores_dict['Meat and alternatives']
         veg_scores = scores_dict['Vegetables']
@@ -143,6 +145,7 @@ class ScoreConvertor:
         _perform_legumes_logic()
 
         # Deduct the existing scores (both male and female)
+        # We will re-add them in the scoring function again
         self.male_total -= (meat_scores['male_total'] \
                              + veg_scores['male_total'])
         
