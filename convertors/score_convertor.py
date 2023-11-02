@@ -97,7 +97,7 @@ class ScoreConvertor:
 
         return min(variation_score, 5)
     
-    def _legumes_allocation_logic(self, scores_dict):
+    def _legumes_allocation_logic(self, scores_dict, servings_dict):
 
         # Get the scores of meat and veg
         meat_scores = scores_dict['Meat and alternatives']
@@ -133,15 +133,14 @@ class ScoreConvertor:
                                + veg_scores['female_total'])
 
         # Re-run the score for respective food group
-        scores_dict['Vegetables'] = self._find_score(
-            'Vegetables',
-            # Insert serve size here
+        lambda_score_find = lambda group: self._find_score(
+            group, servings_dict[group]
         )
 
-        scores_dict['Meat and alternatives'] = self._find_score(
-            'Meat and alternatives',
-            # Insert serve size here
-        )
+        scores_dict['Vegetables'] = lambda_score_find('Vegetables')
+
+        scores_dict['Meat and alternatives'] = \
+            lambda_score_find('Meat and alternatives')
 
         return scores_dict
 
