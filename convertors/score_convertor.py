@@ -129,6 +129,13 @@ class ScoreConvertor:
                 return None
 
             # Do the split (nothing maxed out)
+            veg_allocation = legumes_amount / 2
+            meat_allocation = legumes_amount / 4
+
+            scores_dict['Vegetables'] += veg_allocation
+
+            scores_dict['Meat and alternatives'] += \
+                meat_allocation
 
             return None
         
