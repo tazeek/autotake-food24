@@ -163,15 +163,22 @@ class DailyCalculator:
 
         # Begin breakdown
         for heifa_id, piece_obj in pieces.items():
-            ...
+            
+            # Break it into the respective piece
+            piece_amount = round(portion_size * piece_obj.proportion, 2)
 
             # Some ingredients can be a recipe themselves
-
             # Keep repeating until no more. Hence 
             # it becomes a tree traversal problem
+            # If being recursive, use the portion size 
+            # of the ingredient, instead of the actual one
+            if self.ingredients[heifa_id].is_recipe:
+                self._recipe_traversal_breakdown(
+                    piece_obj,
+                    piece_amount,
+                    alcohol_amount
+                )
 
-        # If being recursive, use the portion size 
-        # of the ingredient, instead of the actual one
         return None
     
     def _perform_recipe_calculation(self, recipe_heifa_obj, ingredient_obj):
