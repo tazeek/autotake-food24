@@ -139,17 +139,14 @@ class DailyCalculator:
         # For Alcohol
         if heifa_obj.is_alcohol:
             self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
-            print(f"- Alcohol amount: {ingredient_obj.alcohol_amount}")
 
         # For non-alcoholic beverage
         if heifa_obj.plain_beverage:
             self.daily_servings = ("Non-Alcohol", portion_size)
-            print(f"- Plain-beverage amount: {portion_size}")
 
         # For water:
         if heifa_obj.is_water:
             self.daily_servings = ("Water", portion_size)
-            print(f"- Water amount: {portion_size}")
 
         return None
 
@@ -157,8 +154,6 @@ class DailyCalculator:
 
         eight_digit_code = recipe_obj.eight_digit_code
         recipe_is_beverage = recipe_obj.plain_beverage
-
-        print(f"\n\n***PORTION SIZE OF {portion_size}***\n\n")
 
         # Get the recipe pieces
         pieces = self.recipes[eight_digit_code].recipe_pieces
@@ -189,24 +184,17 @@ class DailyCalculator:
             food_group = heifa_obj.food_group
             serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
 
-            print(f"* Portion size of (proportion: {piece_obj.proportion}): {piece_amount:.2f}")
-            print(f"- Serve size {food_group}: {serving_size:.2f} serves.")
-            print("\n")
-
             # Beverage: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.plain_beverage:
                 self.daily_servings = ("Non-Alcohol", piece_amount)
-                print(f"- Plain-beverage amount: {portion_size:.2f}")
 
             # Water: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.is_water:
                 self.daily_servings = ("Water", piece_amount)
-                print(f"- Water amount: {portion_size:.2f}")
 
             # Alcohol: As long as the ingredient is alcohol, we move
             if heifa_obj.is_alcohol:
                 self.daily_servings = ("Alcohol", alcohol_amount)
-                print(f"- Alcohol amount: {alcohol_amount}")
 
             # Add to the daily servings attribute
             self.daily_servings = (food_group, serving_size)
@@ -224,14 +212,10 @@ class DailyCalculator:
             # Just in case....
             if heifa_id not in ingredients_dict:
                 self.missing_nutrition_ids = heifa_id
-                print(f"\nHEIFA ID {heifa_id} not found")
                 continue
 
             portion_size = ingredient_obj.portion_size
             energy_with_fibre = ingredient_obj.energy_with_fibre
-
-            print(f"\nFor HEIFA ID: {heifa_id}")
-
             heifa_obj = ingredients_dict[heifa_id]
             food_group = heifa_obj.food_group
 
@@ -240,19 +224,14 @@ class DailyCalculator:
 
             # For Sodium
             self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
-            print(f"- Sodium amount: {ingredient_obj.sodium_consumed:.2f}mg")
 
             # For Sugar
             self.daily_servings = ("Sugar", ingredient_obj.sugar_amount)
-            print(f"- Sugar amount: {ingredient_obj.sugar_amount:.2f}g")
 
             # For the Fats: Saturated, Unsaturated (Mono), Unsaturdated (Poly)
             self.daily_servings = ("Saturated Fat", ingredient_obj.saturated_fat_amount)
             self.daily_servings = ("Unsaturated Fat", ingredient_obj.unsaturated_fat_mono_amount)
             self.daily_servings = ("Unsaturated Fat", ingredient_obj.unsaturated_fat_poly_amount)
-
-            print(f"- Saturated Fat amount: {ingredient_obj.saturated_fat_amount:.2f}g")
-            print(f"- Unsaturated Fat amount: {(ingredient_obj.unsaturated_fat_mono_amount + ingredient_obj.unsaturated_fat_poly_amount):.2f}g")
 
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
@@ -272,8 +251,6 @@ class DailyCalculator:
             serving_size = heifa_obj.calculate_serving_size(
                 energy_with_fibre, portion_size
             )
-
-            print(f"- Serve size {food_group}: {serving_size:.2f} serves")
 
             # Add to the daily servings attribute, based on food group
             self.daily_servings = (food_group, serving_size)
@@ -399,8 +376,6 @@ class DailyCalculator:
 
             # Initialize with new dictionary for new date
             # and for energy as well
-            print(f"Printing for Survey ID: {survey_id}")
-            print("=" * 20)
             del self.daily_servings
             del self.group_servings
             del self.variation_servings
@@ -416,6 +391,5 @@ class DailyCalculator:
                 'total': self.group_servings,
                 'variations': self.variation_servings
             }
-            print("\n")
 
         return total_daily_servings
