@@ -97,13 +97,17 @@ class ScoreConvertor:
 
         return min(variation_score, 5)
     
-    def _legumes_allocation_logic():
+    def _legumes_allocation_logic(self, scores_dict):
 
         # Get the scores of meat and veg
+        meat_scores = scores_dict['Meat and alternatives']
+        veg_scores = scores_dict['Vegetables']
 
         # Find the female score
         # ASSUMPTION: If the female score is maxed out,
         # the male score will be maxed out too (HEIFA Scoring)
+        female_score_meat = meat_scores['female_score']
+        female_score_veg = veg_scores['female_score']
 
         # Permutations: 
         # Meat max, Veg max -> Allocate to Veg
