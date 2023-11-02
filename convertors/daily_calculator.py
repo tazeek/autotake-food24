@@ -164,20 +164,48 @@ class DailyCalculator:
         # Begin breakdown
         for heifa_id, piece_obj in pieces.items():
             
-            # Break it into the respective piece
+            # Break it into the respective piece portion
             piece_amount = round(portion_size * piece_obj.proportion, 2)
+            heifa_obj = self.ingredients[heifa_id]
 
             # Some ingredients can be a recipe themselves
             # Keep repeating until no more. Hence 
             # it becomes a tree traversal problem
             # If being recursive, use the portion size 
             # of the ingredient, instead of the actual one
-            if self.ingredients[heifa_id].is_recipe:
+            if heifa_obj.is_recipe:
                 self._recipe_traversal_breakdown(
-                    piece_obj,
+                    heifa_obj,
                     piece_amount,
                     alcohol_amount
                 )
+
+                continue
+
+            piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
+
+            food_group = heifa_obj.food_group
+            serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
+
+            print(f"- Serve size {food_group}: {serving_size:.2f} serves.")
+
+            # Beverage: Check for main recipe beverage flag and ingredient flag
+            if recipe_is_beverage and heifa_obj.plain_beverage:
+                self.daily_servings = ("Non-Alcohol", piece_amount)
+                print(f"- Plain-beverage amount: {portion_size:.2f}")
+
+            # Water: Check for main recipe beverage flag and ingredient flag
+            if recipe_is_beverage and heifa_obj.is_water:
+                self.daily_servings = ("Water", piece_amount)
+                print(f"- Water amount: {portion_size:.2f}")
+
+            # Alcohol: As long as the ingredient is alcohol, we move
+            if heifa_obj.is_alcohol:
+                self.daily_servings = ("Alcohol", alcohol_amount)
+                print(f"- Alcohol amount: {alcohol_amount}")
+
+            # Add to the daily servings attribute
+            self.daily_servings = (food_group, serving_size)
 
         return None
     
@@ -294,9 +322,16 @@ class DailyCalculator:
 
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
-                self._perform_recipe_calculation(
-                    heifa_obj, ingredient_obj
+                #self._perform_recipe_calculation(
+                #    heifa_obj, ingredient_obj
+                #)
+
+                self._recipe_traversal_breakdown(
+                    heifa_obj, 
+                    portion_size, 
+                    ingredient_obj.alcohol_amount
                 )
+                
                 continue
             
             # For Alcohol, Beverage and/or Water
