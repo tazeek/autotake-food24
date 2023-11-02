@@ -55,6 +55,11 @@ class HeifaFileWriter():
             return None
         
         key, value = input_info
+
+        # For numbers
+        if isinstance(value, float):
+            value = round(value, 2)
+
         self._row_data[key] = value
 
         return None
@@ -121,9 +126,6 @@ class HeifaFileWriter():
             key_name = self._generate_column_name(food_group)
             if key_name not in self.row_data:
                 continue
-
-            # Round to 2 decimal places
-            total_serving = round(total_serving, 2)
 
             self.row_data = (key_name, total_serving)
 
