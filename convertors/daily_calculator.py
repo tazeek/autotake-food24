@@ -158,6 +158,8 @@ class DailyCalculator:
         eight_digit_code = recipe_obj.eight_digit_code
         recipe_is_beverage = recipe_obj.plain_beverage
 
+        print(f"\n\n***PORTION SIZE OF {portion_size}***\n\n")
+
         # Get the recipe pieces
         pieces = self.recipes[eight_digit_code].recipe_pieces
 
@@ -182,12 +184,14 @@ class DailyCalculator:
 
                 continue
 
-            piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
+            piece_energy = (piece_amount * piece_obj.energy_with_fibre) / 100
 
             food_group = heifa_obj.food_group
             serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
 
+            print(f"* Portion size of (proportion: {piece_obj.proportion}): {piece_amount:.2f}")
             print(f"- Serve size {food_group}: {serving_size:.2f} serves.")
+            print("\n")
 
             # Beverage: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.plain_beverage:
@@ -342,7 +346,7 @@ class DailyCalculator:
                 energy_with_fibre, portion_size
             )
 
-            print(f"- Serve size {food_group}: {serving_size} serves")
+            print(f"- Serve size {food_group}: {serving_size:.2f} serves")
 
             # Add to the daily servings attribute, based on food group
             self.daily_servings = (food_group, serving_size)
