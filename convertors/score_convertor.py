@@ -131,7 +131,7 @@ class ScoreConvertor:
             'Fruit': self._fruit_variation_score
         }[variation_key]
     
-    def _find_score(self, food_group, serving, variations_serving):
+    def _find_score(self, food_group, serving, variations_serving = {}):
 
         male_score, female_score = None, None
 
