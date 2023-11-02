@@ -217,6 +217,12 @@ class ScoreConvertor:
             # Add the variations list
             scores_converted_dict.update(self.variations_total)
 
+            # Perform Legumes logic
+            legumes_amount = variations_serving.get('Vegetables', {}).get('Legumes', 0)
+
+            if legumes_amount != 0:
+                ...
+
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
                 'male_total': self.male_total,
