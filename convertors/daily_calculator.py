@@ -165,7 +165,7 @@ class DailyCalculator:
         for heifa_id, piece_obj in pieces.items():
             
             # Break it into the respective piece portion
-            piece_amount = round(portion_size * piece_obj.proportion, 2)
+            piece_amount = portion_size * piece_obj.proportion
             heifa_obj = self.ingredients[heifa_id]
 
             # Some ingredients can be a recipe themselves
@@ -331,7 +331,7 @@ class DailyCalculator:
                     portion_size, 
                     ingredient_obj.alcohol_amount
                 )
-                
+
                 continue
             
             # For Alcohol, Beverage and/or Water

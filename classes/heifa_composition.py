@@ -83,7 +83,7 @@ class FoodComposition:
         if not self.required_portion_calculation:
             return serving_size
         
-        serving_function = lambda measure: round(measure / self.serving_size, 2)
+        serving_function = lambda measure: measure / self.serving_size
 
         # Check the serving measure and round to 2 decimal place
         # - kJ: Use energy_with_fibre
