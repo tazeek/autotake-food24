@@ -212,77 +212,7 @@ class DailyCalculator:
             self.daily_servings = (food_group, serving_size)
 
         return None
-    
-    def _perform_recipe_calculation(self, recipe_heifa_obj, ingredient_obj):
-
-        ingredients_dict = self.ingredients
-        recipes_dict = self.recipes
-
-        portion_size = ingredient_obj.portion_size
-        eight_digit_code = recipe_heifa_obj.eight_digit_code
-        recipe_is_beverage = recipe_heifa_obj.plain_beverage
-
-        # Get the original list of ingredients
-        pieces = self.recipes[eight_digit_code].recipe_pieces
-
-        # Time to break down further
-        while True:
-
-            extra_pieces = {
-                heifa_id: ingredient_obj for (heifa_id, ingredient_obj)
-                in pieces.items() if ingredients_dict[heifa_id].is_recipe
-            }
-
-            # If nothing is found we break out
-            if len(extra_pieces) == 0:
-                break
-
-            # Break down to extra pieces
-            for nutrient_code in extra_pieces.keys():
-                
-                # Get the eight digit code
-                eight_digit_code = ingredients_dict[nutrient_code].eight_digit_code
-
-                # Update the original list
-                pieces.update(recipes_dict[eight_digit_code].recipe_pieces)
-
-                # Delete from original
-                del pieces[nutrient_code]
-
-            # Repeat until no recipe ingredients in the list
-
-        # Calculate the food group individually
-        for heifa_id, piece_obj in pieces.items():
-
-            piece_amount = round(portion_size * piece_obj.proportion, 2)
-            piece_energy = round((piece_amount * piece_obj.energy_with_fibre) / 100, 2)
-
-            heifa_obj = ingredients_dict[heifa_id]
-            food_group = heifa_obj.food_group
-            serving_size = heifa_obj.calculate_serving_size(piece_energy, piece_amount)
-
-            print(f"- Serve size {food_group}: {serving_size:.2f} serves.")
-
-            # Beverage: Check for main recipe beverage flag and ingredient flag
-            if recipe_is_beverage and heifa_obj.plain_beverage:
-                self.daily_servings = ("Non-Alcohol", piece_amount)
-                print(f"- Plain-beverage amount: {portion_size:.2f}")
-
-            # Water: Check for main recipe beverage flag and ingredient flag
-            if recipe_is_beverage and heifa_obj.is_water:
-                self.daily_servings = ("Water", piece_amount)
-                print(f"- Water amount: {portion_size:.2f}")
-
-            # Alcohol: As long as the ingredient is alcohol, we move
-            if heifa_obj.is_alcohol:
-                self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
-                print(f"- Alcohol amount: {ingredient_obj.alcohol_amount:.2f}")
-
-            # Add to the daily servings attribute
-            self.daily_servings = (food_group, serving_size)
-
-        return None
-    
+        
     def _calculate_serving(self, meal):
         
         ingredients_dict = self.ingredients
@@ -326,9 +256,6 @@ class DailyCalculator:
 
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
-                #self._perform_recipe_calculation(
-                #    heifa_obj, ingredient_obj
-                #)
 
                 self._recipe_traversal_breakdown(
                     heifa_obj, 
