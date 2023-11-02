@@ -116,18 +116,34 @@ class ScoreConvertor:
         # Meat not, Veg not -> Split the servings
 
         # Check if meat maxed out
+        if female_score_meat >= self._max_meat_score:
+            ...
 
         # Check if veg maxed out
+        if female_score_veg >= self._max_veg_score:
+            ...
 
-        # Do the split
+        # Do the split (nothing maxed out)
 
-        # Add to the serves
-        # Deduct the existing scores
+        # Deduct the existing scores (both male and female)
+        self.male_total -= (meat_scores['male_total'] \
+                             + veg_scores['male_total'])
+        
+        self.female_total -= (meat_scores['female_total'] \
+                               + veg_scores['female_total'])
 
-        # Re-run the score
+        # Re-run the score for respective food group
+        scores_dict['Vegetables'] = self._find_score(
+            'Vegetables',
+            # Insert serve size here
+        )
 
-        # Store to respective food group and return
-        ...
+        scores_dict['Meat and alternatives'] = self._find_score(
+            'Meat and alternatives',
+            # Insert serve size here
+        )
+
+        return scores_dict
 
     def _get_variation_function(self, variation_key):
         return {
