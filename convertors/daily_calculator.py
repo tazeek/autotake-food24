@@ -152,6 +152,23 @@ class DailyCalculator:
             print(f"- Water amount: {portion_size}")
 
         return None
+
+    def _recipe_traversal_breakdown(self, recipe_obj, portion_size, alcohol_amount):
+
+        # Get the recipe pieces
+
+        # Check if the recipe is a plain beverage
+
+        # Begin breakdown
+
+        # Some ingredients can be a recipe themselves
+
+        # Keep repeating until no more. Hence 
+        # it becomes a tree traversal problem
+
+        # If being recursive, use the portion size 
+        # of the ingredient, instead of the actual one
+        ...
     
     def _perform_recipe_calculation(self, recipe_heifa_obj, ingredient_obj):
 
