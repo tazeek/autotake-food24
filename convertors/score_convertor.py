@@ -97,7 +97,7 @@ class ScoreConvertor:
 
         return min(variation_score, 5)
     
-    def _legumes_allocation_logic(self, scores_dict, servings_dict):
+    def _legumes_allocation_logic(self, legumes_amount, scores_dict, servings_dict):
 
         # Get the scores of meat and veg
         meat_scores = scores_dict['Meat and alternatives']
@@ -109,21 +109,31 @@ class ScoreConvertor:
         female_score_meat = meat_scores['female_score']
         female_score_veg = veg_scores['female_score']
 
-        # Permutations: 
-        # Meat max, Veg max -> Allocate to Veg
-        # Meat max, Veg not -> Allocate to Veg
-        # Meat not, Veg max -> Allocate to Meat
-        # Meat not, Veg not -> Split the servings
+        def _perform_legumes_logic():
+            # Permutations: 
+            # Meat max, Veg max -> Allocate all to Veg
+            # Meat max, Veg not -> Allocate all to Veg
+            # Meat not, Veg max -> Allocate all to Meat
+            # Meat not, Veg not -> Split the servings
 
-        # Check if meat maxed out
-        if female_score_meat >= self._max_meat_score:
-            ...
+            # Check if meat maxed out
+            if female_score_meat >= self._max_meat_score:
+                scores_dict['Vegetables'] += legumes_amount
+                return None
 
-        # Check if veg maxed out
-        if female_score_veg >= self._max_veg_score:
-            ...
+            # Check if veg maxed out
+            if female_score_veg >= self._max_veg_score:
+                scores_dict['Meat and alternatives'] += \
+                    legumes_amount
+                
+                return None
 
-        # Do the split (nothing maxed out)
+            # Do the split (nothing maxed out)
+
+            return None
+        
+        # Do the logic. Separate function for return early
+        _perform_legumes_logic()
 
         # Deduct the existing scores (both male and female)
         self.male_total -= (meat_scores['male_total'] \
