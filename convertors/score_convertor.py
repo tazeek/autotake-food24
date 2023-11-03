@@ -120,15 +120,17 @@ class ScoreConvertor:
 
             # Check if meat maxed out
             if female_score_meat >= self._max_meat_score:
-                scores_dict['Vegetables'] += legumes_amount
+                servings_dict['Vegetables'] += legumes_amount
                 return None
 
             # Check if veg maxed out
             if female_score_veg >= self._max_veg_score:
-                scores_dict['Meat and alternatives'] += \
+                servings_dict['Meat and alternatives'] += \
                     legumes_amount
                 
                 return None
+            
+            print("I AM HERE!")
 
             # Do the split (nothing maxed out)
             veg_allocation = legumes_amount / 2
@@ -264,14 +266,15 @@ class ScoreConvertor:
                 print(f"SURVEY ID: {survey_id}\n\n")
                 print(f"Legumes: {legumes_amount}\n\n")
                 print(f"Scores Dict: {scores_converted_dict}\n\n")
-                print(f"Servings Dict: {servings_dict}\n\n")
-                print("============")
+                print(f"Servings Dict: {total_servings_dict}\n\n")
 
                 self._legumes_allocation_logic(
                     legumes_amount, 
                     scores_converted_dict, 
                     total_servings_dict
                 )
+
+                print("============\n\n")
 
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
