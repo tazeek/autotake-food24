@@ -99,7 +99,13 @@ class ScoreConvertor:
     
     def _legumes_allocation_logic(self, *args):
 
-        legumes_amount, scores_dict, servings_dict = args
+        scores_dict, servings_dict, variations_serving = args
+
+        # Get the legumes amount
+        legumes_amount = variations_serving.get('Vegetables', {}).get('Legumes', 0)
+
+        if legumes_amount == 0:
+            return scores_dict
 
         # Get the scores of meat and veg
         meat_scores = scores_dict['Meat and alternatives']
@@ -129,8 +135,6 @@ class ScoreConvertor:
                     legumes_amount
                 
                 return None
-            
-            print("I AM HERE!")
 
             # Do the split (nothing maxed out)
             veg_allocation = legumes_amount / 2
@@ -148,16 +152,16 @@ class ScoreConvertor:
 
         # Deduct the existing scores (both male and female)
         # We will re-add them in the scoring function again
-        print("WE ARE IN THE CLEAR!")
-        self.male_total -= (meat_scores['male_score'] \
+
+        self.male_total = - (meat_scores['male_score'] \
                              + veg_scores['male_score'])
         
-        self.female_total -= (meat_scores['female_score'] \
+        self.female_total = - (meat_scores['female_score'] \
                                + veg_scores['female_score'])
 
         # Re-run the score for respective food group
         lambda_score_find = lambda group: self._find_score(
-            group, servings_dict[group]
+            group, servings_dict[group], variations_serving
         )
 
         scores_dict['Vegetables'] = lambda_score_find('Vegetables')
@@ -173,7 +177,7 @@ class ScoreConvertor:
             'Fruit': self._fruit_variation_score
         }[variation_key]
     
-    def _find_score(self, food_group, serving, variations_serving = {}):
+    def _find_score(self, food_group, serving, variations_serving):
 
         male_score, female_score = None, None
 
@@ -260,21 +264,12 @@ class ScoreConvertor:
             scores_converted_dict.update(self.variations_total)
 
             # Perform Legumes logic
-            legumes_amount = variations_serving.get('Vegetables', {}).get('Legumes', 0)
-
-            if legumes_amount != 0:
-                print(f"SURVEY ID: {survey_id}\n\n")
-                print(f"Legumes: {legumes_amount}\n\n")
-                print(f"Scores Dict: {scores_converted_dict}\n\n")
-                print(f"Servings Dict: {total_servings_dict}\n\n")
-
+            scores_converted_dict = \
                 self._legumes_allocation_logic(
-                    legumes_amount, 
-                    scores_converted_dict, 
-                    total_servings_dict
+                    scores_converted_dict.copy(), 
+                    total_servings_dict,
+                    variations_serving
                 )
-
-                print("============\n\n")
 
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
