@@ -100,7 +100,7 @@ class ScoreConvertor:
     def _legumes_allocation_logic(self, *args):
 
         legumes_amount, scores_dict, servings_dict = args
-        
+
         # Get the scores of meat and veg
         meat_scores = scores_dict['Meat and alternatives']
         veg_scores = scores_dict['Vegetables']
@@ -134,9 +134,9 @@ class ScoreConvertor:
             veg_allocation = legumes_amount / 2
             meat_allocation = legumes_amount / 4
 
-            scores_dict['Vegetables'] += veg_allocation
+            servings_dict['Vegetables'] += veg_allocation
 
-            scores_dict['Meat and alternatives'] += \
+            servings_dict['Meat and alternatives'] += \
                 meat_allocation
 
             return None
@@ -146,11 +146,12 @@ class ScoreConvertor:
 
         # Deduct the existing scores (both male and female)
         # We will re-add them in the scoring function again
-        self.male_total -= (meat_scores['male_total'] \
-                             + veg_scores['male_total'])
+        print("WE ARE IN THE CLEAR!")
+        self.male_total -= (meat_scores['male_score'] \
+                             + veg_scores['male_score'])
         
-        self.female_total -= (meat_scores['female_total'] \
-                               + veg_scores['female_total'])
+        self.female_total -= (meat_scores['female_score'] \
+                               + veg_scores['female_score'])
 
         # Re-run the score for respective food group
         lambda_score_find = lambda group: self._find_score(
@@ -260,7 +261,17 @@ class ScoreConvertor:
             legumes_amount = variations_serving.get('Vegetables', {}).get('Legumes', 0)
 
             if legumes_amount != 0:
-                ...
+                print(f"SURVEY ID: {survey_id}\n\n")
+                print(f"Legumes: {legumes_amount}\n\n")
+                print(f"Scores Dict: {scores_converted_dict}\n\n")
+                print(f"Servings Dict: {servings_dict}\n\n")
+                print("============")
+
+                self._legumes_allocation_logic(
+                    legumes_amount, 
+                    scores_converted_dict, 
+                    total_servings_dict
+                )
 
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
