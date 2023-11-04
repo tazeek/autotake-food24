@@ -25,6 +25,8 @@ class HeifaFileWriter():
 
         self._row_data = {}
         self._variations_list = ('Fruit', 'Vegetables')
+        self._legumes_allocation = \
+            ('Vegetables', 'Meat and alternatives')
     
     @property
     def scores(self):
@@ -71,6 +73,11 @@ class HeifaFileWriter():
     def _generate_column_name(self, food_group):
         # Add to the row (serving size)
         metric = self._group_metrics.get(food_group, "serve size")
+
+        # For those with legumes
+        if food_group in self._legumes_allocation:
+            return f"{food_group} with legumes allocated - {metric}"
+        
         return f"{food_group} - {metric}"
 
     def _extract_groups_structure(self):
