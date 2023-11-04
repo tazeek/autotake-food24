@@ -279,6 +279,7 @@ class ScoreConvertor:
 
             heifa_scores[survey_id] = {
                 'breakdown': scores_converted_dict,
+                'legumes_amount': legumes_alloc_dict,
                 'male_total': self.male_total,
                 'female_total': self.female_total
             }
