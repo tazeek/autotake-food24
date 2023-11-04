@@ -218,13 +218,9 @@ class DailyCalculator:
             # Add in the energy for sugar and fats calculation
             self.total_energy = energy_with_fibre
 
-            # For Sodium
+            # For Sodium, Sugar, Saturated, Unsaturated (Mono), Unsaturdated (Poly)
             self.daily_servings = ("Sodium", ingredient_obj.sodium_consumed)
-
-            # For Sugar
             self.daily_servings = ("Sugar", ingredient_obj.sugar_amount)
-
-            # For the Fats: Saturated, Unsaturated (Mono), Unsaturdated (Poly)
             self.daily_servings = ("Saturated Fat", ingredient_obj.saturated_fat_amount)
             self.daily_servings = ("Unsaturated Fat", ingredient_obj.unsaturated_fat_mono_amount)
             self.daily_servings = ("Unsaturated Fat", ingredient_obj.unsaturated_fat_poly_amount)
