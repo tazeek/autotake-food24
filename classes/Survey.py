@@ -26,12 +26,4 @@ class Survey:
         self.meals = meal_id
 
         return self.meals[meal_id]
-
-    def print_meals(self):
-
-        for meal_obj in self.meals.values():
-
-            meal_obj.print_nutrition()
-
-        return None
     

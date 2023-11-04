@@ -85,27 +85,12 @@ class FoodComposition:
         measure = weight if self.serving_measure == "g" else energy_with_fibre
         
         return serving_function(measure)
-    
-    def print_full_details(self):
-
-        print(
-            f"Heifa Code: {self._heifa_code}\n"
-            f"8 Digit Code: {self._8_digit_code}\n"
-            f"Is a recipe: {self._is_recipe}\n"
-            f"Serving Size: {self._serving_size}\n"
-            f"Recipe: {self.food_group}\n"
-            f"Serving measure: {self._serving_measure}\n"
-            f"Is Beverage: {self.plain_beverage}\n"
-            f"Is Plain Water: {self.is_water}\n"
-        )
-
 
 class RecipeComposition:
 
     def __init__(self, info_dict):
 
         self._recipe_pieces = {}
-
         self._recipe_id = info_dict['eight_digit_code']
 
         return None
@@ -117,15 +102,7 @@ class RecipeComposition:
     @recipe_pieces.setter
     def recipe_pieces(self, ingredient_dict):
         self._recipe_pieces.update(ingredient_dict)
-
-    def print_ingredients_information(self):
-
-        for ingred_in_rec_obj in self._recipe_pieces.values():
-
-            print(
-                f"Print for {ingred_in_rec_obj._ingredient_name}\n"
-                f"Propotion: {ingred_in_rec_obj._proportion_recipe:.2f}\n\n"
-            )
+        return None
 
 class IngredientInRecipe:
 
