@@ -6,7 +6,6 @@ def _clean_ingredients_file(ingredients_df: pd.DataFrame) -> pd.DataFrame:
     filled_values = {
         'serving_size' : 'N/A',
         'serving_measure': 'N/A',
-        'alcohol_serving_size': -1,
         'is_beverage': 0
     }
 
@@ -65,7 +64,6 @@ def load_latrobe_file(latrobe_df = None) -> pd.DataFrame:
     # Replace column names
     column_replacer_dict = {
         'Energy, with dietary fibre': 'energy_with_fibre',
-        'Meal name': 'meal_name',
         'Survey ID': 'survey_id',
         'User ID': 'user_id',
         'Meal ID': 'meal_id',
@@ -99,9 +97,7 @@ def load_heifa_recipes(heifa_recipes_df = None) -> pd.DataFrame:
     column_replacer_dict = {
         'Recipe AUSNUT 8-digit code': 'eight_digit_code',
         'Ingredient Nutrient table code': 'heifa_code',
-        'Recipe Food Name': 'recipe_name',
         'Proportion of ingredients in the recipe': 'proportion',
-        'Ingredient Food Name': 'ingredient_name',
         'Energy, with dietary fibre (kJ) per 100g': 'energy_fibre_100g',
     }
 
@@ -115,10 +111,6 @@ def load_heifa_ingredients(heifa_food_df = None) -> pd.DataFrame:
     if heifa_food_df is None:
         heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
 
-    alcohol_column_size = 'Alcoholic beverage serving size\n' + \
-        '(Used for number of standard drinks calculations)\n' + \
-        "Note: Column AU = 'Alcohol' in grams"
-
     # Replace column names
     column_replacer_dict = {
         'Nutrient table code': 'heifa_code',
@@ -126,8 +118,7 @@ def load_heifa_ingredients(heifa_food_df = None) -> pd.DataFrame:
         'HEIFA-2013 Food Group': 'food_group',
         'Energy or grams per Serve \n(HEIFA food groups)': 'serving_size',
         'Serving size unit of measure': 'serving_measure',
-        'Non-alcoholic beverage Flag\n(1=Non-alcoholic beverage)': 'is_beverage',
-        alcohol_column_size: 'alcohol_serving_size'
+        'Non-alcoholic beverage Flag\n(1=Non-alcoholic beverage)': 'is_beverage'
     }
 
     heifa_food_df = _rename_columns(column_replacer_dict, heifa_food_df)
