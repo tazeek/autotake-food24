@@ -70,6 +70,9 @@ class HeifaFileWriter():
     def column_names(self, name: list):
         self.column_names.extend(name)
 
+    def _get_legumes_key(self, main_group):
+        return f"Legumes allocated - {main_group}"
+
     def _generate_column_name(self, food_group):
         # Add to the row (serving size)
         metric = self._group_metrics.get(food_group, "serve size")
@@ -175,7 +178,7 @@ class HeifaFileWriter():
 
             # Add the legumes allocation column
             if main_group in self._legumes_allocation:
-                self.column_names = [f"Legumes allocated - {main_group}"]
+                self.column_names = [self._get_legumes_key(main_group)]
 
             # Add the variation column
             if main_group in self.variations_list:
