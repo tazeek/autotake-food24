@@ -9,7 +9,6 @@ class Intake:
 
         self._nutrients_info = {}
         self._heifa_list = []
-        self._meal_name = ''
 
     @property
     def nutrition(self):
@@ -19,16 +18,6 @@ class Intake:
     def heifa_list(self):
         return self._heifa_list
     
-    @property
-    def meal_name(self):
-        return self._meal_name
-    
-    @meal_name.setter
-    def meal_name(self, meal_name) -> None:
-        self._meal_name = meal_name
-        
-        return None
-    
     @heifa_list.setter
     def heifa_list(self, heifa_id) -> None:
         self.heifa_list.append(heifa_id)
@@ -37,9 +26,6 @@ class Intake:
     
     @nutrition.setter
     def nutrition(self, intake24_row) -> None: 
-        
-        # Create food object and add to the list
-        self.meal_type = intake24_row['meal_name']
 
         heifa_code = intake24_row['heifa_nutrient_id']
 
@@ -58,7 +44,7 @@ class Intake:
 
     def print_nutrition(self):
 
-        print(f"HEIFA code(s) for {self.meal_type}: {self.heifa_list}\n")
+        print(f"HEIFA code(s): {self.heifa_list}\n")
 
         for code in self._heifa_list:
 

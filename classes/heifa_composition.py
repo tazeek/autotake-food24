@@ -22,8 +22,6 @@ class FoodComposition:
         self._is_recipe = 'Recipe' in food_group
         self._required_portion_calculation = \
             food_group not in skip_group_list
-        
-        self._alcohol_serving_size = info_dict['alcohol_serving_size']
 
         self._is_alcohol = 'Alcohol' in food_group
         self._plain_beverage = beverage_flag == 1
@@ -67,10 +65,6 @@ class FoodComposition:
     def is_alcohol(self):
         return self._is_alcohol
     
-    @property
-    def alcohol_serving_size(self):
-        return self._alcohol_serving_size
-    
     def calculate_serving_size(self, energy_with_fibre, weight):
 
         serving_size = 0
@@ -113,7 +107,6 @@ class RecipeComposition:
         self._recipe_pieces = {}
 
         self._recipe_id = info_dict['eight_digit_code']
-        self._recipe_name = info_dict['recipe_name']
 
         return None
     
@@ -139,16 +132,11 @@ class IngredientInRecipe:
     def __init__(self, info_dict):
         
         self._proportion_recipe = info_dict['proportion']
-        self._ingredient_name = info_dict['ingredient_name']
         self._energy_fibre_100g = info_dict['energy_fibre_100g']
     
     @property
     def proportion(self):
         return self._proportion_recipe
-    
-    @property
-    def ingredient_name(self):
-        return self._ingredient_name
     
     @property
     def energy_with_fibre(self):
