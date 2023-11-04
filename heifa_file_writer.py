@@ -24,7 +24,9 @@ class HeifaFileWriter():
         }
 
         self._row_data = {}
-        self._variations_list = ('Fruit', 'Vegetables')
+        self._variations_list = \
+            ('Fruit', 'Vegetables')
+        
         self._legumes_allocation = \
             ('Vegetables', 'Meat and alternatives')
     
@@ -124,6 +126,19 @@ class HeifaFileWriter():
                 else f"{food_group}/{sub_group}"
             
             self.row_data = (key_name, serving_size)
+
+    def _add_variation_score(self, food_group, heifa_scores_breakdown):
+
+        # We only care about the scores of fruits and veg
+        if food_group not in self._variations_list:
+            return None
+
+        # Add the variation serving as a column
+        key_name = f"{food_group} - variations score"
+        score = heifa_scores_breakdown[key_name]
+        self.row_data = (key_name, score)
+
+        return None
     
     def _fill_up_data(self, heifa_scores, food_group_dict):
 
@@ -156,13 +171,14 @@ class HeifaFileWriter():
             self.row_data = (heifa_key_name_male, gender_scores['male_score'])
             self.row_data = (heifa_key_name_female, gender_scores['female_score'])
 
-            if (food_group in variations_dict) and (food_group in self.variations_list):
+            if (food_group in variations_dict):
 
-                # Add the variation serving as a column
-                key_name = f"{food_group} - variations score"
-                score = heifa_scores_breakdown[key_name]
-                self.row_data = (key_name, score)
+                # Add the column score of the variation
+                self._add_variation_score(
+                    food_group, heifa_scores_breakdown
+                )
 
+                # Add the serve sizes of the variations
                 self._handle_variations_servings(
                     food_group, variations_dict[food_group]
                 )
