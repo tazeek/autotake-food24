@@ -101,11 +101,16 @@ class ScoreConvertor:
 
         scores_dict, servings_dict, variations_serving = args
 
+        legumes_alloc_dict = {
+            'Vegetables': 0,
+            'Meat and alternatives': 0
+        }
+
         # Get the legumes amount
         legumes_amount = variations_serving.get('Vegetables', {}).get('Legumes', 0)
 
         if legumes_amount == 0:
-            return scores_dict
+            return scores_dict, legumes_alloc_dict
 
         # Get the scores of meat and veg
         meat_scores = scores_dict['Meat and alternatives']
@@ -148,6 +153,9 @@ class ScoreConvertor:
         servings_dict['Meat and alternatives'] += meat_extra
         servings_dict['Vegetables'] += veg_extra
 
+        legumes_alloc_dict['Meat and alternatives'] += meat_extra
+        legumes_alloc_dict['Vegetables'] += veg_extra
+
         # Deduct the existing scores (both male and female)
         # We will re-add them in the scoring function again
 
@@ -167,7 +175,7 @@ class ScoreConvertor:
         scores_dict['Meat and alternatives'] = \
             lambda_score_find('Meat and alternatives')
 
-        return scores_dict
+        return scores_dict, legumes_alloc_dict
 
     def _get_variation_function(self, variation_key):
         return {
@@ -262,7 +270,7 @@ class ScoreConvertor:
             scores_converted_dict.update(self.variations_total)
 
             # Perform Legumes logic
-            scores_converted_dict = \
+            scores_converted_dict, legumes_alloc_dict = \
                 self._legumes_allocation_logic(
                     scores_converted_dict.copy(), 
                     total_servings_dict,
