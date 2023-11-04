@@ -123,32 +123,30 @@ class ScoreConvertor:
             # Meat max, Veg not -> Allocate all to Veg
             # Meat not, Veg max -> Allocate all to Meat
             # Meat not, Veg not -> Split the servings
+            veg_allocation = 0
+            meat_allocation = 0
 
             # Check if meat maxed out
             if female_score_meat >= self._max_meat_score:
-                servings_dict['Vegetables'] += legumes_amount
-                return None
+                veg_allocation = legumes_amount
+                return meat_allocation, veg_allocation
 
             # Check if veg maxed out
             if female_score_veg >= self._max_veg_score:
-                servings_dict['Meat and alternatives'] += \
-                    legumes_amount
-                
-                return None
+                meat_allocation = legumes_amount
+                return meat_allocation, veg_allocation
 
-            # Do the split (nothing maxed out)
+            # Do the split (neither meat or veg maxed out)
             veg_allocation = legumes_amount / 2
             meat_allocation = legumes_amount / 4
 
-            servings_dict['Vegetables'] += veg_allocation
-
-            servings_dict['Meat and alternatives'] += \
-                meat_allocation
-
-            return None
+            return meat_allocation, veg_allocation
         
         # Do the logic. Separate function for return early
-        _perform_legumes_logic()
+        meat_extra, veg_extra = _perform_legumes_logic()
+
+        servings_dict['Meat and alternatives'] += meat_extra
+        servings_dict['Vegetables'] += veg_extra
 
         # Deduct the existing scores (both male and female)
         # We will re-add them in the scoring function again
