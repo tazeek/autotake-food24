@@ -372,7 +372,7 @@ class DailyCalculator:
 
         total_daily_servings = {}
 
-        # Store in this hierarchy: Date -> Food group -> Serving size
+        # Store in this hierarchy: Survey ID -> Food group -> Serving size
         for survey_id, meals_list in meals_daily_list.items():
 
             # Calculate the servings
