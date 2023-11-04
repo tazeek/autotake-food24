@@ -70,7 +70,8 @@ class HeifaFileWriter():
     def column_names(self, name: list):
         self.column_names.extend(name)
 
-    def _get_legumes_key(self, main_group):
+    @classmethod
+    def _get_legumes_key(cls, main_group):
         return f"Legumes allocated - {main_group}"
 
     def _generate_column_name(self, food_group):
@@ -129,6 +130,7 @@ class HeifaFileWriter():
         # Get the dictionaries
         total_dict = food_group_dict['total']
         variations_dict = food_group_dict['variations']
+        heifa_scores_breakdown = heifa_scores['breakdown']
 
         for food_group, total_serving in total_dict.items():
 
@@ -149,7 +151,7 @@ class HeifaFileWriter():
             heifa_key_name_male = f"{food_group} - HEIFA score (Male)"
             heifa_key_name_female = f"{food_group} - HEIFA score (Female)"
 
-            gender_scores = heifa_scores['breakdown'][food_group]
+            gender_scores = heifa_scores_breakdown[food_group]
 
             self.row_data = (heifa_key_name_male, gender_scores['male_score'])
             self.row_data = (heifa_key_name_female, gender_scores['female_score'])
@@ -158,7 +160,7 @@ class HeifaFileWriter():
 
                 # Add the variation serving as a column
                 key_name = f"{food_group} - variations score"
-                score = heifa_scores['breakdown'][key_name]
+                score = heifa_scores_breakdown[key_name]
                 self.row_data = (key_name, score)
 
                 self._handle_variations_servings(
