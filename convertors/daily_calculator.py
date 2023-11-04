@@ -16,6 +16,7 @@ class DailyCalculator:
         self._missing_nutrition_ids = []
 
         self._sub_as_main = ['Wholegrains']
+        self._alcohol_added = False
 
         # For some of the conversions
         # Reference: Samara's video
@@ -193,8 +194,9 @@ class DailyCalculator:
                 self.daily_servings = ("Water", piece_amount)
 
             # Alcohol: As long as the ingredient is alcohol, we move
-            if heifa_obj.is_alcohol:
+            if heifa_obj.is_alcohol and (not self._alcohol_added):
                 self.daily_servings = ("Alcohol", alcohol_amount)
+                self._alcohol_added = True
 
             # Add to the daily servings attribute
             self.daily_servings = (food_group, serving_size)
@@ -235,6 +237,11 @@ class DailyCalculator:
 
             # Seperate calculation for recipes
             if heifa_obj.is_recipe:
+
+                # This flag is for recipe calculation. We only 
+                # add the alcohol once as long as one ingredient
+                # is an alcohol.
+                self._alcohol_added = False
 
                 self._recipe_traversal_breakdown(
                     heifa_obj, 
