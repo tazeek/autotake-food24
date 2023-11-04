@@ -63,15 +63,11 @@ class ScoreConvertor:
     @variations_total.deleter
     def variations_total(self):
         self._variations_total = {}
-
-    @classmethod
-    def _within_range(cls, minimum, maximum, serving_size):
-        return minimum <= serving_size <= maximum
     
-    def _find_by_gender(self, keys, serving_size, score_dict):
-
+    @classmethod
+    def _find_by_gender(cls, keys, serving_size, score_dict):
         minimum_serve, maximum_serve = [score_dict[key] for key in keys]
-        return self._within_range(minimum_serve, maximum_serve, serving_size)
+        return minimum_serve <= serving_size <= maximum_serve
 
     @classmethod
     def _fruit_variation_score(cls, variation_dict):
