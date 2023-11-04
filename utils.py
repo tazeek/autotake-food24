@@ -101,9 +101,9 @@ def create_scores_objects(heifa_scores_df: pd.DataFrame) -> dict:
     return heifa_scores_dict
 
 
-def calculate_user_servings(
-        user_dict: dict, food_composition_dict: dict, recipe_dict: dict
-    ) -> dict:
+def calculate_user_servings(*args) -> dict:
+
+    user_dict, food_composition_dict, recipe_dict = args
 
     # First, we get all the meals (broken down by the date)
     user_meals = {
@@ -111,6 +111,7 @@ def calculate_user_servings(
         for user_id, user_obj in user_dict.items()
     }
 
+    # Create the calculator object and fetch the missing IDs
     daily_calculator = DailyCalculator(food_composition_dict, recipe_dict)
     missing_ids_list = daily_calculator.missing_nutrition_ids
 

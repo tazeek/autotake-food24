@@ -8,7 +8,6 @@ class DailyCalculator:
         self._recipes = recipe_dict
 
         self._total_energy = 0
-
         self._daily_servings = {}
         self._group_servings = {}
         self._variation_servings = {}
@@ -16,7 +15,6 @@ class DailyCalculator:
         self._missing_nutrition_ids = []
 
         self._sub_as_main = ['Wholegrains']
-        self._alcohol_added = False
 
         # For some of the conversions
         # Reference: Samara's video
@@ -114,25 +112,21 @@ class DailyCalculator:
     @variation_servings.deleter
     def variation_servings(self):
         self._variation_servings = {}
-
         return None
     
     @group_servings.deleter
     def group_servings(self):
         self._group_servings = {}
-
         return None
     
     @daily_servings.deleter
     def daily_servings(self):
         self._daily_servings = {}
-
         return None
     
     @total_energy.deleter
     def total_energy(self):
         self._total_energy = 0
-
         return None
     
     def _liquid_calculation(self, heifa_obj, ingredient_obj, portion_size):
@@ -381,13 +375,6 @@ class DailyCalculator:
         # Store in this hierarchy: Date -> Food group -> Serving size
         for survey_id, meals_list in meals_daily_list.items():
 
-            # Initialize with new dictionary for new date
-            # and for energy as well
-            del self.daily_servings
-            del self.group_servings
-            del self.variation_servings
-            del self.total_energy
-
             # Calculate the servings
             self._find_servings(meals_list)
 
@@ -398,5 +385,12 @@ class DailyCalculator:
                 'total': self.group_servings,
                 'variations': self.variation_servings
             }
+
+            # Initialize with new dictionary for new date
+            # and for energy as well
+            del self.daily_servings
+            del self.group_servings
+            del self.variation_servings
+            del self.total_energy
 
         return total_daily_servings
