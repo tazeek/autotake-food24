@@ -27,3 +27,18 @@ class User:
         self.surveys = survey_id
 
         return self.surveys[survey_id]
+
+    def get_meals_information(self):
+
+        all_food_information = {}
+
+        # Go by surveys
+        for survey_id, survey_obj in self.surveys.items():
+
+            # Get the meal objects dictionary
+            meals_obj = survey_obj.meals
+
+            #all_food_information[survey_date] = meal_date_list
+            all_food_information[survey_id] = [meal.nutrition for meal in meals_obj.values()]
+
+        return all_food_information
