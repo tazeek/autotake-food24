@@ -173,6 +173,10 @@ class HeifaFileWriter():
             main_column_name = self._generate_column_name(main_group)
             self.column_names = heifa_keys + [main_column_name]
 
+            # Add the legumes allocation column
+            if main_group in self._legumes_allocation:
+                self.column_names = [f"Legumes allocated - {main_group}"]
+
             # Add the variation column
             if main_group in self.variations_list:
                 self.column_names = [f"{main_group} - variations score"]
