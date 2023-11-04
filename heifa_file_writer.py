@@ -136,6 +136,12 @@ class HeifaFileWriter():
             key_name = self._generate_column_name(food_group)
             if key_name not in self.row_data:
                 continue
+            
+            # Add the legumes values
+            if food_group in self._legumes_allocation:
+                legumes_key = self._get_legumes_key(food_group)
+                legumes_val = heifa_scores['legumes_amount'][food_group]
+                self.row_data = (legumes_key, legumes_val)
 
             self.row_data = (key_name, total_serving)
 
