@@ -20,7 +20,7 @@ class DailyCalculator:
         # Reference: Samara's video
         self._grams_to_calories = {
             'Sugar': 16.7,
-            'Fat': 37.7
+            'Saturated Fat': 37.7
         }
 
         return None
@@ -263,21 +263,17 @@ class DailyCalculator:
             self.group_servings = ("Alcohol", standard_serves)
 
             return None
+        
+        # For Alcohol and Saturated Fat
+        if food_group in ("Saturated Fat", "Sugar"):
 
-        # Handle for saturated fat
-        if food_group == "Saturated Fat":
-            sat_fat_amount = self.daily_servings.get(food_group, 0)
+            total_amount = self.daily_servings.get(food_group, 0)
+            energy_amount = total_amount * self._grams_to_calories[food_group]
 
-            # Convert to energy
-            sat_fat_energy = sat_fat_amount * self._grams_to_calories["Fat"]
-
-            # Percentage amount
-            # NOTE: Some days, the energy amount can be 0. Don't ask
             total_energy = max(self.total_energy, 1)
-            percentage_fat = (sat_fat_energy/total_energy) * 100
+            percentage = (energy_amount/total_energy) * 100
 
-            self.group_servings = ("Saturated Fat", percentage_fat)
-
+            self.group_servings = (food_group, percentage)
             return None
 
         # Handle for unsaturated fat
@@ -288,24 +284,8 @@ class DailyCalculator:
             # 1 serving size = 10g
             serve_size = unsat_fat_amount / 10
             self.group_servings = ("Unsaturated Fat", serve_size)
-
             return None
         
-        # Handle for sugar
-        if food_group == "Sugar":
-            sugar_amount = self.daily_servings.get(food_group, 0)
-
-            sugar_energy = sugar_amount * self._grams_to_calories[food_group]
-
-            # Percentage amount
-            # NOTE: Some days, the energy amount can be 0. Don't ask
-            total_energy = max(self.total_energy, 1)
-            percentage_sugar = (sugar_energy/total_energy) * 100
-
-            self.group_servings = ("Sugar", percentage_sugar)
-
-            return None
-
          # Handle for water
         if food_group == "Water":
             beverage_amount = self.daily_servings.get("Non-Alcohol", 1)
