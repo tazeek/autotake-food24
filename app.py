@@ -137,6 +137,9 @@ heifa_score_file = st.file_uploader(
 # Get the serves
 if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
 
+    missing_ids_list = None
+    transformed_df = None
+    
     # Get the loaded CSV
     # Check for error messages
     try:
