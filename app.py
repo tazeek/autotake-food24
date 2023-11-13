@@ -13,6 +13,7 @@ def _dataframe_transformer(function_loader):
         'heifa_scores': [load_heifa_scores, create_scores_objects],
     }[function_loader]
 
+@st.cache_data(ttl=60)
 def _get_file_name():
 
     # Get the current date and time
@@ -27,6 +28,7 @@ def _get_file_name():
 def _convert_df(df):
     return df.to_csv(sep=",", index=False).encode('utf-8')
 
+@st.cache_data(ttl=60)
 def _convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
 
     if possible_file is None:
@@ -40,11 +42,10 @@ def _convert_csv_dataframe(possible_file, function_loader) -> pd.DataFrame:
         _dataframe_transformer(function_loader)
     
     cleaned_df = cleaner_function(file)
-
-    #transformer_function = _create_objects(function_loader)
     
     return transformer_function(cleaned_df)
 
+@st.cache_data(ttl=60)
 def get_csv_heifa_scores(*args):
 
     intake24_file, heifa_recipe_file, heifa_food_file, heifa_score_file = args
@@ -137,12 +138,23 @@ heifa_score_file = st.file_uploader(
 if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
 
     # Get the loaded CSV
-    missing_ids_list, transformed_df = get_csv_heifa_scores(
-        intake24_file, 
-        heifa_recipe_file, 
-        heifa_food_file, 
-        heifa_score_file,
-    )
+    # Check for error messages
+    try:
+        missing_ids_list, transformed_df = get_csv_heifa_scores(
+            intake24_file, 
+            heifa_recipe_file, 
+            heifa_food_file, 
+            heifa_score_file,
+        )
+    except Exception as e:
+        st.error(
+            "An error has occurred.\n \
+            The script has stopped working due to columns mis-matched.\n \
+            Please refresh and try again with the proper CSV file.", 
+            icon="🚨"
+        )
+        st.stop()
+
 
     # For missing HEIFA files
     if missing_ids_list:
