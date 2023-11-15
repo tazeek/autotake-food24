@@ -31,7 +31,6 @@ def load_intake24(intake24_df = None) -> pd.DataFrame:
     # Replace column names
     column_replacer_dict = {
         'Energy, with dietary fibre': 'energy_with_fibre',
-        'Meal name': 'meal_name',
         'Survey ID': 'survey_id',
         'User ID': 'user_id',
         'Meal ID': 'meal_id',
