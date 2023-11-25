@@ -4,6 +4,18 @@ Automate process calculation of Intake24 data with the HEIFA scoring. \
 Purpose of this project is to reduce the time taken to calculate the recal
 of a single survey.
 
+## Criteria for files
+
+**Important**:
+
+**Intake24**:
+
+**HEIFA Food Composition**:
+
+**HEIFA Recipe list**:
+
+**HEIFA Score rules**:
+
 ## Steps involved
 
 **Uploading files**: Upload and clean the raw files of Intake24 and HEIFA-related files.
