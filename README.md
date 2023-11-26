@@ -4,9 +4,9 @@ Automate process calculation of Intake24 data with the HEIFA scoring. \
 Purpose of this project is to reduce the time taken to calculate the recal
 of a single survey.
 
-## Criteria for files
+## Criteria for files' column names
 
-**Important**:
+**Important**: Please read this document to have a proper understanding of how columns should be named for the processing to work.
 
 **Intake24**:
 
