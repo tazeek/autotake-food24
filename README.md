@@ -47,6 +47,10 @@ of a single survey.
 - 'HEIFA Score': The HEIFA score, based on the given range of minimum and maximum serves.
 - **NOTE**: Some of the maximum serves are left empty in the CSV file. This is to denote that there is NO upper bound.
 
+**How they all map together**:
+- _Intake24_ and _HEIFA Food Composition_: They are mapped by the **Nutrient table code** field. Any field not present is shown in the dashboard as output.
+- _HEIFA Food Composition_ and _HEIFA Recipe list_: They are mapped by the **Recipe AUSNUT 8-digit code** field.
+
 ## Steps involved
 
 **Uploading files**: Upload and clean the raw files of Intake24 and HEIFA-related files.
