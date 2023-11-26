@@ -23,9 +23,15 @@ of a single survey.
 - 'Polyunsaturated fatty acids (g)': The amount of polysaturated fat in the food.
 
 **HEIFA Food Composition**:
+- 'Nutrient table code': The nutrient ID of the given food item. 
+- '8 digit code': The HEIFA 8 digit code (recipe).
+- 'HEIFA-2013 Food Group': The relevant food group.
+- 'Energy or grams per Serve \n(HEIFA food groups)': The energy per serving size.
+- 'Serving size unit of measure': The serving unit of measurement.
+- 'Non-alcoholic beverage Flag\n(1=Non-alcoholic beverage)': Check whether it is an alcoholic beverage or not.
 
 **HEIFA Recipe list**:
-- 'Recipe AUSNUT 8-digit code': The HEIFA 8 digit code in the file.
+- 'Recipe AUSNUT 8-digit code': The HEIFA 8 digit code (recipe) in the file.
 - 'Ingredient Nutrient table code': The nutrient ID of the given food of the recipe.
 - 'Proportion of ingredients in the recipe': The proportion amount in the recipe.
 - 'Energy, with dietary fibre (kJ) per 100g': The amount of energy in the given ingredient.
