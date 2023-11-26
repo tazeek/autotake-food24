@@ -25,6 +25,10 @@ of a single survey.
 **HEIFA Food Composition**:
 
 **HEIFA Recipe list**:
+- 'Recipe AUSNUT 8-digit code': The HEIFA 8 digit code in the file.
+- 'Ingredient Nutrient table code': The nutrient ID of the given food of the recipe.
+- 'Proportion of ingredients in the recipe': The proportion amount in the recipe.
+- 'Energy, with dietary fibre (kJ) per 100g': The amount of energy in the given ingredient.
 
 **HEIFA Score rules**:
 
