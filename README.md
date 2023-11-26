@@ -8,6 +8,8 @@ of a single survey.
 
 **Important**: Please read this document to have a proper understanding of how columns should be named for the processing to work.
 
+**NOTE**: '\n' denotes a line break. This means that anything after '\n' should start in a newline.
+
 **Intake24**: The following columns are needed and should be named accurately:
 - 'Energy, with dietary fibre': Energy with dietary fibre
 - 'Survey ID': The survey ID of the recall data.
@@ -37,6 +39,13 @@ of a single survey.
 - 'Energy, with dietary fibre (kJ) per 100g': The amount of energy in the given ingredient.
 
 **HEIFA Score rules**:
+- 'Food group': The relevant food group.
+- 'Minimum serves per day (Male)': The minimum number of serves for the given food group (Male).
+- 'Maximum serves per day (Male)': The maximum of serves for the given food group (Male).
+- 'Minimum serves per day (Female)': The minimum number of serves for the given food group (Female).
+- 'Maximum serves per day (Female)': The maximum of serves for the given food group (Female).
+- 'HEIFA Score': The HEIFA score, based on the given range of minimum and maximum serves.
+- **NOTE**: Some of the maximum serves are left empty in the CSV file. This is to denote that there is NO upper bound.
 
 ## Steps involved
 
