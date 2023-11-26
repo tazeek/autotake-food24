@@ -98,6 +98,12 @@ st.set_page_config(
 st.title('Welcome to Autotake24.')
 st.header("File upload section")
 
+st.markdown("""
+    If this is your first time, please have a read at the following link 
+    in regards to the column names for this dashboard: 
+    https://github.com/tazeek/autotake-food24/tree/master#criteria-for-files-column-names       
+""")
+
 # Just in case
 cache_clear_button = st.button(
     "Clear cache data",
