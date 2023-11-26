@@ -8,7 +8,19 @@ of a single survey.
 
 **Important**: Please read this document to have a proper understanding of how columns should be named for the processing to work.
 
-**Intake24**:
+**Intake24**: The following columns are needed and should be named accurately:
+- 'Energy, with dietary fibre': Energy with dietary fibre
+- 'Survey ID': The survey ID of the recall data.
+- 'User ID': The user ID of the survey.
+- 'Meal ID': The meal ID of the recall data.
+- 'Nutrient table code': The nutrient ID of the given food item.
+- 'Portion size (g/ml)': Portion size of the food.
+- 'Sodium': The amount of sodium in the food.
+- 'Alcohol': The amount of alcohol in the food.
+- 'Total sugars': The amount of sugars in the food.
+- 'Satd FA': The amount of saturated fat in the food.
+- 'Monounsaturated fatty acids (g)': The amount of monosaturated fat in the food.
+- 'Polyunsaturated fatty acids (g)': The amount of polysaturated fat in the food.
 
 **HEIFA Food Composition**:
 
