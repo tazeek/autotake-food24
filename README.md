@@ -48,14 +48,19 @@ of a single survey.
 - **NOTE**: Some of the maximum serves are left empty in the CSV file. This is to denote that there is NO upper bound.
 
 **How they all map together**:
-- _Intake24_ and _HEIFA Food Composition_: They are mapped by the **Nutrient table code** field. Any field not present is shown in the dashboard as output.
+- _Intake24_ and _HEIFA Food Composition_: They are mapped by the **Nutrient ID code** field. Any field not present is shown in the dashboard as output (see example below).
+
+![Missing Nutrient ID photo.](images/nutrient_ids_missing.png)
+
 - _HEIFA Food Composition_ and _HEIFA Recipe list_: They are mapped by the **Recipe AUSNUT 8-digit code** field.
 
-## Steps involved
+## Steps involved (Background process)
 
-**Uploading files**: Upload and clean the raw files of Intake24 and HEIFA-related files.
+The background process starts executing once **all four** files (Intake24 and the three HEIFA-related files) have been uploaded into the dashboard.
 
-**Processing files**: Extract the important pieces of information required for the calculations.
+**Cleaning files**: Clean the raw files of Intake24 and the three HEIFA-related files.
+
+**Processing files**: Extract the important columns of information required for the calculations.
 
 **Calculating the serves**: Calculate the serves, per survey ID, for each of the food groups involved. \
 In addition, find the total of the main groups and sub-groups. \
