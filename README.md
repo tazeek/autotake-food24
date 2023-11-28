@@ -48,7 +48,7 @@ of a single survey.
 - **NOTE**: Some of the maximum serves are left empty in the CSV file. This is to denote that there is NO upper bound.
 
 **How they all map together**:
-- _Intake24_ and _HEIFA Food Composition_: They are mapped by the **Nutrient ID code** field. Any field not present is shown in the dashboard as output (see example below).
+- _Intake24_ and _HEIFA Food Composition_: They are mapped by the **Nutrient ID code** field. Any field not present is shown in the dashboard as output (see example below) and is **omitted from the calculation process**.
 
 ![Missing Nutrient ID photo.](images/nutrient_ids_missing.png)
 
