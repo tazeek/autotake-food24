@@ -168,7 +168,7 @@ if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_fi
     # For missing HEIFA files
     if missing_ids_list:
         combined_ids = " ".join(missing_ids_list)
-        st.write(f'Following HEIFA IDs not found: {combined_ids}')
+        st.write(f'Following nutrient IDs not found: {combined_ids}')
 
     st.download_button(
         label="Download scoring file",
