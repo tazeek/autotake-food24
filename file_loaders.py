@@ -70,7 +70,7 @@ def load_latrobe_file(latrobe_df = None) -> pd.DataFrame:
         'Sodium ': 'sodium_consumed',
         'Alcohol ': 'alcohol_consumed',
         'Portion size (g/ml)': 'portion_size_consumed',
-        'Total sugars': 'sugar_amount',
+        'Added sugar': 'sugar_amount',
         'Satd FA': 'saturated_fat_amount',
         'Monounsaturated fatty acids (g)': 'unsaturated_fat_mono_amount',
         'Polyunsaturated fatty acids (g)': 'unsaturated_fat_poly_amount'

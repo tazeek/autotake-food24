@@ -19,7 +19,7 @@ of a single survey.
 - 'Portion size (g/ml)': Portion size of the food/drink.
 - 'Sodium': The amount of sodium in the food/drink.
 - 'Alcohol': The amount of alcohol in the food/drink.
-- 'Total sugars': The amount of added sugar in the food/drink.
+- 'Added sugar': The amount of added sugar in the food/drink.
 - 'Satd FA': The amount of saturated fat in the food/drink.
 - 'Monounsaturated fatty acids (g)': The amount of monounsaturated fat in the food/drink.
 - 'Polyunsaturated fatty acids (g)': The amount of polyunsaturated fat in the food/drink.
