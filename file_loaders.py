@@ -38,7 +38,7 @@ def load_intake24(intake24_df = None) -> pd.DataFrame:
         'Portion size (g/ml)': 'portion_size_consumed',
         'Sodium': 'sodium_consumed',
         'Alcohol': 'alcohol_consumed',
-        'Total sugars': 'sugar_amount',
+        'Added sugar': 'sugar_amount',
         'Satd FA': 'saturated_fat_amount',
         'Monounsaturated fatty acids (g)': 'unsaturated_fat_mono_amount',
         'Polyunsaturated fatty acids (g)': 'unsaturated_fat_poly_amount'
