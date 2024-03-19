@@ -19,7 +19,9 @@ class ScoreConvertor:
             heifa_scores_dict['Vegetables']
         )
 
-        self._minimum_water = {
+        self._beverage_survey = 0
+
+        self._minimum_beverage = {
             'male': 2600,
             'female': 2100
         }
@@ -222,8 +224,14 @@ class ScoreConvertor:
 
         # Check if the minimum amount of beverage is fulfilled or not
         if food_group == "Water":
-            ...
 
+            # Get the boolean checks
+            minimum_fulfilled_male = self._beverage_survey >= self._minimum_beverage['male']
+            minimum_fulfilled_female = self._beverage_survey >= self._minimum_beverage['female_score']
+
+            # Add in the score if only it is fulfilled
+            male_score = male_score if minimum_fulfilled_male else 0
+            female_score = female_score if minimum_fulfilled_female else 0
 
         # Check if group is in the variation list
         # If it is, find the breakdown
@@ -256,6 +264,9 @@ class ScoreConvertor:
 
             total_servings_dict = servings_dict['total']
             variations_serving = servings_dict['variations']
+
+            # Add in the beverage amount
+            self._beverage_survey = total_servings_dict['Beverage']
 
             # Add the keys not in the variations
             # We want to calculate all the groups, regardless of their prescence
