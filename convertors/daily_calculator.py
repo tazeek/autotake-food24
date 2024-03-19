@@ -131,13 +131,12 @@ class DailyCalculator:
     
     def _liquid_calculation(self, heifa_obj, ingredient_obj, portion_size):
 
+        # We still need to calculate the beverage amount, irrespective of the type
+        self.daily_servings = ("Beverage", portion_size)
+
         # For Alcohol
         if heifa_obj.is_alcohol:
             self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
-
-        # For non-alcoholic beverage
-        if heifa_obj.plain_beverage:
-            self.daily_servings = ("Non-Alcohol", portion_size)
 
         # For water:
         if heifa_obj.is_water:
@@ -181,7 +180,7 @@ class DailyCalculator:
 
             # Beverage: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.plain_beverage:
-                self.daily_servings = ("Non-Alcohol", piece_amount)
+                self.daily_servings = ("Beverage", piece_amount)
 
             # Water: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.is_water:
@@ -202,6 +201,10 @@ class DailyCalculator:
         ingredients_dict = self.ingredients
 
         for heifa_id, ingredient_obj in meal.items():
+            print("#" * 10)
+            print(f"Nutrient ID of {heifa_id}")
+            print("#" * 10)
+            print("\n")
 
             heifa_id = heifa_id.split('_')[0] if '_' in heifa_id else heifa_id
 
@@ -288,11 +291,11 @@ class DailyCalculator:
         
          # Handle for water
         if food_group == "Water":
-            beverage_amount = self.daily_servings.get("Non-Alcohol", 1)
-            water_perc = (serving_size/beverage_amount) * 100
+            beverage_amount = self.daily_servings.get("Beverage", 1)
 
-            # Has to be more than 1.5L else default to 0
-            water_perc = water_perc if beverage_amount >= 1500 else 0
+            # Find the percentage and store it
+            # We need the beverage amount for the third step of calculation
+            water_perc = (serving_size/beverage_amount) * 100
             self.group_servings = ("Water", water_perc)
 
             return None
@@ -334,11 +337,15 @@ class DailyCalculator:
     
     def _find_servings(self, meals_list):
 
-        for meal in meals_list:
+        for meal in enumerate(meals_list):
+            print("%" * 10)
+            print(f"Printing {index+1} out of {len(meals_list)}....")
+            print("%" * 10)
+            print("\n")
 
             self._calculate_serving(meal)
 
-        # We calculate after all the meals are done    
+        # We calculate after all the meals are done   
         self._find_group_total()
 
         return None
@@ -351,8 +358,13 @@ class DailyCalculator:
         # Store in this hierarchy: Survey ID -> Food group -> Serving size
         for survey_id, meals_list in meals_daily_list.items():
 
+            print("=" * 30)
+            print(f"Printing for {survey_id}")
+
             # Calculate the servings
             self._find_servings(meals_list)
+
+            print("\n")
 
             # Store individual group servings and total group
             # servings

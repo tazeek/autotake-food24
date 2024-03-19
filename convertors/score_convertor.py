@@ -19,6 +19,13 @@ class ScoreConvertor:
             heifa_scores_dict['Vegetables']
         )
 
+        self._beverage_survey = 0
+
+        self._minimum_beverage = {
+            'male': 2600,
+            'female': 2100
+        }
+
     @property
     def scores_dict(self):
         return self._heifa_scores_dict
@@ -215,6 +222,17 @@ class ScoreConvertor:
         male_score = 0 if male_score is None else male_score
         female_score = 0 if female_score is None else female_score
 
+        # Check if the minimum amount of beverage is fulfilled or not
+        if food_group == "Water":
+
+            # Get the boolean checks
+            minimum_fulfilled_male = self._beverage_survey >= self._minimum_beverage['male']
+            minimum_fulfilled_female = self._beverage_survey >= self._minimum_beverage['female']
+
+            # Add in the score if only it is fulfilled
+            male_score = male_score if minimum_fulfilled_male else 0
+            female_score = female_score if minimum_fulfilled_female else 0
+
         # Check if group is in the variation list
         # If it is, find the breakdown
         if (food_group in self.variations_list) and (food_group in variations_serving):
@@ -247,6 +265,9 @@ class ScoreConvertor:
             total_servings_dict = servings_dict['total']
             variations_serving = servings_dict['variations']
 
+            # Add in the beverage amount
+            self._beverage_survey = total_servings_dict['Beverage']
+
             # Add the keys not in the variations
             # We want to calculate all the groups, regardless of their prescence
             missing_variations = {
@@ -256,6 +277,7 @@ class ScoreConvertor:
 
             total_servings_dict.update(missing_variations)
 
+            # We only iterate what is in the HEIFA scores CSV
             scores_converted_dict = {
                 food_group: self._find_score(food_group, serving, variations_serving)
                 for food_group, serving in total_servings_dict.items()
