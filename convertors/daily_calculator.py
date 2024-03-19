@@ -138,10 +138,6 @@ class DailyCalculator:
         if heifa_obj.is_alcohol:
             self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
 
-        # For non-alcoholic beverage
-        if heifa_obj.plain_beverage:
-            self.daily_servings = ("Non-Alcohol", portion_size)
-
         # For water:
         if heifa_obj.is_water:
             self.daily_servings = ("Water", portion_size)
@@ -184,7 +180,7 @@ class DailyCalculator:
 
             # Beverage: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.plain_beverage:
-                self.daily_servings = ("Non-Alcohol", piece_amount)
+                self.daily_servings = ("Beverage", piece_amount)
 
             # Water: Check for main recipe beverage flag and ingredient flag
             if recipe_is_beverage and heifa_obj.is_water:
@@ -295,7 +291,7 @@ class DailyCalculator:
         
          # Handle for water
         if food_group == "Water":
-            beverage_amount = self.daily_servings.get("Non-Alcohol", 1)
+            beverage_amount = self.daily_servings.get("Beverage", 1)
             water_perc = (serving_size/beverage_amount) * 100
 
             # Has to be more than 1.5L else default to 0
