@@ -227,7 +227,7 @@ class ScoreConvertor:
 
             # Get the boolean checks
             minimum_fulfilled_male = self._beverage_survey >= self._minimum_beverage['male']
-            minimum_fulfilled_female = self._beverage_survey >= self._minimum_beverage['female_score']
+            minimum_fulfilled_female = self._beverage_survey >= self._minimum_beverage['female']
 
             # Add in the score if only it is fulfilled
             male_score = male_score if minimum_fulfilled_male else 0

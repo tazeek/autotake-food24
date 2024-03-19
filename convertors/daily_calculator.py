@@ -294,8 +294,8 @@ class DailyCalculator:
             beverage_amount = self.daily_servings.get("Beverage", 1)
 
             # Find the percentage and store it
+            # We need the beverage amount for the third step of calculation
             water_perc = (serving_size/beverage_amount) * 100
-            self.group_servings = ("Beverage", beverage_amount)
             self.group_servings = ("Water", water_perc)
 
             return None
@@ -337,7 +337,7 @@ class DailyCalculator:
     
     def _find_servings(self, meals_list):
 
-        for index, meal in enumerate(meals_list):
+        for meal in enumerate(meals_list):
             print("%" * 10)
             print(f"Printing {index+1} out of {len(meals_list)}....")
             print("%" * 10)
@@ -346,7 +346,6 @@ class DailyCalculator:
             self._calculate_serving(meal)
 
         # We calculate after all the meals are done   
-        print("******* All done! Looks good!! ********") 
         self._find_group_total()
 
         return None

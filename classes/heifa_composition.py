@@ -69,6 +69,9 @@ class FoodComposition:
 
         serving_size = 0
 
+        print(f"Energy of {energy_with_fibre} and of weight {weight}")
+        print(f"Serving measure of: {self.serving_measure} and of size {self.serving_size}")
+
         energy_with_fibre = float(energy_with_fibre)
         weight = float(weight)
 
@@ -83,6 +86,9 @@ class FoodComposition:
         # - kJ: Use energy_with_fibre
         # - g: Use weight
         measure = weight if self.serving_measure == "g" else energy_with_fibre
+        print(f"Measure of {measure}")
+        print(f"Output: {serving_function(measure)}")
+        print("\n")
         
         return serving_function(measure)
 
