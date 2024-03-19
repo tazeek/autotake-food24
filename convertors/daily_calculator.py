@@ -131,6 +131,9 @@ class DailyCalculator:
     
     def _liquid_calculation(self, heifa_obj, ingredient_obj, portion_size):
 
+        # We still need to calculate the beverage amount, irrespective of the type
+        self.daily_servings = ("Beverage", portion_size)
+
         # For Alcohol
         if heifa_obj.is_alcohol:
             self.daily_servings = ("Alcohol", ingredient_obj.alcohol_amount)
@@ -202,6 +205,10 @@ class DailyCalculator:
         ingredients_dict = self.ingredients
 
         for heifa_id, ingredient_obj in meal.items():
+            print("#" * 10)
+            print(f"Nutrient ID of {heifa_id}")
+            print("#" * 10)
+            print("\n")
 
             heifa_id = heifa_id.split('_')[0] if '_' in heifa_id else heifa_id
 
@@ -334,11 +341,16 @@ class DailyCalculator:
     
     def _find_servings(self, meals_list):
 
-        for meal in meals_list:
+        for index, meal in enumerate(meals_list):
+            print("%" * 10)
+            print(f"Printing {index+1} out of {len(meals_list)}....")
+            print("%" * 10)
+            print("\n")
 
             self._calculate_serving(meal)
 
-        # We calculate after all the meals are done    
+        # We calculate after all the meals are done   
+        print("******* All done! Looks good!! ********") 
         self._find_group_total()
 
         return None
@@ -351,8 +363,13 @@ class DailyCalculator:
         # Store in this hierarchy: Survey ID -> Food group -> Serving size
         for survey_id, meals_list in meals_daily_list.items():
 
+            print("=" * 30)
+            print(f"Printing for {survey_id}")
+
             # Calculate the servings
             self._find_servings(meals_list)
+
+            print("\n")
 
             # Store individual group servings and total group
             # servings
