@@ -292,10 +292,10 @@ class DailyCalculator:
          # Handle for water
         if food_group == "Water":
             beverage_amount = self.daily_servings.get("Beverage", 1)
-            water_perc = (serving_size/beverage_amount) * 100
 
-            # Has to be more than 1.5L else default to 0
-            water_perc = water_perc if beverage_amount >= 1500 else 0
+            # Find the percentage and store it
+            water_perc = (serving_size/beverage_amount) * 100
+            self.group_servings = ("Beverage", beverage_amount)
             self.group_servings = ("Water", water_perc)
 
             return None
