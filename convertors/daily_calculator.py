@@ -201,10 +201,6 @@ class DailyCalculator:
         ingredients_dict = self.ingredients
 
         for heifa_id, ingredient_obj in meal.items():
-            print("#" * 10)
-            print(f"Nutrient ID of {heifa_id}")
-            print("#" * 10)
-            print("\n")
 
             heifa_id = heifa_id.split('_')[0] if '_' in heifa_id else heifa_id
 
@@ -337,12 +333,7 @@ class DailyCalculator:
     
     def _find_servings(self, meals_list):
 
-        for meal in enumerate(meals_list):
-            print("%" * 10)
-            print(f"Printing {index+1} out of {len(meals_list)}....")
-            print("%" * 10)
-            print("\n")
-
+        for meal in meals_list:
             self._calculate_serving(meal)
 
         # We calculate after all the meals are done   
