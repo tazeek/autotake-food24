@@ -160,17 +160,24 @@ class HeifaFileWriter():
                 legumes_val = heifa_scores['legumes_amount'][food_group]
                 self.row_data = (legumes_key, legumes_val)
 
+            # Add in the serve sizes
             self.row_data = (key_name, total_serving)
 
-            # Get the HEIFA scores
+            # Generate the key
             heifa_key_name_male = f"{food_group} - HEIFA score (Male)"
             heifa_key_name_female = f"{food_group} - HEIFA score (Female)"
 
+            # Add in the HEIFA scores, based on gender
             gender_scores = heifa_scores_breakdown[food_group]
-
             self.row_data = (heifa_key_name_male, gender_scores['male_score'])
             self.row_data = (heifa_key_name_female, gender_scores['female_score'])
 
+            # For handling water: add in the total beverage and total water intake
+            if food_group == "Water":
+                self.row_data = (f"Water - Total (mL)", total_serving)
+                self.row_data = (f"Beverage - Total (mL)", total_dict['Beverage']) 
+
+            # For handling variations: Fruits, Vegetables
             if (food_group in variations_dict):
 
                 # Add the column score of the variation
