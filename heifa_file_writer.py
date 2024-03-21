@@ -175,7 +175,7 @@ class HeifaFileWriter():
             # For handling water: add in the total beverage and total water intake
             if food_group == "Water":
                 self.row_data = (f"Water - Total (mL)", total_dict.get('water_total', 0))
-                self.row_data = (f"Beverage - Total (mL)", total_dict['Beverage']) 
+                self.row_data = (f"Beverage - Total (mL)", total_dict.get('Beverage', 0)) 
 
             # For handling variations: Fruits, Vegetables
             if (food_group in variations_dict):

@@ -241,7 +241,8 @@ class DailyCalculator:
                 continue
             
             # For Alcohol, Beverage and/or Water
-            self._liquid_calculation(heifa_obj, ingredient_obj, portion_size)
+            if heifa_obj.plain_beverage:
+                self._liquid_calculation(heifa_obj, ingredient_obj, portion_size)
             
             # Calculation for non-recipes
             serving_size = heifa_obj.calculate_serving_size(

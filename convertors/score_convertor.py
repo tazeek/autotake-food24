@@ -266,7 +266,7 @@ class ScoreConvertor:
             variations_serving = servings_dict['variations']
 
             # Add in the beverage amount
-            self._beverage_survey = total_servings_dict['Beverage']
+            self._beverage_survey = total_servings_dict.get('Beverage', 0)
 
             # Add the keys not in the variations
             # We want to calculate all the groups, regardless of their prescence
