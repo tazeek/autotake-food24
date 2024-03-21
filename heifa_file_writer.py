@@ -200,6 +200,10 @@ class HeifaFileWriter():
             main_column_name = self._generate_column_name(main_group)
             self.column_names = heifa_keys + [main_column_name]
 
+            # For Water: we need the total water amount and the total beverage amount
+            if main_group == "Water":
+                self.column_names = ['Water - Total (mL)', 'Beverage - Total (mL)']
+
             # Add the legumes allocation column
             if main_group in self._legumes_allocation:
                 self.column_names = [self._get_legumes_key(main_group)]
@@ -215,6 +219,7 @@ class HeifaFileWriter():
 
         # Create the columns
         self._create_column_names()
+        print(self.column_names)
 
         # Default row
         empty_row = {
