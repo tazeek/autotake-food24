@@ -292,6 +292,7 @@ class DailyCalculator:
             # Find the percentage and store it
             # We need the beverage amount for the third step of calculation
             water_perc = (serving_size/beverage_amount) * 100
+            self.group_servings = ("water_total", serving_size)
             self.group_servings = ("Water", water_perc)
 
             return None
