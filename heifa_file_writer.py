@@ -198,6 +198,10 @@ class HeifaFileWriter():
 
         # Storage order: HEIFA scores, Serve size, Sub-groups
         for main_group, sub_group in structure_dict.items():
+
+            # Skip over this column
+            if main_group == "Total Beverage":
+                continue
             
             heifa_keys = [
                 f"{main_group} - HEIFA score ({gender})" 
