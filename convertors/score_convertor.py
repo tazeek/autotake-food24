@@ -21,11 +21,6 @@ class ScoreConvertor:
 
         self._beverage_survey = 0
 
-        self._minimum_beverage = {
-            'male': 2600,
-            'female': 2100
-        }
-
     @property
     def scores_dict(self):
         return self._heifa_scores_dict

@@ -351,13 +351,8 @@ class DailyCalculator:
         # Store in this hierarchy: Survey ID -> Food group -> Serving size
         for survey_id, meals_list in meals_daily_list.items():
 
-            print("=" * 30)
-            print(f"Printing for {survey_id}")
-
             # Calculate the servings
             self._find_servings(meals_list)
-
-            print("\n")
 
             # Store individual group servings and total group
             # servings
