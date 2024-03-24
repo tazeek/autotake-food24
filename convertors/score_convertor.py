@@ -21,11 +21,6 @@ class ScoreConvertor:
 
         self._beverage_survey = 0
 
-        self._minimum_beverage = {
-            'male': 2600,
-            'female': 2100
-        }
-
     @property
     def scores_dict(self):
         return self._heifa_scores_dict
@@ -225,9 +220,17 @@ class ScoreConvertor:
         # Check if the minimum amount of beverage is fulfilled or not
         if food_group == "Water":
 
-            # Get the boolean checks
-            minimum_fulfilled_male = self._beverage_survey >= self._minimum_beverage['male']
-            minimum_fulfilled_female = self._beverage_survey >= self._minimum_beverage['female']
+            # Get the beverage range
+            beverage_range = self.scores_dict['Total Beverage'][0]
+
+            # Check if fulfilled for both genders
+            minimum_fulfilled_male = self._find_by_gender(
+                ['minimum_serves_male', 'maximum_serves_male'], self._beverage_survey, beverage_range
+            )
+
+            minimum_fulfilled_female = self._find_by_gender(
+                ['minimum_serves_female', 'maximum_serves_female'], self._beverage_survey, beverage_range
+            )
 
             # Add in the score if only it is fulfilled
             male_score = male_score if minimum_fulfilled_male else 0
