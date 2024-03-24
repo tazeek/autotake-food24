@@ -226,7 +226,6 @@ class HeifaFileWriter():
 
         # Create the columns
         self._create_column_names()
-        print(self.column_names)
 
         # Default row
         empty_row = {
