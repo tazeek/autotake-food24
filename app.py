@@ -5,6 +5,9 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 
+def _error_message():
+    ...
+
 def _dataframe_transformer(function_loader):
     return {
         'intake24': [load_intake24, create_user_objects],
@@ -50,32 +53,33 @@ def get_csv_heifa_scores(*args):
 
     intake24_file, heifa_recipe_file, heifa_food_file, heifa_score_file = args
 
-    my_bar = st.progress(0, text="Loading files..")
+    user_dict, recipe_dict, food_composition_dict, heifa_scores_dict = None, None, None, None
+    missing_ids_list, user_daily_intake = None, None
+    user_heifa_scores = None
 
     # 1. Load the files
+    my_bar = st.progress(0, text="Loading files..")
     user_dict = _convert_csv_dataframe(intake24_file, 'intake24')
     recipe_dict = _convert_csv_dataframe(heifa_recipe_file, 'recipe')
     food_composition_dict = _convert_csv_dataframe(heifa_food_file, 'food_compo')
     heifa_scores_dict = _convert_csv_dataframe(heifa_score_file, 'heifa_scores')
 
-    my_bar.progress(25, text="Calculating User Servings..")
-
     # 2. Get the user servings
+    my_bar.progress(25, text="Calculating User Servings..")
     missing_ids_list, user_daily_intake = calculate_user_servings(
         user_dict,
         food_composition_dict,
         recipe_dict
     )
 
-    my_bar.progress(50, text="Converting to HEIFA scores.")
-
     # 3. Convert to HEIFA scores
+    my_bar.progress(50, text="Converting to HEIFA scores.")
     user_heifa_scores = calculate_heifa_scores(
         heifa_scores_dict, user_daily_intake
     )
 
+    # 4. Create the CSV file
     my_bar.progress(75, text="Creating CSV file.")
-
     csv_file = create_heifa_csv(
         heifa_scores_dict, 
         food_composition_dict, 
@@ -155,13 +159,8 @@ if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_fi
             heifa_food_file, 
             heifa_score_file,
         )
-    except Exception as e:
-        st.error(
-            "An error has occurred.\n \
-            The script has stopped working due to columns mis-matched.\n \
-            Please refresh and try again with the proper CSV file.", 
-            icon="🚨"
-        )
+    except ValueError as ve:
+        st.error(f"Caught an error: {str(ve)}")
         st.stop()
 
 
