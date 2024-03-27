@@ -112,6 +112,9 @@ def load_heifa_ingredients(heifa_food_df = None) -> pd.DataFrame:
     if heifa_food_df is None:
         heifa_food_df = pd.read_csv('files/heifa_food_composition.csv')
 
+    # For removing the "\r"
+    heifa_food_df.columns = [c.replace("\r", "") for c in heifa_food_df.columns]
+
     # Replace column names
     column_replacer_dict = {
         'Nutrient table code': 'heifa_code',
