@@ -1,5 +1,6 @@
 from file_loaders import *
 from utils import *
+from exception_class import ProcessFailed
 from datetime import datetime
 
 import streamlit as st
@@ -59,24 +60,35 @@ def get_csv_heifa_scores(*args):
 
     # 1. Load the files
     my_bar = st.progress(0, text="Loading files..")
-    user_dict = _convert_csv_dataframe(intake24_file, 'intake24')
-    recipe_dict = _convert_csv_dataframe(heifa_recipe_file, 'recipe')
-    food_composition_dict = _convert_csv_dataframe(heifa_food_file, 'food_compo')
-    heifa_scores_dict = _convert_csv_dataframe(heifa_score_file, 'heifa_scores')
+    try:
+        user_dict = _convert_csv_dataframe(intake24_file, 'intake24')
+        recipe_dict = _convert_csv_dataframe(heifa_recipe_file, 'recipe')
+        food_composition_dict = _convert_csv_dataframe(heifa_food_file, 'food_compo')
+        heifa_scores_dict = _convert_csv_dataframe(heifa_score_file, 'heifa_scores')
+    except Exception as e:
+        raise ProcessFailed("One or more files have columns mismatch")
 
     # 2. Get the user servings
     my_bar.progress(25, text="Calculating User Servings..")
-    missing_ids_list, user_daily_intake = calculate_user_servings(
-        user_dict,
-        food_composition_dict,
-        recipe_dict
-    )
+
+    try:
+        missing_ids_list, user_daily_intake = calculate_user_servings(
+            user_dict,
+            food_composition_dict,
+            recipe_dict
+        )
+    except Exception as e:
+        raise ProcessFailed("Error occured upon calculating servings.")
 
     # 3. Convert to HEIFA scores
     my_bar.progress(50, text="Converting to HEIFA scores.")
-    user_heifa_scores = calculate_heifa_scores(
-        heifa_scores_dict, user_daily_intake
-    )
+
+    try:
+        user_heifa_scores = calculate_heifa_scores(
+            heifa_scores_dict, user_daily_intake
+        )
+    except Exception as e:
+        raise ProcessFailed("Error occured upon calculating HEIFA scores.")
 
     # 4. Create the CSV file
     my_bar.progress(75, text="Creating CSV file.")
@@ -159,8 +171,8 @@ if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_fi
             heifa_food_file, 
             heifa_score_file,
         )
-    except ValueError as ve:
-        st.error(f"Caught an error: {str(ve)}")
+    except Exception as e:
+        st.error(f"Caught an error: {str(e)}")
         st.stop()
 
 
