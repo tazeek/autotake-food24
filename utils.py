@@ -7,6 +7,36 @@ from heifa_file_writer import HeifaFileWriter
 
 from classes.User import User
 
+def _column_reorder_recall_file(dataframe):
+
+    # Order: Female, Male, None
+    fixed_cols = ["User_ID", "Survey_ID"]
+    female_cols = []
+    male_cols = []
+    neutral_cols = []
+
+    for column in dataframe.columns:
+
+        # We ignore the fixed columns
+        if column in fixed_cols:
+            continue
+
+        temp_col = column.lower()
+
+        if 'female' in temp_col:
+            female_cols.append(column)
+            continue
+
+        if 'male' in temp_col:
+            male_cols.append(column)
+            continue
+        
+        neutral_cols.append(column)
+
+    ordered_cols = fixed_cols + female_cols + male_cols + neutral_cols
+
+    return dataframe[ordered_cols]
+
 def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
     user_dict = {}
@@ -159,4 +189,5 @@ def create_heifa_csv(scores_dict, composition_dict,
     if file_name is not None:
         transformed_df.to_csv(f'{file_name}.csv', sep=",", index=False)
 
-    return transformed_df
+    # Return after re-order the columns: Female, Male, Neither
+    return _column_reorder_recall_file(transformed_df)
