@@ -13,10 +13,7 @@ def _load_recipes_ingredients():
     ingredients_file = get_file_google(st.secrets['ingredients_file'])
     recipes_file = get_file_google(st.secrets['recipe_file'])
 
-    # Load the files
-
-    # Return back
-    ...
+    return ingredients_file, recipes_file
 
 def _error_message():
     ...
@@ -153,22 +150,22 @@ intake24_file = st.file_uploader(
     type="csv"
 )
 
-heifa_recipe_file = st.file_uploader(
-    "Upload HEIFA recipe list",
-    type="csv"
-)
+#heifa_recipe_file = st.file_uploader(
+#    "Upload HEIFA recipe list",
+#    type="csv"
+#)
 
-heifa_food_file = st.file_uploader(
-    "Upload HEIFA food composition list",
-    type="csv"
-)
+#heifa_food_file = st.file_uploader(
+#    "Upload HEIFA food composition list",
+#    type="csv"
+#)
 
 heifa_score_file = st.file_uploader(
     "Upload HEIFA scoring rules file",
     type="csv"
 )
 
-_load_recipes_ingredients()
+heifa_recipe_file, heifa_food_file = _load_recipes_ingredients()
 
 # Get the serves
 if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
