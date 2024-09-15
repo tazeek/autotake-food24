@@ -10,6 +10,8 @@ import pandas as pd
 def _load_recipes_ingredients():
 
     # Get the URL
+    ingredients_file = get_file_google(st.secrets['ingredients_file'])
+    recipes_file = get_file_google(st.secrets['recipe_file'])
 
     # Load the files
 
@@ -165,6 +167,8 @@ heifa_score_file = st.file_uploader(
     "Upload HEIFA scoring rules file",
     type="csv"
 )
+
+_load_recipes_ingredients()
 
 # Get the serves
 if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
