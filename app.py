@@ -15,8 +15,13 @@ def _load_recipes_ingredients():
 
     return ingredients_file, recipes_file
 
-def _error_message():
-    ...
+def _validate_password(entered_password):
+
+    if st.secrets['password'] != entered_password:
+        st.error(f"Wrong password entered.")
+        st.stop()
+
+    return True
 
 def _dataframe_transformer(function_loader):
     return {
@@ -165,7 +170,12 @@ heifa_score_file = st.file_uploader(
     type="csv"
 )
 
+password = st.text_input("Enter Password to generate results", "")
+
 heifa_recipe_file, heifa_food_file = _load_recipes_ingredients()
+
+if st.button("Generate results"):
+    _validate_password(password)
 
 # Get the serves
 if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
