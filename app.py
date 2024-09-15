@@ -6,8 +6,22 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 
-def _error_message():
-    ...
+@st.cache_data(ttl="1hr")
+def _load_recipes_ingredients():
+
+    # Get the URL
+    ingredients_file = get_file_google(st.secrets['ingredients_file'])
+    recipes_file = get_file_google(st.secrets['recipe_file'])
+
+    return ingredients_file, recipes_file
+
+def _validate_password(entered_password):
+
+    if st.secrets['password'] != entered_password:
+        st.error(f"Wrong password entered.")
+        st.stop()
+
+    return True
 
 def _dataframe_transformer(function_loader):
     return {
@@ -141,23 +155,32 @@ intake24_file = st.file_uploader(
     type="csv"
 )
 
-heifa_recipe_file = st.file_uploader(
-    "Upload HEIFA recipe list",
-    type="csv"
-)
+#heifa_recipe_file = st.file_uploader(
+#    "Upload HEIFA recipe list",
+#    type="csv"
+#)
 
-heifa_food_file = st.file_uploader(
-    "Upload HEIFA food composition list",
-    type="csv"
-)
+#heifa_food_file = st.file_uploader(
+#    "Upload HEIFA food composition list",
+#    type="csv"
+#)
 
 heifa_score_file = st.file_uploader(
     "Upload HEIFA scoring rules file",
     type="csv"
 )
 
+password = st.text_input("Enter Password to generate results", "", type='password')
+allow_validation = False
+
+heifa_recipe_file, heifa_food_file = _load_recipes_ingredients()
+
+if st.button("Generate results"):
+    _validate_password(password)
+    allow_validation = True
+
 # Get the serves
-if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
+if (intake24_file and heifa_score_file) and allow_validation:
 
     missing_ids_list = None
     transformed_df = None

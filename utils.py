@@ -37,6 +37,9 @@ def _column_reorder_recall_file(dataframe):
 
     return dataframe[ordered_cols]
 
+def get_file_google(file_link):
+    return 'https://drive.google.com/uc?id=' + file_link.split('/')[-2]
+
 def create_user_objects(intake24_df: pd.DataFrame) -> dict:
 
     user_dict = {}

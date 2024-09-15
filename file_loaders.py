@@ -52,8 +52,6 @@ def load_intake24(intake24_df = None) -> pd.DataFrame:
     intake24_df = intake24_df[intake24_df['portion_size_consumed'].notna()]
     print(f"After dropping function: {len(intake24_df)} rows")
 
-    print("HERE WE GO!!")
-
     # Filter the columns we only need
     return intake24_df[column_replacer_dict.values()]
 
