@@ -4,6 +4,9 @@
 # Ignore the text files
 *.txt
 
+# Hide the secrets file
+secrets.toml
+
 # Ignore the python checkpoints
 .ipynb_checkpoints/*
 
