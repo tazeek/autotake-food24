@@ -170,15 +170,17 @@ heifa_score_file = st.file_uploader(
     type="csv"
 )
 
-password = st.text_input("Enter Password to generate results", "")
+password = st.text_input("Enter Password to generate results", "", type='password')
+allow_validation = False
 
 heifa_recipe_file, heifa_food_file = _load_recipes_ingredients()
 
 if st.button("Generate results"):
     _validate_password(password)
+    allow_validation = True
 
 # Get the serves
-if (intake24_file and heifa_recipe_file) and (heifa_food_file and heifa_score_file):
+if (intake24_file and heifa_score_file) and allow_validation:
 
     missing_ids_list = None
     transformed_df = None
