@@ -7,6 +7,9 @@ from heifa_file_writer import HeifaFileWriter
 
 from classes.User import User
 
+def _get_file_google(file_link):
+    return 'https://drive.google.com/uc?id=' + file_link.split('/')[-2]
+
 def _column_reorder_recall_file(dataframe):
 
     # Order: Female, Male, None

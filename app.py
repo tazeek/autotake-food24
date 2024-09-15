@@ -6,6 +6,16 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 
+@st.cache_data(ttl="1hr")
+def _load_recipes_ingredients():
+
+    # Get the URL
+
+    # Load the files
+
+    # Return back
+    ...
+
 def _error_message():
     ...
 
