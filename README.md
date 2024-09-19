@@ -56,7 +56,7 @@ of a single survey.
 
 ## Steps involved (Background process)
 
-The background process starts executing once **all four** files (Intake24 and the three HEIFA-related files) have been uploaded into the dashboard.
+The background process starts executing once **all two** files (Intake24 and HEIFA scoring file) have been uploaded into the dashboard.
 
 **Cleaning files**: Clean the raw files of Intake24 and the three HEIFA-related files.
 
