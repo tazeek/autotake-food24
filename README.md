@@ -79,4 +79,5 @@ Website link: https://autotake-food24.streamlit.app/
 ## Contact
 
 You will need a password to run the Autotake24 calculations.
+
 For the password, please send an email to: tracy.mccaffrey@monash.edu
