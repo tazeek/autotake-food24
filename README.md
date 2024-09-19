@@ -24,7 +24,7 @@ of a single survey.
 - 'Monounsaturated fatty acids (g)': The amount of monounsaturated fat in the food/drink.
 - 'Polyunsaturated fatty acids (g)': The amount of polyunsaturated fat in the food/drink.
 
-**HEIFA Food Composition**:
+<!--- **HEIFA Food Composition**:
 - 'Nutrient table code': The food code given to each food/drink item. 
 - '8 digit code': The AUSNUT 8-digit code.
 - 'HEIFA-2013 Food Group': The relevant food group.
@@ -36,7 +36,7 @@ of a single survey.
 - 'Recipe AUSNUT 8-digit code': The AUSNUT 8-digit code (recipe) in the file.
 - 'Ingredient Nutrient table code': The food code given to each ingredient in the recipe.
 - 'Proportion of ingredients in the recipe': The proportion of each ingredient in the recipe.
-- 'Energy, with dietary fibre (kJ) per 100g': The amount of energy of the given ingredient per 100g.
+- 'Energy, with dietary fibre (kJ) per 100g': The amount of energy of the given ingredient per 100g. --->
 
 **HEIFA Score rules**:
 - 'Food group': The relevant food group.
@@ -47,12 +47,12 @@ of a single survey.
 - 'HEIFA Score': The HEIFA score, based on the given range of minimum and maximum serves.
 - **NOTE**: Some of the maximum serves are left empty in the CSV file. This is to denote that there is NO upper bound.
 
-**How they all map together**:
+<!---**How they all map together**:
 - _Intake24_ and _HEIFA Food Composition_: They are mapped by the **Nutrient ID code** field. Any field not present is shown in the dashboard as output (see example below) and is **omitted from the calculation process**.
 
 ![Missing Nutrient ID photo.](images/nutrient_ids_missing.png)
 
-- _HEIFA Food Composition_ and _HEIFA Recipe list_: They are mapped by the **Recipe AUSNUT 8-digit code** field.
+- _HEIFA Food Composition_ and _HEIFA Recipe list_: They are mapped by the **Recipe AUSNUT 8-digit code** field. --->
 
 ## Steps involved (Background process)
 
@@ -75,3 +75,8 @@ In addition, sum up all the HEIFA scores, based on gender.
 ## Website
 
 Website link: https://autotake-food24.streamlit.app/
+
+## Contact
+
+You will need a password to run the Autotake24 calculations.
+For the password, please send an email to: tracy.mccaffrey@monash.edu
