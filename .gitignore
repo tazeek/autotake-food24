@@ -1,9 +1,6 @@
 # Ignore the CSV creations
 *.csv
 
-# Ignore the text files
-*.txt
-
 # Hide the secrets file
 secrets.toml
 
